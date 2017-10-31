@@ -1,0 +1,1602 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>dataset &#8212; Dataset  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dataset.image" href="dataset.image.html" />
+    <link rel="prev" title="API" href="dataset.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.image.html" title="dataset.image"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataset.html" title="API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" accesskey="U">API</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dataset">
+<h1>dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="index">
+<h2>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="datasetindex">
+<h3>DatasetIndex<a class="headerlink" href="#datasetindex" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="dataset.DatasetIndex">
+<em class="property">class </em><code class="descname">DatasetIndex</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores an index for a dataset.
+The index should be 1-d array-like, e.g. numpy array, pandas Series, etc.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span> <span class="o">=</span> <span class="n">DatasetIndex</span><span class="p">(</span><span class="n">all_item_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span><span class="o">.</span><span class="n">cv_split</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">item_pos</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(</span><span class="n">item_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="staticmethod">
+<dt id="dataset.DatasetIndex.build_index">
+<em class="property">static </em><code class="descname">build_index</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.build_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.build_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check index type and structure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.build_pos">
+<code class="descname">build_pos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.build_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.build_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dictionary with positions in the index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.calc_cv_split">
+<code class="descname">calc_cv_split</code><span class="sig-paren">(</span><em>shares=0.8</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.DatasetIndex.calc_cv_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate split into train, test and validation subsets</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>shares</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>a sequence of floats</em>) – A share of train, test and validation subset respectively.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a tuple which contains number of items in train, test and validation subsets</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code></a> – * if shares has more than 3 items
+* if sum of shares is greater than 1
+* if this set does not have enough items to split</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Split into train / test in 80/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">some_set</span><span class="o">.</span><span class="n">calc_cv_split</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Split into train / test / validation in 60/30/10 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">some_set</span><span class="o">.</span><span class="n">calc_cv_split</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Split into train / test / validation in 50/30/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">some_set</span><span class="o">.</span><span class="n">calc_cv_split</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.DatasetIndex.concat">
+<em class="property">classmethod </em><code class="descname">concat</code><span class="sig-paren">(</span><em>*index_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.concat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create index by concatenating other indices.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.create_batch">
+<code class="descname">create_batch</code><span class="sig-paren">(</span><em>batch_indices</em>, <em>pos=True</em>, <em>as_array=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.create_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.create_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a batch from given indices.
+if <cite>pos</cite> is <cite>False</cite>, then <cite>batch_indices</cite> should contain the indices
+which should be included in the batch (so expected batch is just the very same batch_indices)
+otherwise <cite>batch_indices</cite> contains positions in the current index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.create_subset">
+<code class="descname">create_subset</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.create_subset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.create_subset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new index object based on the subset of indices given.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.cv_split">
+<code class="descname">cv_split</code><span class="sig-paren">(</span><em>shares=0.8</em>, <em>shuffle=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.cv_split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.cv_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split index into train, test and validation subsets.</p>
+<p>Shuffles index if necessary.</p>
+<p>Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.validation</cite> respectively.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>shares</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>tuple of floats - train</em><em>, </em><em>test and validation shares.</em>) – </li>
+<li><strong>shuffle</strong> (<em>bool - whether to shuffle the index before split.</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>split into train / test in 80/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span><span class="o">.</span><span class="n">cv_split</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>split into train / test / validation in 60/30/10 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span><span class="o">.</span><span class="n">cv_split</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>split into train / test / validation in 50/30/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span><span class="o">.</span><span class="n">cv_split</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.DatasetIndex.from_index">
+<em class="property">classmethod </em><code class="descname">from_index</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.from_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.from_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create index from another index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.gen_batch">
+<code class="descname">gen_batch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>shuffle=False</em>, <em>n_epochs=1</em>, <em>drop_last=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.gen_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.gen_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate batches</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Yields:</th><td class="field-body"><em>an instance of the same class with a subset of indices</em></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index_batch</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">gen_batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="c1"># do whatever you want</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.get_default_iter_params">
+<code class="descname">get_default_iter_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.DatasetIndex.get_default_iter_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return iteration params with default values to start iteration from scratch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.get_pos">
+<code class="descname">get_pos</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.get_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.get_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return position of an item in the index.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.DatasetIndex.index">
+<code class="descname">index</code><a class="headerlink" href="#dataset.DatasetIndex.index" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#dataset.DatasetIndex" title="dataset.DatasetIndex"><code class="xref py py-class docutils literal"><span class="pre">dataset.DatasetIndex</span></code></a> – the dataset’s index</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.DatasetIndex.indices">
+<code class="descname">indices</code><a class="headerlink" href="#dataset.DatasetIndex.indices" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> – an array with the indices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.DatasetIndex.is_split">
+<code class="descname">is_split</code><a class="headerlink" href="#dataset.DatasetIndex.is_split" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> – True if dataset has been split into train / test / validation subsets</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.next_batch">
+<code class="descname">next_batch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>shuffle=False</em>, <em>n_epochs=1</em>, <em>drop_last=False</em>, <em>iter_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.next_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.next_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the next batch</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – desired number of items in the batch (the actual batch could contain fewer items)</li>
+<li><strong>shuffle</strong> (bool, int, class:<cite>numpy.random.RandomState</cite> or callable) – <p>specifies the order of items, could be:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>bool - if <cite>False</cite>, items go sequentionally, one after another as they appear in the index.</dt>
+<dd>if <cite>True</cite>, items are shuffled randomly before each epoch.</dd>
+</dl>
+</li>
+<li>int - a seed number for a random shuffle.</li>
+<li><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> instance.</li>
+<li><dl class="first docutils">
+<dt>callable - a function which takes an array of item indices in the initial order</dt>
+<dd>(as they appear in the index) and returns the order of items.</dd>
+</dl>
+</li>
+</ul>
+</li>
+<li><strong>n_epochs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the number of epochs required.</li>
+<li><strong>drop_last</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – <p>if <cite>True</cite>, drops the last batch (in each epoch) if it contains fewer than <cite>batch_size</cite> items.
+If <cite>False</cite>, than the last batch in each epoch could contain repeating indices (which might be a problem)
+and the very last batch could contain fewer than <cite>batch_size</cite> items.</p>
+<p>For instance, <cite>next_batch(3, shuffle=False, n_epochs=2, drop_last=False)</cite> for a dataset with 4 items returns
+indices [0,1,2], [3,0,1], [2,3].
+While <cite>next_batch(3, shuffle=False, n_epochs=2, drop_last=True)</cite> returns indices [0,1,2], [0,1,2].</p>
+<p>Take into account that <cite>next_batch(3, shuffle=True, n_epochs=2, drop_last=False)</cite> could return batches
+[3,0,1], [2,0,2], [1,3]. Here the second batch contains two items with the same index “2”.
+This might become a problem if some action uses <cite>batch.get_pos()</cite> or <cite>batch.index.get_pos()</cite> methods so that
+one of the identical items will be missed.
+However, there is nothing to worry about if you don’t iterate over batch items explicitly
+(i.e. <cite>for item in batch</cite>) or implicitly (through <cite>batch[ix]</cite>).</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#StopIteration" title="(in Python v3.6)"><code class="xref py py-exc docutils literal"><span class="pre">StopIteration</span></code></a> – when <cite>n_epochs</cite> has been reached and there is no batches left in the dataset.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_ITER</span><span class="p">):</span>
+    <span class="n">index_batch</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="c1"># do whatever you want</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.reset_iter">
+<code class="descname">reset_iter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.DatasetIndex.reset_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all iteration metadata in order to start iterating from scratch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.DatasetIndex.subset_by_pos">
+<code class="descname">subset_by_pos</code><span class="sig-paren">(</span><em>pos</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#DatasetIndex.subset_by_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.DatasetIndex.subset_by_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return subset of index by given positions in the index.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="filesindex">
+<h3>FilesIndex<a class="headerlink" href="#filesindex" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="dataset.FilesIndex">
+<em class="property">class </em><code class="descname">FilesIndex</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dataset.dsindex.DatasetIndex</span></code></p>
+<p>Index with the list of files or directories with the given path pattern</p>
+<p class="rubric">Examples</p>
+<p>Create a sorted index of files in a directory:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">(</span><span class="s1">&#39;/path/to/data/files/*&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create an index of directories through all subdirectories:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">(</span><span class="s1">&#39;/path/to/data/archive*/patient*&#39;</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create an index of files in several directories, and file extensions are ignored:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">([</span><span class="s1">&#39;/path/to/archive/2016/*&#39;</span><span class="p">,</span><span class="s1">&#39;/path/to/current/file/*&#39;</span><span class="p">],</span> <span class="n">no_ext</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To get a path to the file call <cite>get_fullpath(index_id)</cite>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">get_fullpath</span><span class="p">(</span><span class="n">some_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Split into train / test / validation in 80/15/5 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span><span class="o">.</span><span class="n">cv_split</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Get a position of a customer in the index</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">item_pos</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="dataset.FilesIndex.build_from_index">
+<code class="descname">build_from_index</code><span class="sig-paren">(</span><em>index</em>, <em>paths</em>, <em>dirs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex.build_from_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex.build_from_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build index from another index for indices given.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.FilesIndex.build_from_one_path">
+<code class="descname">build_from_one_path</code><span class="sig-paren">(</span><em>path</em>, <em>dirs=False</em>, <em>no_ext=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex.build_from_one_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex.build_from_one_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build index from a path/glob.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.FilesIndex.build_from_path">
+<code class="descname">build_from_path</code><span class="sig-paren">(</span><em>path</em>, <em>dirs=False</em>, <em>no_ext=False</em>, <em>sort=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex.build_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex.build_from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build index from a path/glob or a sequence of paths/globs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.FilesIndex.build_index">
+<code class="descname">build_index</code><span class="sig-paren">(</span><em>index=None</em>, <em>path=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex.build_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex.build_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build index from a path string or an index given.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="dataset.FilesIndex.build_key">
+<em class="property">static </em><code class="descname">build_key</code><span class="sig-paren">(</span><em>fullpathname</em>, <em>no_ext=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex.build_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex.build_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create index item from full path name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.FilesIndex.create_subset">
+<code class="descname">create_subset</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex.create_subset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex.create_subset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new FilesIndex based on the subset of indices given.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.FilesIndex.get_fullpath">
+<code class="descname">get_fullpath</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dsindex.html#FilesIndex.get_fullpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.FilesIndex.get_fullpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the full path name for an item in the index.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Dataset<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="class">
+<dt id="dataset.Dataset">
+<em class="property">class </em><code class="descname">Dataset</code><span class="sig-paren">(</span><em>index</em>, <em>batch_class=None</em>, <em>preloaded=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="Dataset.index">
+<code class="descname">index</code><a class="headerlink" href="#Dataset.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Dataset.indices">
+<code class="descname">indices</code><a class="headerlink" href="#Dataset.indices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Dataset.is_split">
+<code class="descname">is_split</code><a class="headerlink" href="#Dataset.is_split" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="dataset.Dataset.build_index">
+<em class="property">static </em><code class="descname">build_index</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.build_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.build_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an index</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.calc_cv_split">
+<code class="descname">calc_cv_split</code><span class="sig-paren">(</span><em>shares=0.8</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.calc_cv_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate split into train, test and validation subsets</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>shares</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em> or </em><em>a sequence of floats</em>) – A share of train, test and validation subset respectively.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a tuple which contains number of items in train, test and validation subsets</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code></a> – * if shares has more than 3 items
+* if sum of shares is greater than 1
+* if this set does not have enough items to split</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Split into train / test in 80/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">some_set</span><span class="o">.</span><span class="n">calc_cv_split</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Split into train / test / validation in 60/30/10 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">some_set</span><span class="o">.</span><span class="n">calc_cv_split</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Split into train / test / validation in 50/30/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">some_set</span><span class="o">.</span><span class="n">calc_cv_split</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.create_batch">
+<code class="descname">create_batch</code><span class="sig-paren">(</span><em>batch_indices</em>, <em>pos=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.create_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.create_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a batch from given indices.</p>
+<p>if <cite>pos</cite> is <cite>False</cite>, then <cite>batch_indices</cite> should contain the indices
+that should be included in the batch
+otherwise <cite>batch_indices</cite> should contain their positions in the current index</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.create_subset">
+<code class="descname">create_subset</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.create_subset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.create_subset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dataset based on the given subset of indices</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.cv_split">
+<code class="descname">cv_split</code><span class="sig-paren">(</span><em>shares=0.8</em>, <em>shuffle=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.cv_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split the dataset into train, test and validation sub-datasets.
+Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.validation</cite> respectively.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>shares</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>tuple of 2 floats</em><em>, or </em><em>tuple of 3 floats</em>) – train/test/validation shares. Default is 0.8.</li>
+<li><strong>shuffle</strong> (bool, <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a>, int or callable) – <p>whether to randomize items order before splitting into subsets. Default is <cite>False</cite>. Can be</p>
+<ul>
+<li><cite>bool</cite> : <cite>False</cite> - to make subsets in the order of indices in the index, or <cite>True</cite> - to make random subsets.</li>
+<li>a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> object which has an inplace shuffle method.</li>
+<li><cite>int</cite> - a random seed number which will be used internally to create a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> object.</li>
+<li>callable - a function which gets an order and returns a shuffled order.</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Split into train / test in 80/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span><span class="o">.</span><span class="n">cv_split</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Split into train / test / validation in 60/30/10 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span><span class="o">.</span><span class="n">cv_split</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Split into train / test / validation in 50/30/20 ratio</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span><span class="o">.</span><span class="n">cv_split</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.Dataset.from_dataset">
+<em class="property">classmethod </em><code class="descname">from_dataset</code><span class="sig-paren">(</span><em>dataset</em>, <em>index</em>, <em>batch_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.from_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.from_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Dataset from another dataset with new index
+(usually a subset of the source dataset index)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.gen_batch">
+<code class="descname">gen_batch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>shuffle=False</em>, <em>n_epochs=1</em>, <em>drop_last=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.gen_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate batches</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.get_default_iter_params">
+<code class="descname">get_default_iter_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.get_default_iter_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return iteration params with default values to start iteration from scratch</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Dataset.index">
+<code class="descname">index</code><a class="headerlink" href="#dataset.Dataset.index" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#dataset.DatasetIndex" title="dataset.DatasetIndex"><code class="xref py py-class docutils literal"><span class="pre">dataset.DatasetIndex</span></code></a> – the dataset’s index</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Dataset.indices">
+<code class="descname">indices</code><a class="headerlink" href="#dataset.Dataset.indices" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> – an array with the indices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Dataset.is_split">
+<code class="descname">is_split</code><a class="headerlink" href="#dataset.Dataset.is_split" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> – True if dataset has been split into train / test / validation subsets</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.next_batch">
+<code class="descname">next_batch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>shuffle=False</em>, <em>n_epochs=1</em>, <em>drop_last=False</em>, <em>iter_params=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.next_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a batch</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Dataset.p">
+<code class="descname">p</code><a class="headerlink" href="#dataset.Dataset.p" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#dataset.Pipeline" title="dataset.Pipeline"><code class="xref py py-class docutils literal"><span class="pre">dataset.Pipeline</span></code></a> – a short alias for <cite>pipeline()</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.pipeline">
+<code class="descname">pipeline</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a new data processing workflow</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.reset_iter">
+<code class="descname">reset_iter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.reset_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all iteration metadata in order to start iterating from scratch</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="batch">
+<h2>Batch<a class="headerlink" href="#batch" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="class">
+<dt id="dataset.Batch">
+<em class="property">class </em><code class="descname">Batch</code><span class="sig-paren">(</span><em>index</em>, <em>preloaded=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The core Batch class</p>
+<dl class="method">
+<dt id="dataset.Batch.apply_transform">
+<code class="descname">apply_transform</code><span class="sig-paren">(</span><em>ix</em>, <em>dst</em>, <em>src</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.apply_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.apply_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function to each item in the batch</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the destination to put the result in, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the source to get data from, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function to apply to each item from the source</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<dl class="docutils">
+<dt>apply_transform does the following (but in parallel):</dt>
+<dd><dl class="first last docutils">
+<dt>for item in batch:</dt>
+<dd>self.dst[item] = func(self.src[item], <a href="#id2"><span class="problematic" id="id3">*</span></a>args, <a href="#id4"><span class="problematic" id="id5">**</span></a>kwargs)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.apply_transform_all">
+<code class="descname">apply_transform_all</code><span class="sig-paren">(</span><em>dst</em>, <em>src</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.apply_transform_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.apply_transform_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function the whole batch at once</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the destination to put the result in, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the source to get data from, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function to apply to each item from the source</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<dl class="docutils">
+<dt>apply_transform_all does the following:</dt>
+<dd>self.dst = func(self.src, <a href="#id6"><span class="problematic" id="id7">*</span></a>args, <a href="#id8"><span class="problematic" id="id9">**</span></a>kwargs)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.as_dataset">
+<code class="descname">as_dataset</code><span class="sig-paren">(</span><em>dataset=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.as_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.as_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a new dataset from batch data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dataset</strong> (<em>could be a dataset</em><em> or </em><em>a Dataset class</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">an instance of a class specified by <cite>dataset</cite> arg, preloaded with this batch data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Batch.components">
+<code class="descname">components</code><em class="property"> = None</em><a class="headerlink" href="#dataset.Batch.components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Batch.data">
+<code class="descname">data</code><a class="headerlink" href="#dataset.Batch.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return batch data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.do_nothing">
+<code class="descname">do_nothing</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.do_nothing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.do_nothing" title="Permalink to this definition">¶</a></dt>
+<dd><p>An empty action (might be convenient in complicated pipelines)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>dst=None</em>, <em>fmt=None</em>, <em>components=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save data to another array or a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dst</strong> – a destination (e.g. an array or a file name)</li>
+<li><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a destination format, one of None, ‘blosc’, ‘csv’, ‘hdf5’, ‘feather’</li>
+<li><strong>components</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>tuple of str</em>) – components to load</li>
+<li><strong>*args</strong> – other parameters are passed to format-specific writers</li>
+<li><strong>*kwargs</strong> – other parameters are passed to format-specific writers</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.Batch.from_batch">
+<em class="property">classmethod </em><code class="descname">from_batch</code><span class="sig-paren">(</span><em>batch</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.from_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.from_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch from another batch</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.Batch.from_data">
+<em class="property">classmethod </em><code class="descname">from_data</code><span class="sig-paren">(</span><em>index</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.from_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.from_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch from a given dataset</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>item=None</em>, <em>component=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an item from the batch or the component</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.get_errors">
+<code class="descname">get_errors</code><span class="sig-paren">(</span><em>all_res</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.get_errors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.get_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of errors from a parallel action</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.get_items">
+<code class="descname">get_items</code><span class="sig-paren">(</span><em>index</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.get_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.get_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return one or several data items from a data source</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.get_model_by_name">
+<code class="descname">get_model_by_name</code><span class="sig-paren">(</span><em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.get_model_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.get_model_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a model specification given its name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.get_pos">
+<code class="descname">get_pos</code><span class="sig-paren">(</span><em>data</em>, <em>component</em>, <em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.get_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.get_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a position in data for a given index</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em> or </em><a class="reference internal" href="dataset.image.html#dataset.image.ImagesPILBatch.data" title="dataset.image.ImagesPILBatch.data"><em>data</em></a>) – if <cite>None</cite>, should return a position in <cite>self.data</cite></li>
+<li><strong>components</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <ul>
+<li>None - data has no components (e.g. just an array or pandas.DataFrame)</li>
+<li><dl class="first docutils">
+<dt>int - a position of a data component, when components names are not defined</dt>
+<dd>(e.g. data is a tuple)</dd>
+</dl>
+</li>
+<li>str - a name of a data component</li>
+</ul>
+</li>
+<li><strong>index</strong> (<em>any - an index id</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int - a position in a batch data where an item with a given index is stored</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>It is used to read / write data from / to a given component:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">batch_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">component</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+<span class="n">data</span><span class="o">.</span><span class="n">component</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_data</span>
+</pre></div>
+</div>
+<p>if <cite>self.data</cite> holds a numpy array, then get_pos(None, None, index) should
+just return <cite>self.index.get_pos(index)</cite></p>
+<p>if <cite>self.data.images</cite> contains BATCH_SIZE images as a numpy array,
+then <cite>get_pos(None, ‘images’, index)</cite> should return <cite>self.index.get_pos(index)</cite></p>
+<p>if <cite>self.data.labels</cite> is a dict {index: label}, then <cite>get_pos(None, ‘labels’, index)</cite> should return index.</p>
+<p>if <cite>data</cite> is not <cite>None</cite>, then you need to know in advance how to get a position for a given index.</p>
+<p>For instance, <cite>data</cite> is a large numpy array, and a batch is a subset of this array and
+<cite>batch.index</cite> holds row numbers from a large arrays.
+Thus, <cite>get_pos(data, None, index)</cite> should just return index.</p>
+<p>A more complicated example of data:</p>
+<ul class="simple">
+<li>batch represent small crops of large images</li>
+<li><cite>self.data.source</cite> holds a few large images (e.g just 5 items)</li>
+<li><cite>self.data.coords</cite> holds coordinates for crops (e.g. 100 items)</li>
+<li><cite>self.data.image_no</cite> holds an array of image numbers for each crop (so it also contains 100 items)</li>
+</ul>
+<p>then <cite>get_pos(None, ‘source’, index)</cite> should return <cite>self.data.image_no[self.index.get_pos(index)]</cite>.
+Whilst, <cite>get_pos(data, ‘source’, index)</cite> should return <cite>data.image_no[index]</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Batch.indices">
+<code class="descname">indices</code><a class="headerlink" href="#dataset.Batch.indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array-like with the indices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Batch.items">
+<code class="descname">items</code><a class="headerlink" href="#dataset.Batch.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init function for batch items parallelism</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>src=None</em>, <em>fmt=None</em>, <em>components=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data from another array or a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> – a source (e.g. an array or a file name)</li>
+<li><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a source format, one of None, ‘blosc’, ‘csv’, ‘hdf5’, ‘feather’</li>
+<li><strong>components</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>tuple of str</em>) – components to load</li>
+<li><strong>*args</strong> – other parameters are passed to format-specific loaders</li>
+<li><strong>**kwargs</strong> – other parameters are passed to format-specific loaders</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.make_item_class">
+<code class="descname">make_item_class</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.make_item_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.make_item_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a class to handle data components</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.Batch.merge">
+<em class="property">classmethod </em><code class="descname">merge</code><span class="sig-paren">(</span><em>batches</em>, <em>batch_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge several batches to form a new batch of a given size</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batches</strong> (<em>tuple of batches</em>) – </li>
+<li><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – if <cite>None</cite>, just merge all batches into one batch (the rest will be <cite>None</cite>),
+if <cite>int</cite>, then make one batch of <cite>batch_size</cite> and a batch with the rest of data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>batch, rest</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple of two batches</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.Batch.merge_component">
+<em class="property">classmethod </em><code class="descname">merge_component</code><span class="sig-paren">(</span><em>component=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.merge_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.merge_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the same component data from several batches</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.put_into_data">
+<code class="descname">put_into_data</code><span class="sig-paren">(</span><em>data</em>, <em>components=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.put_into_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.put_into_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data into <code class="xref py py-attr docutils literal"><span class="pre">_data</span></code> property</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.run_once">
+<code class="descname">run_once</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.run_once"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.run_once" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init function for no parallelism
+Useful for async action-methods (will wait till the method finishes)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Batch.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/batch.html#Batch.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Batch.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save batch data to a file (an alias for dump method)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pipeline">
+<h2>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="class">
+<dt id="dataset.Pipeline">
+<em class="property">class </em><code class="descname">Pipeline</code><span class="sig-paren">(</span><em>dataset=None</em>, <em>config=None</em>, <em>pipeline=None</em>, <em>proba=None</em>, <em>repeat=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="dataset.Pipeline.append_action">
+<code class="descname">append_action</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.append_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.append_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add new action to the log of future actions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.append_pipeline">
+<code class="descname">append_pipeline</code><span class="sig-paren">(</span><em>pipeline</em>, <em>proba=None</em>, <em>repeat=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.append_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.append_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a nested pipeline to the log of future actions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.append_variable">
+<code class="descname">append_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em>, <em>var=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.append_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.append_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a value to a pipeline variable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.assign_variable">
+<code class="descname">assign_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.assign_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.assign_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign a value to a variable
+Same as <cite>set_variable(name, value)</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>fn</em>, <em>save_to</em>, <em>mode='w'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call any function during pipeline execution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fn</strong> (<em>a function</em><em>, </em><em>method</em><em> or </em><em>callable to call.</em>) – Could be a named expression.</li>
+<li><strong>save_to</strong> (<em>a named expression</em><em> or </em><em>a sequence of named expressions</em>) – A location where function output will be saved to.</li>
+<li><strong>mode</strong> (<em>str {'w'</em><em>, </em><em>'a'</em><em>, </em><em>'e'</em><em>, </em><em>'u'}</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.Pipeline.concat">
+<em class="property">classmethod </em><code class="descname">concat</code><span class="sig-paren">(</span><em>pipe1</em>, <em>pipe2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.concat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new pipeline concatenating two given pipelines</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.create_batch">
+<code class="descname">create_batch</code><span class="sig-paren">(</span><em>batch_index</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.create_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.create_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new batch by given indices and execute all previous lazy actions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.del_variable">
+<code class="descname">del_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.del_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.del_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a variable
+Same as <cite>delete_variable(name)</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.delete_all_variables">
+<code class="descname">delete_all_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.delete_all_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.delete_all_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all variables</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.delete_variable">
+<code class="descname">delete_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.delete_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.delete_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a variable
+If the variable does not exists, the warning will be issued.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str - a name of the variable</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">self - in order to use it in the pipeline chains</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.Pipeline.from_pipeline">
+<em class="property">classmethod </em><code class="descname">from_pipeline</code><span class="sig-paren">(</span><em>pipeline</em>, <em>proba=None</em>, <em>repeat=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.from_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.from_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a pipeline from another pipeline</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.gen_batch">
+<code class="descname">gen_batch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>shuffle=True</em>, <em>n_epochs=1</em>, <em>drop_last=False</em>, <em>prefetch=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.gen_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.gen_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate batches</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.gen_rebatch">
+<code class="descname">gen_rebatch</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.gen_rebatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.gen_rebatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate batches for rebatch operation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.get_last_action_proba">
+<code class="descname">get_last_action_proba</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.get_last_action_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_last_action_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a probability of the last action</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.get_last_action_repeat">
+<code class="descname">get_last_action_repeat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.get_last_action_repeat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_last_action_repeat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a repeat count of the last action</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.get_model_by_name">
+<code class="descname">get_model_by_name</code><span class="sig-paren">(</span><em>name</em>, <em>batch=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.get_model_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_model_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a model specification by its name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.get_variable">
+<code class="descname">get_variable</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em>, <em>init=None</em>, <em>init_on_each_run=None</em>, <em>create=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.get_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a variable value
+If the variable does not exists, it will be created and initialized (see <cite>init_variable</cite> below)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>string - a name of the variable</em>) – </li>
+<li><strong>create</strong> (bool - whether to create a variable if it does not exist. Default is <cite>False</cite>.) – If <cite>init</cite> or <cite>init_on_each_run</cite> is specified, then the variable will created regardless of <cite>create</cite>.</li>
+<li><strong>- a value for the variable if it does not exists</strong> (<em>default</em>) – </li>
+<li><strong>init</strong> (<em>callable - a function which returns the default value</em>) – </li>
+<li><strong>init_on_each_run</strong> (callable - same as <cite>init</cite> but initializes the variable before each run) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">a value of the variable</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><cite>KeyError</cite> if a variable does not exist</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.has_variable">
+<code class="descname">has_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.has_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.has_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a variable exists
+:param name: string - a name of the variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the variable exists</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.import_model">
+<code class="descname">import_model</code><span class="sig-paren">(</span><em>name</em>, <em>source</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.import_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.import_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import a model from another pipeline</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str - a name of the model to import</em>) – </li>
+<li><strong>source</strong> (<a class="reference internal" href="#dataset.Dataset.pipeline" title="dataset.Dataset.pipeline"><em>pipeline</em></a><em> or </em><em>model - a pipeline that holds a model</em><em> or </em><em>a model itself</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.inc_variable">
+<code class="descname">inc_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.inc_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.inc_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment a value of a given variable during pipeline execution</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Pipeline.index">
+<code class="descname">index</code><a class="headerlink" href="#dataset.Pipeline.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return index of the source dataset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Pipeline.indices">
+<code class="descname">indices</code><a class="headerlink" href="#dataset.Pipeline.indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sequence of indices of the source dataset</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.init_model">
+<code class="descname">init_model</code><span class="sig-paren">(</span><em>mode</em>, <em>model_class=None</em>, <em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.init_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.init_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a static or dynamic model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mode</strong> (<em>str - 'static'</em><em> or </em><em>'dynamic'</em>) – </li>
+<li><strong>model_class</strong> (<em>class - a model class</em>) – </li>
+<li><strong>name</strong> (<em>str - a name for the model. Default - a model class name.</em>) – </li>
+<li><strong>config</strong> (<em>dict - model configurations parameters</em><em>, </em><em>where each key and value could be named expressions</em>) – <ul>
+<li>B(‘name’) - a batch class attribute or component name</li>
+<li>V(‘name’) - a pipeline variable name</li>
+<li>C(‘name’) - a pipeline config option</li>
+<li>F(name) - a callable which takes a batch for dynamic models or a pipeline for static models</li>
+</ul>
+<p>These expressions will be substituted by their actual values.
+All other value will be used “as is”.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
+<span class="go">      .init_variable(&#39;images_shape&#39;, [256, 256])</span>
+<span class="go">      .init_model(&#39;static&#39;, MyModel, config={&#39;input_shape&#39;: V(&#39;images_shape&#39;)})</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
+<span class="go">      .init_variable(&#39;shape_name&#39;, images_shape&#39;)</span>
+<span class="go">      .init_model(&#39;dynamic&#39;, MyModel, config={V(&#39;shape_name)&#39;: B(&#39;images_shape&#39;)})</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
+<span class="go">      .init_model(&#39;dynamic&#39;, MyModel, config={&#39;input_shape&#39;: C(lambda batch: batch.images.shape[1:])})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.init_variable">
+<code class="descname">init_variable</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em>, <em>init=None</em>, <em>init_on_each_run=None</em>, <em>lock=True</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.init_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.init_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a variable if not exists.
+If the variable exists, does nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>string - a name of the variable</em>) – </li>
+<li><strong>- an initial value for the variable</strong> (<em>default</em>) – </li>
+<li><strong>init</strong> (<em>callable - a function which returns the default value</em>) – </li>
+<li><strong>init_on_each_run</strong> (callable - same as <cite>init</cite> but initializes the variable before each run) – </li>
+<li><strong>lock</strong> (<em>bool - whether to lock a variable before each update</em><em> (</em><em>default: True</em><em>)</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">self - in order to use it in the pipeline chains</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">p</span><span class="o">.</span>
+<span class="go">            .init_variable(&quot;iterations&quot;, default=0)</span>
+<span class="go">            .init_variable(&quot;accuracy&quot;, init_on_each_run=0)</span>
+<span class="go">            .init_variable(&quot;loss_history&quot;, init_on_each_run=list)</span>
+<span class="go">            .load(&#39;/some/path&#39;, fmt=&#39;blosc&#39;)</span>
+<span class="go">            .train_resnet()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.init_variables">
+<code class="descname">init_variables</code><span class="sig-paren">(</span><em>variables</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.init_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.init_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create several variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – key : str - a variable name,
+value : dict -  a variable value and params (see <cite>init_variable</cite>)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">self - in order to use it in the pipeline chains</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">p</span>
+<span class="go">            .init_variables({&quot;loss_history&quot;: dict(init_on_each_run=list),</span>
+<span class="go">                             &quot;accuracy&quot;, dict(default=0)})</span>
+<span class="go">            .load(&#39;/some/path&#39;, fmt=&#39;blosc&#39;)</span>
+<span class="go">            .train_resnet()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>*pipelines</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join one or several pipelines</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><em>*pipelines</em>, <em>merge_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge pipelines</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.next_batch">
+<code class="descname">next_batch</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.next_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.next_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the next batch and execute all previous lazy actions
+next_batch(batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a href="#id10"><span class="problematic" id="id11">*</span></a>args, <a href="#id12"><span class="problematic" id="id13">**</span></a>kwargs):</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Pipeline.num_actions">
+<code class="descname">num_actions</code><a class="headerlink" href="#dataset.Pipeline.num_actions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return index length</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.predict_model">
+<code class="descname">predict_model</code><span class="sig-paren">(</span><em>name</em>, <em>make_data=None</em>, <em>save_to=None</em>, <em>mode='w'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.predict_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.predict_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict using a model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str - a model name</em>) – </li>
+<li><strong>make_data</strong> (<em>a callable</em><em> or </em><em>a named expression</em>) – a function or method to transform batch data to prediction parameters.
+Should return dict - kwargs for <cite>model.predict(…)</cite>.</li>
+<li><strong>save_to</strong> (<em>a named expression</em><em> or </em><em>a sequence of named expressions of type B</em><em> or </em><em>V</em>) – A location where the model output will be stored</li>
+<li><strong>mode</strong> (<em>str {'w'</em><em>, </em><em>'a'</em><em>, </em><em>'e'</em><em>, </em><em>'u'} - a method of storing output</em>) – <p>‘w’ - overwrite <cite>save_to</cite> location with a new value. This is a default mode.
+‘a’ - append a new value to <cite>save_to</cite> location</p>
+<blockquote>
+<div>(see list.append <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</div></blockquote>
+<dl class="docutils">
+<dt>’e’ - extend <cite>save_to</cite> location with a new value</dt>
+<dd>(see list.extend <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</dd>
+<dt>’u’ - update <cite>save_to</cite> location with a new value</dt>
+<dd>(see dict.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict.update">https://docs.python.org/3/library/stdtypes.html#dict.update</a>
+or set.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset.update">https://docs.python.org/3/library/stdtypes.html#frozenset.update</a>)</dd>
+</dl>
+</li>
+<li><strong>other named parameters are treated as data mappings of any type</strong> (<em>All</em>) – </li>
+<li><strong>keys and values could be named expressions</strong> (<em>which</em>) – <ul>
+<li>B(‘name’) - a batch class attribute or component name</li>
+<li>V(‘name’) - a pipeline variable name</li>
+<li>C(‘name’) - a pipeline config option</li>
+<li>F(name) - a callable which takes (batch, model)</li>
+</ul>
+<p>These expressions are substituted by their actual values.
+All other value will be used “as is”.</p>
+</li>
+<li><strong>parameters after substitution will be sent to model.predict</strong><strong>(</strong><strong>..</strong><strong>)</strong><strong></strong> (<em>These</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
+<span class="go">        .predict_model(&#39;resnet&#39;, x=B(&#39;images&#39;), y_true=B(&#39;labels&#39;), save_to=B(&#39;predicted_labels&#39;))</span>
+<span class="go">Would call a `resnet` model `predict` method with `x` and `y_true` arguments:</span>
+<span class="go">``predictions = resnet.predict(x=batch.images, y_true=batch.labels)``</span>
+<span class="go">Predictions will be stored `batch.predicted_labels`.</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
+<span class="go">    .init_variable(&#39;inferred_masks&#39;, init_on_each_run=list)</span>
+<span class="go">    .predict_model(&#39;tf_unet&#39;, fetches=&#39;predicted_masks&#39;, feed_dict={&#39;x&#39;: B(&#39;images&#39;)},</span>
+<span class="go">                   save_to=V(&#39;inferred_masks&#39;))</span>
+<span class="go">Would call a `tf_unet` model `train` method with `fetches` and `feed_dict` arguments:</span>
+<span class="go">``predictions = tf_unet.train(fetches=&#39;predicted_masks&#39;, feed_dict={&#39;x&#39;: batch.images})``</span>
+<span class="go">Predictions for each batch will be stored in a pipeline variable `inferred_masks`.</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;deepnet&#39;</span><span class="p">,</span> <span class="n">MyBatch</span><span class="o">.</span><span class="n">make_deepnet_data</span><span class="p">)</span>
+<span class="go">Equivalent to::</span>
+</pre></div>
+</div>
+<blockquote>
+<div>predict_data = batch.make_deepnet_data(model=deepnet_model)
+deepnet_model.train(<a href="#id14"><span class="problematic" id="id15">**</span></a>predict_data)</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.print_variable">
+<code class="descname">print_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.print_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.print_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a value of a given variable during pipeline execution</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.put_into_tf_queue">
+<code class="descname">put_into_tf_queue</code><span class="sig-paren">(</span><em>session=None</em>, <em>queue=None</em>, <em>get_tensor=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.put_into_tf_queue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.put_into_tf_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a tensorflow queue after the action</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.rebatch">
+<code class="descname">rebatch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>merge_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.rebatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.rebatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the output batch size</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.reset_iter">
+<code class="descname">reset_iter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.reset_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.reset_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all iteration metadata in order to start iterating from scratch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all lazy actions for each batch in the dataset
+run(self, batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a href="#id16"><span class="problematic" id="id17">*</span></a>args, <a href="#id18"><span class="problematic" id="id19">**</span></a>kwargs):</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>name</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.save_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.save_to_variable">
+<code class="descname">save_to_variable</code><span class="sig-paren">(</span><em>name</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.save_to_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.save_to_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a value to a given variable during pipeline execution</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.set_variable">
+<code class="descname">set_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.set_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.set_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a variable value
+If the variable does not exists, it will be created, however, the warning will be displayed that
+the variable was not initialized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>str - a name of the variable</em>) – </li>
+<li><strong>- a value for the variable</strong> (<em>value</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">self - in order to use it in the pipeline chains</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.train_model">
+<code class="descname">train_model</code><span class="sig-paren">(</span><em>name</em>, <em>make_data=None</em>, <em>save_to=None</em>, <em>mode='w'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.train_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.train_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train a model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str - a model name</em>) – </li>
+<li><strong>make_data</strong> (<em>a callable</em><em> or </em><em>a named expression</em>) – a function or method to transform batch data to train parameters.
+Should return dict - kwargs for <cite>model.train(…)</cite>.</li>
+<li><strong>save_to</strong> (<em>a named expression</em><em> or </em><em>a sequence of named expressions of type B</em><em> or </em><em>V</em>) – A location where the model output will be stored.
+This will rewrite the previous value in the location given.</li>
+<li><strong>mode</strong> (<em>str {'w'</em><em>, </em><em>'a'</em><em>, </em><em>'e'</em><em>, </em><em>'u'} - a method of storing output</em>) – <p>‘w’ - overwrite <cite>save_to</cite> location with a new value. This is a default mode.
+‘a’ - append a new value to <cite>save_to</cite> location</p>
+<blockquote>
+<div>(see list.append <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</div></blockquote>
+<dl class="docutils">
+<dt>’e’ - extend <cite>save_to</cite> location with a new value</dt>
+<dd>(see list.extend <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</dd>
+<dt>’u’ - update <cite>save_to</cite> location with a new value</dt>
+<dd>(see dict.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict.update">https://docs.python.org/3/library/stdtypes.html#dict.update</a>
+or set.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset.update">https://docs.python.org/3/library/stdtypes.html#frozenset.update</a>)</dd>
+</dl>
+</li>
+<li><strong>other named parameters are treated as data mappings of any type</strong> (<em>All</em>) – </li>
+<li><strong>keys and values could be named expressions</strong> (<em>which</em>) – <ul>
+<li>B(‘name’) - a batch class attribute or component name</li>
+<li>V(‘name’) - a pipeline variable name</li>
+<li>C(‘name’) - a pipeline config option</li>
+<li>F(name) - a callable which takes (batch, model)</li>
+</ul>
+<p>These expressions are substituted by their actual values.
+All other value will be used “as is”.</p>
+</li>
+<li><strong>parameters after substitution will be sent to model.train</strong><strong>(</strong><strong>..</strong><strong>)</strong><strong></strong> (<em>These</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span> <span class="n">y_true</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="s1">&#39;masks&#39;</span><span class="p">))</span>
+<span class="go">Would call a `resnet` model `train` method with `x` and `y_true` arguments:</span>
+<span class="go">``resnet.train(x=batch.images, y_true=batch.masks)``</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
+<span class="go">       .init_variable(&#39;tensor_name&#39;, &#39;x&#39;)</span>
+<span class="go">       .train_model(&#39;resnet&#39;, feed_dict={V(&#39;tensor_name&#39;): B(&#39;images&#39;)})</span>
+<span class="go">Would call a `resnet` model `train` method with a `feed_dict` argument:</span>
+<span class="go">``resnet.train(feed_dict={&#39;x&#39;: batch.images})``</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="n">C</span><span class="p">(</span><span class="n">MyBatch</span><span class="o">.</span><span class="n">make_resnet_data</span><span class="p">))</span>
+<span class="go">Equivalent to::</span>
+</pre></div>
+</div>
+<blockquote>
+<div>train_data = batch.make_resnet_data(resnet_model)
+resnet_model.train(<a href="#id20"><span class="problematic" id="id21">**</span></a>train_data)</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.update_variable">
+<code class="descname">update_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em>, <em>mode='w'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/pipeline.html#Pipeline.update_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.update_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a value of a given variable during pipeline execution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>a named expression - a variable name</em>) – </li>
+<li><strong>- an updating value</strong><strong>, </strong><strong>could be a value of any type</strong><strong> or </strong><strong>a named expression</strong> (<em>value</em>) – </li>
+<li><strong>B</strong><strong>(</strong><strong>'name'</strong><strong>) </strong><strong>- a batch class attribute</strong><strong> or </strong><strong>component name</strong> (<em>-</em>) – </li>
+<li><strong>V</strong><strong>(</strong><strong>'name'</strong><strong>) </strong><strong>- a pipeline variable name</strong> (<em>-</em>) – </li>
+<li><strong>C</strong><strong>(</strong><strong>'name'</strong><strong>) </strong><strong>- a pipeline config option</strong> (<em>-</em>) – </li>
+<li><strong>F</strong><strong>(</strong><strong>name</strong><strong>) </strong><strong>- a callable which takes a batch</strong><strong> (</strong><strong>could be a batch class method</strong><strong> or </strong><strong>a function</strong><strong>)</strong> (<em>-</em>) – </li>
+<li><strong>expressions will be substituted for their real value.</strong> (<em>These</em>) – </li>
+<li><strong>mode</strong> (<em>str - a method to update a variable value</em><em>, </em><em>could be one of:</em>) – </li>
+<li><strong>'w'</strong><strong> or </strong><strong>'write' to rewrite a variable with a new value. This is a default mode.</strong> (<em>-</em>) – </li>
+<li><strong>'a'</strong><strong> or </strong><strong>'append' to append a value to a variable</strong><strong> (</strong><strong>e.g. if a variable is a list</strong><strong>)</strong><strong></strong> (<em>-</em>) – </li>
+<li><strong>'e'</strong><strong> or </strong><strong>'extend' to extend a variable with a new value</strong><strong> (</strong><strong>e.g. if a variable is a list</strong><strong>)</strong><strong></strong> (<em>-</em>) – </li>
+<li><strong>'u'</strong><strong> or </strong><strong>'update' to update a variable with a new value</strong><strong> (</strong><strong>e.g. if a variable is a dict</strong><strong>)</strong><strong></strong> (<em>-</em>) – </li>
+<li><strong>sets and dicts 'a' and 'u' do exactly the same.</strong> (<em>For</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">self - in order to use it in the pipeline chains</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="decorators">
+<h2>Decorators<a class="headerlink" href="#decorators" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="action">
+<h3>action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="dataset.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/decorators.html#action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for action methods in <a class="reference internal" href="#dataset.Batch" title="dataset.Batch"><code class="xref py py-class docutils literal"><span class="pre">Batch</span></code></a> classes</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@action</span>
+<span class="k">def</span> <span class="nf">some_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="nd">@action</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;some_model&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">another_arg</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="nd">@action</span><span class="p">(</span><span class="n">use_lock</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">critical_section</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">some_arg</span><span class="p">,</span> <span class="n">another_arg</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="nd">@action</span><span class="p">(</span><span class="n">use_lock</span><span class="o">=</span><span class="s1">&#39;lock_name&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">another_critical_section</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">some_arg</span><span class="p">,</span> <span class="n">another_arg</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="inbatch-parallel">
+<h3>inbatch_parallel<a class="headerlink" href="#inbatch-parallel" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="dataset.inbatch_parallel">
+<code class="descname">inbatch_parallel</code><span class="sig-paren">(</span><em>init</em>, <em>post=None</em>, <em>target='threads'</em>, <em>**dec_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/decorators.html#inbatch_parallel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.inbatch_parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for parallel methods in <a class="reference internal" href="#dataset.Batch" title="dataset.Batch"><code class="xref py py-class docutils literal"><span class="pre">Batch</span></code></a> classes</p>
+</dd></dl>
+
+</div>
+<div class="section" id="any-action-failed">
+<h3>any_action_failed<a class="headerlink" href="#any-action-failed" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="dataset.any_action_failed">
+<code class="descname">any_action_failed</code><span class="sig-paren">(</span><em>results</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/decorators.html#any_action_failed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.any_action_failed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>True</cite> if some parallelized invocations threw exceptions</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dataset</a><ul>
+<li><a class="reference internal" href="#index">Index</a><ul>
+<li><a class="reference internal" href="#datasetindex">DatasetIndex</a></li>
+<li><a class="reference internal" href="#filesindex">FilesIndex</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">Dataset</a></li>
+<li><a class="reference internal" href="#batch">Batch</a></li>
+<li><a class="reference internal" href="#pipeline">Pipeline</a></li>
+<li><a class="reference internal" href="#decorators">Decorators</a><ul>
+<li><a class="reference internal" href="#action">action</a></li>
+<li><a class="reference internal" href="#inbatch-parallel">inbatch_parallel</a></li>
+<li><a class="reference internal" href="#any-action-failed">any_action_failed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.html"
+                        title="previous chapter">API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.image.html"
+                        title="next chapter">dataset.image</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dataset.core.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.image.html" title="dataset.image"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dataset.html" title="API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,887 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>dataset.image &#8212; Dataset  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dataset.opensets" href="dataset.opensets.html" />
+    <link rel="prev" title="dataset" href="dataset.core.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.opensets.html" title="dataset.opensets"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataset.core.html" title="dataset"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" accesskey="U">API</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dataset-image">
+<h1>dataset.image<a class="headerlink" href="#dataset-image" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="imagesbatch">
+<h2>ImagesBatch<a class="headerlink" href="#imagesbatch" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dataset.image.ImagesBatch">
+<em class="property">class </em><code class="descname">ImagesBatch</code><span class="sig-paren">(</span><em>index</em>, <em>preloaded=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesBatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dataset.image.batch_image.BasicImagesBatch</span></code></p>
+<p>Batch class for 2D images</p>
+<p>images are stored as numpy arrays (N, H, W) or (N, H, W, C)</p>
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.apply_transform">
+<code class="descname">apply_transform</code><span class="sig-paren">(</span><em>ix</em>, <em>dst</em>, <em>src</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.apply_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function to each item in the batch</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the destination to put the result in, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the source to get data from, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function to apply to each item from the source</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<dl class="docutils">
+<dt>apply_transform does the following (but in parallel):</dt>
+<dd><dl class="first last docutils">
+<dt>for item in batch:</dt>
+<dd>self.dst[item] = func(self.src[item], <a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.apply_transform_all">
+<code class="descname">apply_transform_all</code><span class="sig-paren">(</span><em>dst</em>, <em>src</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.apply_transform_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function the whole batch at once</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the destination to put the result in, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the source to get data from, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function to apply to each item from the source</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<dl class="docutils">
+<dt>apply_transform_all does the following:</dt>
+<dd>self.dst = func(self.src, <a href="#id5"><span class="problematic" id="id6">*</span></a>args, <a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.as_dataset">
+<code class="descname">as_dataset</code><span class="sig-paren">(</span><em>dataset=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.as_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a new dataset from batch data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dataset</strong> (<em>could be a dataset</em><em> or </em><em>a Dataset class</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">an instance of a class specified by <cite>dataset</cite> arg, preloaded with this batch data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.assemble">
+<code class="descname">assemble</code><span class="sig-paren">(</span><em>all_res</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesBatch.assemble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesBatch.assemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the batch after a parallel action</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesBatch.components">
+<code class="descname">components</code><em class="property"> = ('images', 'labels')</em><a class="headerlink" href="#dataset.image.ImagesBatch.components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.convert_to_pil">
+<code class="descname">convert_to_pil</code><span class="sig-paren">(</span><em>component='images'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesBatch.convert_to_pil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesBatch.convert_to_pil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert batch data to PIL.Image format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.crop">
+<code class="descname">crop</code><span class="sig-paren">(</span><em>component='images'</em>, <em>origin=None</em>, <em>shape=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop all images in the batch
+:param component: string - a component name which data should be cropped
+:param origin: can be one of:</p>
+<blockquote>
+<div><ul class="simple">
+<li>tuple - a starting point in the form of (x, y)</li>
+<li>CROP_00 - to crop from left top edge (0,0)</li>
+<li>CROP_CENTER - to crop from center of each image</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>shape</strong> – tuple - a crop size in the form of (width, height)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesBatch.data">
+<code class="descname">data</code><a class="headerlink" href="#dataset.image.ImagesBatch.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return batch data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.do_nothing">
+<code class="descname">do_nothing</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.do_nothing" title="Permalink to this definition">¶</a></dt>
+<dd><p>An empty action (might be convenient in complicated pipelines)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>dst</em>, <em>fmt=None</em>, <em>components=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save data to a file or a memory object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.flip">
+<code class="descname">flip</code><span class="sig-paren">(</span><em>axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.flip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip images
+:param axis: ‘h’ for horizontal (left/right) flip</p>
+<blockquote>
+<div>‘v’ for vertical (up/down) flip</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>direction</strong> – ‘l’, ‘r’, ‘u’, ‘d’</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.fliplr">
+<code class="descname">fliplr</code><span class="sig-paren">(</span><em>component='images'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesBatch.fliplr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesBatch.fliplr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip image horizontaly (left / right)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.flipud">
+<code class="descname">flipud</code><span class="sig-paren">(</span><em>component='images'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesBatch.flipud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesBatch.flipud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip image verticaly (up / down)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.from_batch">
+<code class="descname">from_batch</code><span class="sig-paren">(</span><em>batch</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.from_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch from another batch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.from_data">
+<code class="descname">from_data</code><span class="sig-paren">(</span><em>index</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.from_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch from a given dataset</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>item=None</em>, <em>component=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an item from the batch or the component</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.get_errors">
+<code class="descname">get_errors</code><span class="sig-paren">(</span><em>all_res</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.get_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of errors from a parallel action</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.get_image_size">
+<code class="descname">get_image_size</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesBatch.get_image_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesBatch.get_image_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return image size (width, height)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.get_items">
+<code class="descname">get_items</code><span class="sig-paren">(</span><em>index</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.get_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return one or several data items from a data source</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.get_model_by_name">
+<code class="descname">get_model_by_name</code><span class="sig-paren">(</span><em>model_name</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.get_model_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a model specification given its name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesBatch.indices">
+<code class="descname">indices</code><a class="headerlink" href="#dataset.image.ImagesBatch.indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array-like with the indices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesBatch.items">
+<code class="descname">items</code><a class="headerlink" href="#dataset.image.ImagesBatch.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init function for batch items parallelism</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>src</em>, <em>fmt=None</em>, <em>components=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.make_filename">
+<code class="descname">make_filename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.make_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate unique filename for the batch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.make_item_class">
+<code class="descname">make_item_class</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.make_item_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a class to handle data components</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><em>batches</em>, <em>batch_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge several batches to form a new batch of a given size</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batches</strong> (<em>tuple of batches</em>) – </li>
+<li><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – if <cite>None</cite>, just merge all batches into one batch (the rest will be <cite>None</cite>),
+if <cite>int</cite>, then make one batch of <cite>batch_size</cite> and a batch with the rest of data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>batch, rest</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple of two batches</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.merge_component">
+<code class="descname">merge_component</code><span class="sig-paren">(</span><em>component=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.merge_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the same component data from several batches</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.noop">
+<code class="descname">noop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.noop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do nothing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.put_into_data">
+<code class="descname">put_into_data</code><span class="sig-paren">(</span><em>data</em>, <em>components=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.put_into_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data into <code class="xref py py-attr docutils literal"><span class="pre">_data</span></code> property</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.random_crop">
+<code class="descname">random_crop</code><span class="sig-paren">(</span><em>component='images'</em>, <em>shape=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.random_crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop all images to a given shape and a random origin
+:param component: string - a component name which data should be cropped
+:param shape: tuple - a crop size in the form of (width, height)</p>
+<p>Origin will be chosen at random to fit the required shape</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.random_rotate">
+<code class="descname">random_rotate</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>p=1.0</em>, <em>angle=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.random_rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate each image in the batch at a random angle
+:param component: string - a component name which data should be rotated
+:param p: float - a probability to apply rotate</p>
+<blockquote>
+<div>(0. - don’t rotate, .5 - rotate half of images, 1 - rotate all images)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – tuple - an angle range in the form of (min_angle, max_angle), in radians</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.random_scale">
+<code class="descname">random_scale</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>p=1.0</em>, <em>factor=None</em>, <em>preserve_shape=True</em>, <em>crop=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.random_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale the content of each image in the batch with a random scale factor
+:param component: string - a component name
+:param p: float - a probability to apply scale</p>
+<blockquote>
+<div>(0. - don’t scale, .5 - scale half of images, 1 - scale all images)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>factor</strong> – tuple - min and max scale; the scale factor for each image
+will be sampled from the uniform distribution</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.resize">
+<code class="descname">resize</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>shape=(64</em>, <em>64)</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize all images in the batch to the given shape
+:param component: string - a component name which data should be cropped
+:param shape: tuple - a crop size in the form of (width, height)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>angle=0</em>, <em>preserve_shape=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate all images in the batch at the given angle
+:param component: string - a component name which data should be rotated
+:param angle: float - the rotation angle in degrees.
+:param preserve_shape: bool - whether to keep shape after rotating</p>
+<blockquote>
+<div>(always True for images as arrays, can be False for PIL.Images)</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.run_once">
+<code class="descname">run_once</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.run_once" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init function for no parallelism
+Useful for async action-methods (will wait till the method finishes)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesBatch.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesBatch.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save batch data to a file (an alias for dump method)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="imagespilbatch">
+<h2>ImagesPILBatch<a class="headerlink" href="#imagespilbatch" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dataset.image.ImagesPILBatch">
+<em class="property">class </em><code class="descname">ImagesPILBatch</code><span class="sig-paren">(</span><em>index</em>, <em>preloaded=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesPILBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesPILBatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dataset.image.batch_image.BasicImagesBatch</span></code></p>
+<p>Batch class for 2D images in PIL format</p>
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.apply_transform">
+<code class="descname">apply_transform</code><span class="sig-paren">(</span><em>ix</em>, <em>dst</em>, <em>src</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.apply_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function to each item in the batch</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the destination to put the result in, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the source to get data from, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function to apply to each item from the source</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<dl class="docutils">
+<dt>apply_transform does the following (but in parallel):</dt>
+<dd><dl class="first last docutils">
+<dt>for item in batch:</dt>
+<dd>self.dst[item] = func(self.src[item], <a href="#id9"><span class="problematic" id="id10">*</span></a>args, <a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.apply_transform_all">
+<code class="descname">apply_transform_all</code><span class="sig-paren">(</span><em>dst</em>, <em>src</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.apply_transform_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function the whole batch at once</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the destination to put the result in, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/array.html#module-array" title="(in Python v3.6)"><em>array</em></a>) – <p>the source to get data from, can be:</p>
+<ul>
+<li>str - a component name, e.g. ‘images’ or ‘masks’</li>
+<li>array-like - a numpy-array, list, etc</li>
+</ul>
+</li>
+<li><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function to apply to each item from the source</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<dl class="docutils">
+<dt>apply_transform_all does the following:</dt>
+<dd>self.dst = func(self.src, <a href="#id13"><span class="problematic" id="id14">*</span></a>args, <a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.as_dataset">
+<code class="descname">as_dataset</code><span class="sig-paren">(</span><em>dataset=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.as_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a new dataset from batch data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dataset</strong> (<em>could be a dataset</em><em> or </em><em>a Dataset class</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">an instance of a class specified by <cite>dataset</cite> arg, preloaded with this batch data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.assemble">
+<code class="descname">assemble</code><span class="sig-paren">(</span><em>all_res</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesPILBatch.assemble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesPILBatch.assemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble the batch after a parallel action</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesPILBatch.components">
+<code class="descname">components</code><em class="property"> = ('images', 'labels')</em><a class="headerlink" href="#dataset.image.ImagesPILBatch.components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.convert_to_array">
+<code class="descname">convert_to_array</code><span class="sig-paren">(</span><em>dtype=&lt;class 'numpy.uint8'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesPILBatch.convert_to_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesPILBatch.convert_to_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert images from PIL.Image format to an array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.crop">
+<code class="descname">crop</code><span class="sig-paren">(</span><em>component='images'</em>, <em>origin=None</em>, <em>shape=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop all images in the batch
+:param component: string - a component name which data should be cropped
+:param origin: can be one of:</p>
+<blockquote>
+<div><ul class="simple">
+<li>tuple - a starting point in the form of (x, y)</li>
+<li>CROP_00 - to crop from left top edge (0,0)</li>
+<li>CROP_CENTER - to crop from center of each image</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>shape</strong> – tuple - a crop size in the form of (width, height)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesPILBatch.data">
+<code class="descname">data</code><a class="headerlink" href="#dataset.image.ImagesPILBatch.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return batch data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.do_nothing">
+<code class="descname">do_nothing</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.do_nothing" title="Permalink to this definition">¶</a></dt>
+<dd><p>An empty action (might be convenient in complicated pipelines)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>dst</em>, <em>fmt=None</em>, <em>components=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save data to a file or a memory object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.flip">
+<code class="descname">flip</code><span class="sig-paren">(</span><em>axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.flip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip images
+:param axis: ‘h’ for horizontal (left/right) flip</p>
+<blockquote>
+<div>‘v’ for vertical (up/down) flip</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>direction</strong> – ‘l’, ‘r’, ‘u’, ‘d’</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.fliplr">
+<code class="descname">fliplr</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesPILBatch.fliplr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesPILBatch.fliplr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip image horizontaly (left / right)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.flipud">
+<code class="descname">flipud</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesPILBatch.flipud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesPILBatch.flipud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip image verticaly (up / down)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.from_batch">
+<code class="descname">from_batch</code><span class="sig-paren">(</span><em>batch</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.from_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch from another batch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.from_data">
+<code class="descname">from_data</code><span class="sig-paren">(</span><em>index</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.from_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch from a given dataset</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>item=None</em>, <em>component=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an item from the batch or the component</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.get_errors">
+<code class="descname">get_errors</code><span class="sig-paren">(</span><em>all_res</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.get_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of errors from a parallel action</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.get_image_size">
+<code class="descname">get_image_size</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/image/batch_image.html#ImagesPILBatch.get_image_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.image.ImagesPILBatch.get_image_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return image size (width, height)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.get_items">
+<code class="descname">get_items</code><span class="sig-paren">(</span><em>index</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.get_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return one or several data items from a data source</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.get_model_by_name">
+<code class="descname">get_model_by_name</code><span class="sig-paren">(</span><em>model_name</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.get_model_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a model specification given its name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesPILBatch.indices">
+<code class="descname">indices</code><a class="headerlink" href="#dataset.image.ImagesPILBatch.indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array-like with the indices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.image.ImagesPILBatch.items">
+<code class="descname">items</code><a class="headerlink" href="#dataset.image.ImagesPILBatch.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init function for batch items parallelism</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>src</em>, <em>fmt=None</em>, <em>components=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.make_filename">
+<code class="descname">make_filename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.make_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate unique filename for the batch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.make_item_class">
+<code class="descname">make_item_class</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.make_item_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a class to handle data components</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><em>batches</em>, <em>batch_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge several batches to form a new batch of a given size</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batches</strong> (<em>tuple of batches</em>) – </li>
+<li><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – if <cite>None</cite>, just merge all batches into one batch (the rest will be <cite>None</cite>),
+if <cite>int</cite>, then make one batch of <cite>batch_size</cite> and a batch with the rest of data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>batch, rest</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple of two batches</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.merge_component">
+<code class="descname">merge_component</code><span class="sig-paren">(</span><em>component=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.merge_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the same component data from several batches</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.noop">
+<code class="descname">noop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.noop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do nothing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.put_into_data">
+<code class="descname">put_into_data</code><span class="sig-paren">(</span><em>data</em>, <em>components=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.put_into_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load data into <code class="xref py py-attr docutils literal"><span class="pre">_data</span></code> property</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.random_crop">
+<code class="descname">random_crop</code><span class="sig-paren">(</span><em>component='images'</em>, <em>shape=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.random_crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop all images to a given shape and a random origin
+:param component: string - a component name which data should be cropped
+:param shape: tuple - a crop size in the form of (width, height)</p>
+<p>Origin will be chosen at random to fit the required shape</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.random_rotate">
+<code class="descname">random_rotate</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>p=1.0</em>, <em>angle=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.random_rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate each image in the batch at a random angle
+:param component: string - a component name which data should be rotated
+:param p: float - a probability to apply rotate</p>
+<blockquote>
+<div>(0. - don’t rotate, .5 - rotate half of images, 1 - rotate all images)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – tuple - an angle range in the form of (min_angle, max_angle), in radians</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.random_scale">
+<code class="descname">random_scale</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>p=1.0</em>, <em>factor=None</em>, <em>preserve_shape=True</em>, <em>crop=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.random_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale the content of each image in the batch with a random scale factor
+:param component: string - a component name
+:param p: float - a probability to apply scale</p>
+<blockquote>
+<div>(0. - don’t scale, .5 - scale half of images, 1 - scale all images)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>factor</strong> – tuple - min and max scale; the scale factor for each image
+will be sampled from the uniform distribution</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.resize">
+<code class="descname">resize</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>shape=(64</em>, <em>64)</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize all images in the batch to the given shape
+:param component: string - a component name which data should be cropped
+:param shape: tuple - a crop size in the form of (width, height)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>ix</em>, <em>component='images'</em>, <em>angle=0</em>, <em>preserve_shape=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate all images in the batch at the given angle
+:param component: string - a component name which data should be rotated
+:param angle: float - the rotation angle in degrees.
+:param preserve_shape: bool - whether to keep shape after rotating</p>
+<blockquote>
+<div>(always True for images as arrays, can be False for PIL.Images)</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.run_once">
+<code class="descname">run_once</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.run_once" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init function for no parallelism
+Useful for async action-methods (will wait till the method finishes)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.image.ImagesPILBatch.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.image.ImagesPILBatch.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save batch data to a file (an alias for dump method)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dataset.image</a><ul>
+<li><a class="reference internal" href="#imagesbatch">ImagesBatch</a></li>
+<li><a class="reference internal" href="#imagespilbatch">ImagesPILBatch</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.core.html"
+                        title="previous chapter">dataset</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.opensets.html"
+                        title="next chapter">dataset.opensets</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dataset.image.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.opensets.html" title="dataset.opensets"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dataset.core.html" title="dataset"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
+    </div>
+  </body>
+</html>
