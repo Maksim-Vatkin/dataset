@@ -51,7 +51,7 @@
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
 
-<div class="viewcode-block" id="flatten2d"><a class="viewcode-back" href="../../../../../dataset.models.tf.layers.html#dataset.models.tf.layers.flatten2d">[docs]</a><span class="k">def</span> <span class="nf">flatten2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="flatten2d"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.flatten2d">[docs]</a><span class="k">def</span> <span class="nf">flatten2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Flatten tensor to two dimensions (batch_size, item_vector_size) &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_prod</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
@@ -59,7 +59,7 @@
     <span class="k">return</span> <span class="n">x</span></div>
 
 
-<div class="viewcode-block" id="flatten"><a class="viewcode-back" href="../../../../../dataset.models.tf.layers.html#dataset.models.tf.layers.flatten">[docs]</a><span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="flatten"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.flatten">[docs]</a><span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Flatten tensor to two dimensions (batch_size, item_vector_size) using inferred shape and numpy &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
@@ -68,7 +68,7 @@
     <span class="k">return</span> <span class="n">x</span></div>
 
 
-<div class="viewcode-block" id="maxout"><a class="viewcode-back" href="../../../../../dataset.models.tf.layers.html#dataset.models.tf.layers.maxout">[docs]</a><span class="k">def</span> <span class="nf">maxout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="maxout"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.maxout">[docs]</a><span class="k">def</span> <span class="nf">maxout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Shrink last dimension by making max pooling every depth channels &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -83,7 +83,7 @@
         <span class="n">out</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shape</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_dims</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="mip"><a class="viewcode-back" href="../../../../../dataset.models.tf.layers.html#dataset.models.tf.layers.mip">[docs]</a><span class="k">def</span> <span class="nf">mip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mip&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="mip"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.mip">[docs]</a><span class="k">def</span> <span class="nf">mip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mip&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Shrink last dimension by making max pooling every depth channels &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>

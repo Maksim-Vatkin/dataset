@@ -77,7 +77,7 @@
 <span class="kn">from</span> <span class="nn">.components</span> <span class="k">import</span> <span class="n">MetaComponentsTuple</span>
 
 
-<div class="viewcode-block" id="Batch"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch">[docs]</a><span class="k">class</span> <span class="nc">Batch</span><span class="p">(</span><span class="n">BaseBatch</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch">[docs]</a><span class="k">class</span> <span class="nc">Batch</span><span class="p">(</span><span class="n">BaseBatch</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The core Batch class &quot;&quot;&quot;</span>
     <span class="n">_item_class</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">components</span> <span class="o">=</span> <span class="kc">None</span>
@@ -89,7 +89,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_preloaded</span> <span class="o">=</span> <span class="n">preloaded</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_preloaded_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Batch.from_data"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.from_data">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Batch.from_data"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.from_data">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create batch from a given dataset &quot;&quot;&quot;</span>
         <span class="c1"># this is roughly equivalent to self.data = data</span>
@@ -97,13 +97,13 @@
             <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">preloaded</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Batch.from_batch"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.from_batch">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Batch.from_batch"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.from_batch">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_batch</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create batch from another batch &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">preloaded</span><span class="o">=</span><span class="n">batch</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>  <span class="c1"># pylint: disable=protected-access</span></div>
 
 
-<div class="viewcode-block" id="Batch.merge"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.merge">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Batch.merge"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.merge">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">batches</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Merge several batches to form a new batch of a given size</span>
 
@@ -166,7 +166,7 @@
 
         <span class="k">return</span> <span class="n">new_batch</span><span class="p">,</span> <span class="n">rest_batch</span></div>
 
-<div class="viewcode-block" id="Batch.merge_component"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.merge_component">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Batch.merge_component"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.merge_component">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">merge_component</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Merge the same component data from several batches &quot;&quot;&quot;</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">component</span>
@@ -175,7 +175,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unknown data type&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span></div>
 
-<div class="viewcode-block" id="Batch.as_dataset"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.as_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">as_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.as_dataset"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.as_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">as_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Makes a new dataset from batch data</span>
 
 <span class="sd">        Parameters</span>
@@ -217,7 +217,7 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_named</span>
         <span class="k">return</span> <span class="n">res</span> <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_empty_data</span>
 
-<div class="viewcode-block" id="Batch.make_item_class"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.make_item_class">[docs]</a>    <span class="k">def</span> <span class="nf">make_item_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.make_item_class"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.make_item_class">[docs]</a>    <span class="k">def</span> <span class="nf">make_item_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create a class to handle data components &quot;&quot;&quot;</span>
         <span class="c1"># pylint: disable=protected-access</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -235,7 +235,7 @@
     <span class="k">def</span> <span class="nf">_empty_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_item_class</span><span class="p">()</span>   <span class="c1"># pylint: disable=not-callable</span>
 
-<div class="viewcode-block" id="Batch.get_pos"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.get_pos">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.get_pos"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.get_pos">[docs]</a>    <span class="k">def</span> <span class="nf">get_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a position in data for a given index</span>
 
 <span class="sd">        Parameters</span>
@@ -313,7 +313,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Batch.put_into_data"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.put_into_data">[docs]</a>    <span class="k">def</span> <span class="nf">put_into_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.put_into_data"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.put_into_data">[docs]</a>    <span class="k">def</span> <span class="nf">put_into_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load data into :attr:`_data` property &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_src</span> <span class="o">=</span> <span class="n">data</span>
@@ -329,7 +329,7 @@
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">_src</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Batch.get_items"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.get_items">[docs]</a>    <span class="k">def</span> <span class="nf">get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.get_items"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.get_items">[docs]</a>    <span class="k">def</span> <span class="nf">get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return one or several data items from a data source &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
@@ -350,7 +350,7 @@
             <span class="n">res</span> <span class="o">=</span> <span class="n">_data</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="Batch.get"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.get"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return an item from the batch or the component &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">component</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -377,29 +377,29 @@
         <span class="sd">&quot;&quot;&quot; Init function for batch items parallelism &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[[</span><span class="bp">self</span><span class="p">[</span><span class="n">ix</span><span class="p">]]</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Batch.run_once"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.run_once">[docs]</a>    <span class="k">def</span> <span class="nf">run_once</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.run_once"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.run_once">[docs]</a>    <span class="k">def</span> <span class="nf">run_once</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Init function for no parallelism</span>
 <span class="sd">        Useful for async action-methods (will wait till the method finishes)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
         <span class="k">return</span> <span class="p">[[]]</span></div>
 
-<div class="viewcode-block" id="Batch.get_model_by_name"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.get_model_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.get_model_by_name"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.get_model_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a model specification given its name &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Batch.get_errors"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.get_errors">[docs]</a>    <span class="k">def</span> <span class="nf">get_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_res</span><span class="p">):</span>
+<div class="viewcode-block" id="Batch.get_errors"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.get_errors">[docs]</a>    <span class="k">def</span> <span class="nf">get_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_res</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a list of errors from a parallel action &quot;&quot;&quot;</span>
         <span class="n">all_errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">error</span> <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">all_res</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">all_errors</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Batch.do_nothing"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.do_nothing">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="Batch.do_nothing"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.do_nothing">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">do_nothing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; An empty action (might be convenient in complicated pipelines) &quot;&quot;&quot;</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Batch.apply_transform"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.apply_transform">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="Batch.apply_transform"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.apply_transform">[docs]</a>    <span class="nd">@action</span>
     <span class="nd">@inbatch_parallel</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s1">&#39;indices&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">apply_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Apply a function to each item in the batch</span>
@@ -448,7 +448,7 @@
             <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pos</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">ix</span><span class="p">)</span>
         <span class="n">dst_attr</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Batch.apply_transform_all"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.apply_transform_all">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="Batch.apply_transform_all"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.apply_transform_all">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">apply_transform_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Apply a function the whole batch at once</span>
 
@@ -598,7 +598,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
 
-<div class="viewcode-block" id="Batch.load"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.load">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="Batch.load"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.load">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load data from another array or a file.</span>
 
@@ -629,7 +629,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown format &quot;</span> <span class="o">+</span> <span class="n">fmt</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Batch.dump"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.dump">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="Batch.dump"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.dump">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save data to another array or a file.</span>
 
@@ -664,7 +664,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown format &quot;</span> <span class="o">+</span> <span class="n">fmt</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Batch.save"><a class="viewcode-back" href="../../dataset.core.html#dataset.Batch.save">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="Batch.save"><a class="viewcode-back" href="../../api/dataset.core.html#dataset.Batch.save">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save batch data to a file (an alias for dump method)&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>

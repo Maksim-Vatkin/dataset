@@ -1,0 +1,491 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>dataset.models.tf.layers &#8212; Dataset  documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="dataset.models.tf.losses" href="dataset.models.tf.losses.html" />
+    <link rel="prev" title="dataset.models.tf" href="dataset.models.tf.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.losses.html" title="dataset.models.tf.losses"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.html" title="dataset.models.tf"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="dataset.models.tf.html" accesskey="U">dataset.models.tf</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dataset.models.tf.layers">
+<span id="dataset-models-tf-layers"></span><h1>dataset.models.tf.layers<a class="headerlink" href="#module-dataset.models.tf.layers" title="Permalink to this headline">¶</a></h1>
+<p>Custom tf layers and operations</p>
+<dl class="function">
+<dt id="dataset.models.tf.layers.average_pooling">
+<code class="descname">average_pooling</code><span class="sig-paren">(</span><em>dim</em>, <em>inputs</em>, <em>pool_size</em>, <em>strides</em>, <em>padding='valid'</em>, <em>data_format='channels_last'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/pooling.html#average_pooling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.average_pooling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-dimensional average-pooling layer.</p>
+<p>For more detailes see tensorflow documentation:
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/average_pooling1d">tf.layers.average_pooling1d</a>,
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/average_pooling2d">tf.layers.average_pooling2d</a>,
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/average_pooling3d">tf.layers.average_pooling3d</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim</strong> (<em>int {1</em><em>, </em><em>2</em><em>, </em><em>3}</em>) – number of dimensions</li>
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the size of the pooling window</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the strides of the pooling operation</li>
+<li><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘same’ or ‘valid’</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.conv1d_block">
+<code class="descname">conv1d_block</code><span class="sig-paren">(</span><em>input_tensor</em>, <em>filters</em>, <em>kernel_size</em>, <em>layout='cnap'</em>, <em>name=None</em>, <em>strides=1</em>, <em>padding='same'</em>, <em>data_format='channels_last'</em>, <em>dilation_rate=1</em>, <em>activation=&lt;function relu&gt;</em>, <em>pool_size=2</em>, <em>pool_strides=2</em>, <em>dropout_rate=0.0</em>, <em>is_training=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/conv.html#conv1d_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.conv1d_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complex 1d convolution with batch normalization, activation, pooling and dropout layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_tensor</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the ouput tensor</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
+<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a sequence of layers:</p>
+<ul>
+<li>c - convolution</li>
+<li>t - transposed convolution</li>
+<li>n - batch normalization</li>
+<li>a - activation</li>
+<li>p - max pooling</li>
+</ul>
+<p>Default is ‘cnap’.</p>
+</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – name of the layer that will be used as a scope.</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – padding mode, can be ‘same’ or ‘valid’. Default - ‘same’,</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’. Default - ‘channels_last’.</li>
+<li><strong>dilation_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – Default is <cite>tf.nn.relu</cite>.</li>
+<li><strong>pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>pool_strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Default is 0.</li>
+<li><strong>is_training</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em> or </em><em>tf.Tensor</em>) – Default is True.</li>
+<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for convolution layers, like initializers, regularalizers, etc</li>
+<li><strong>transposed_conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for transposed conv layers, like initializers, regularalizers, etc</li>
+<li><strong>batch_norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for batch normalization layers, like momentum, intiializers, etc</li>
+<li><strong>max_pooling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for max_pooling layers, like initializers, regularalizers, etc</li>
+<li><strong>dropout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for dropout layers, like noise_shape, etc</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output tensor</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.conv1d_transpose">
+<code class="descname">conv1d_transpose</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>kernel_size</em>, <em>strides=1</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/conv1d_tr.html#conv1d_transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.conv1d_transpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transposed 1D convolution layer</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_tensor</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the ouput tensor</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – convolution stride. Default is 1.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.conv2d_block">
+<code class="descname">conv2d_block</code><span class="sig-paren">(</span><em>input_tensor</em>, <em>filters</em>, <em>kernel_size</em>, <em>layout='cnap'</em>, <em>name=None</em>, <em>strides=1</em>, <em>padding='same'</em>, <em>data_format='channels_last'</em>, <em>dilation_rate=1</em>, <em>activation=&lt;function relu&gt;</em>, <em>pool_size=2</em>, <em>pool_strides=2</em>, <em>dropout_rate=0.0</em>, <em>is_training=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/conv.html#conv2d_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.conv2d_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complex 2d convolution with batch normalization, activation, pooling and dropout layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_tensor</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the ouput tensor</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
+<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a sequence of layers:</p>
+<ul>
+<li>c - convolution</li>
+<li>t - transposed convolution</li>
+<li>n - batch normalization</li>
+<li>a - activation</li>
+<li>p - max pooling</li>
+</ul>
+<p>Default is ‘cnap’.</p>
+</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – name of the layer that will be used as a scope.</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – padding mode, can be ‘same’ or ‘valid’. Default - ‘same’,</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’. Default - ‘channels_last’.</li>
+<li><strong>dilation_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – Default is <cite>tf.nn.relu</cite>.</li>
+<li><strong>pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>pool_strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Default is 0.</li>
+<li><strong>is_training</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em> or </em><em>tf.Tensor</em>) – Default is True.</li>
+<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for convolution layers, like initializers, regularalizers, etc</li>
+<li><strong>transposed_conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for transposed conv layers, like initializers, regularalizers, etc</li>
+<li><strong>batch_norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for batch normalization layers, like momentum, intiializers, etc</li>
+<li><strong>max_pooling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for max_pooling layers, like initializers, regularalizers, etc</li>
+<li><strong>dropout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for dropout layers, like noise_shape, etc</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output tensor</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.conv3d_block">
+<code class="descname">conv3d_block</code><span class="sig-paren">(</span><em>input_tensor</em>, <em>filters</em>, <em>kernel_size</em>, <em>layout='cnap'</em>, <em>name=None</em>, <em>strides=1</em>, <em>padding='same'</em>, <em>data_format='channels_last'</em>, <em>dilation_rate=1</em>, <em>activation=&lt;function relu&gt;</em>, <em>pool_size=2</em>, <em>pool_strides=2</em>, <em>dropout_rate=0.0</em>, <em>is_training=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/conv.html#conv3d_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.conv3d_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complex 2d convolution with batch normalization, activation, pooling and dropout layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_tensor</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the ouput tensor</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
+<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a sequence of layers:</p>
+<ul>
+<li>c - convolution</li>
+<li>t - transposed convolution</li>
+<li>n - batch normalization</li>
+<li>a - activation</li>
+<li>p - max pooling</li>
+</ul>
+<p>Default is ‘cnap’.</p>
+</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – name of the layer that will be used as a scope.</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – padding mode, can be ‘same’ or ‘valid’. Default - ‘same’,</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’. Default - ‘channels_last’.</li>
+<li><strong>dilation_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – Default is <cite>tf.nn.relu</cite>.</li>
+<li><strong>pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>pool_strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Default is 0.</li>
+<li><strong>is_training</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em> or </em><em>tf.Tensor</em>) – Default is True.</li>
+<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for convolution layers, like initializers, regularalizers, etc</li>
+<li><strong>transposed_conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for transposed conv layers, like initializers, regularalizers, etc</li>
+<li><strong>batch_norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for batch normalization layers, like momentum, intiializers, etc</li>
+<li><strong>max_pooling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for max_pooling layers, like initializers, regularalizers, etc</li>
+<li><strong>dropout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for dropout layers, like noise_shape, etc</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output tensor</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.conv_block">
+<code class="descname">conv_block</code><span class="sig-paren">(</span><em>dim</em>, <em>input_tensor</em>, <em>filters</em>, <em>kernel_size</em>, <em>layout='cnap'</em>, <em>name=None</em>, <em>strides=1</em>, <em>padding='same'</em>, <em>data_format='channels_last'</em>, <em>dilation_rate=1</em>, <em>activation=&lt;function relu&gt;</em>, <em>pool_size=2</em>, <em>pool_strides=2</em>, <em>dropout_rate=0.0</em>, <em>is_training=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/conv.html#conv_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.conv_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complex multi-dimensional convolution layer with batch normalization, activation, pooling and dropout</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>d</strong> (<em>int {1</em><em>, </em><em>2</em><em>, </em><em>3}</em>) – number of dimensions</li>
+<li><strong>input_tensor</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the ouput tensor</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
+<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a sequence of layers:</p>
+<ul>
+<li>c - convolution</li>
+<li>t - transposed convolution</li>
+<li>n - batch normalization</li>
+<li>a - activation</li>
+<li>p - max pooling</li>
+</ul>
+<p>Default is ‘cnap’.</p>
+</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – name of the layer that will be used as a scope.</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – padding mode, can be ‘same’ or ‘valid’. Default - ‘same’,</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’. Default - ‘channels_last’.</li>
+<li><strong>dilation_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
+<li><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – Default is <cite>tf.nn.relu</cite>.</li>
+<li><strong>pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>pool_strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 2.</li>
+<li><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Default is 0.</li>
+<li><strong>is_training</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em> or </em><em>tf.Tensor</em>) – Default is True.</li>
+<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for convolution layers, like initializers, regularalizers, etc</li>
+<li><strong>transposed_conv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for transposed conv layers, like initializers, regularalizers, etc</li>
+<li><strong>batch_norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for batch normalization layers, like momentum, intiializers, etc</li>
+<li><strong>max_pooling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for max_pooling layers, like initializers, regularalizers, etc</li>
+<li><strong>dropout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for dropout layers, like noise_shape, etc</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output tensor</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.flatten">
+<code class="descname">flatten</code><span class="sig-paren">(</span><em>x</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/core.html#flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.flatten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten tensor to two dimensions (batch_size, item_vector_size) using inferred shape and numpy</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.flatten2d">
+<code class="descname">flatten2d</code><span class="sig-paren">(</span><em>x</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/core.html#flatten2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.flatten2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten tensor to two dimensions (batch_size, item_vector_size)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.global_average_pooling">
+<code class="descname">global_average_pooling</code><span class="sig-paren">(</span><em>dim</em>, <em>inputs</em>, <em>data_format='channels_last'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/pooling.html#global_average_pooling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.global_average_pooling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-dimensional global average-pooling layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim</strong> (<em>int {1</em><em>, </em><em>2</em><em>, </em><em>3}</em>) – number of dimensions</li>
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.global_max_pooling">
+<code class="descname">global_max_pooling</code><span class="sig-paren">(</span><em>dim</em>, <em>inputs</em>, <em>data_format='channels_last'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/pooling.html#global_max_pooling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.global_max_pooling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-dimensional global max-pooling layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim</strong> (<em>int {1</em><em>, </em><em>2</em><em>, </em><em>3}</em>) – number of dimensions</li>
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.max_pooling">
+<code class="descname">max_pooling</code><span class="sig-paren">(</span><em>dim</em>, <em>inputs</em>, <em>pool_size</em>, <em>strides</em>, <em>padding='valid'</em>, <em>data_format='channels_last'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/pooling.html#max_pooling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.max_pooling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-dimensional max-pooling layer.</p>
+<p>For more detailes see tensorflow documentation:
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/max_pooling1d">tf.layers.max_pooling1d</a>,
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/max_pooling2d">tf.layers.max_pooling2d</a>,
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/max_pooling3d">tf.layers.max_pooling3d</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim</strong> (<em>int {1</em><em>, </em><em>2</em><em>, </em><em>3}</em>) – number of dimensions</li>
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the size of the pooling window</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the strides of the pooling operation</li>
+<li><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘same’ or ‘valid’</li>
+<li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.maxout">
+<code class="descname">maxout</code><span class="sig-paren">(</span><em>x</em>, <em>depth</em>, <em>axis=-1</em>, <em>name='max'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/core.html#maxout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.maxout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shrink last dimension by making max pooling every depth channels</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dataset.models.tf.layers.mip">
+<code class="descname">mip</code><span class="sig-paren">(</span><em>x</em>, <em>depth</em>, <em>name='mip'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/layers/core.html#mip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.layers.mip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shrink last dimension by making max pooling every depth channels</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.models.tf.html"
+                        title="previous chapter">dataset.models.tf</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.models.tf.losses.html"
+                        title="next chapter">dataset.models.tf.losses</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dataset.models.tf.layers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.losses.html" title="dataset.models.tf.losses"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.html" title="dataset.models.tf"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="dataset.models.tf.html" >dataset.models.tf</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
+    </div>
+  </body>
+</html>

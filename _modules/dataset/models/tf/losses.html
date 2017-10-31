@@ -52,8 +52,21 @@
 <span class="kn">from</span> <span class="nn">..layers</span> <span class="k">import</span> <span class="n">flatten</span>
 
 
-<div class="viewcode-block" id="dice"><a class="viewcode-back" href="../../../../dataset.models.tf.losses.html#dataset.models.tf.losses.dice">[docs]</a><span class="k">def</span> <span class="nf">dice</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Dice coefficient &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="dice"><a class="viewcode-back" href="../../../../api/dataset.models.tf.losses.html#dataset.models.tf.losses.dice">[docs]</a><span class="k">def</span> <span class="nf">dice</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Dice coefficient</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    targets : tf.Tensor</span>
+<span class="sd">        tensor with target values</span>
+
+<span class="sd">    predictions : tf.Tensor</span>
+<span class="sd">        tensor with predicted values</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    average loss : tf.Tensor with a single element</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">e</span> <span class="o">=</span> <span class="mf">1e-6</span>
     <span class="n">intersection</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="n">targets</span> <span class="o">*</span> <span class="n">predictions</span><span class="p">)</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">((</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">intersection</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span> <span class="o">+</span> <span class="n">flatten</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">+</span> <span class="n">e</span><span class="p">))</span>

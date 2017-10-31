@@ -165,9 +165,11 @@
 <span class="sd">        shuffle : bool, :class:`numpy.random.RandomState`, int or callable</span>
 <span class="sd">            whether to randomize items order before splitting into subsets. Default is `False`. Can be</span>
 
-<span class="sd">            * `bool` : `False` - to make subsets in the order of indices in the index, or `True` - to make random subsets.</span>
+<span class="sd">            * `bool` : `False` - to make subsets in the order of indices in the index,</span>
+<span class="sd">                       `True` - to make random subsets.</span>
 <span class="sd">            * a :class:`numpy.random.RandomState` object which has an inplace shuffle method.</span>
-<span class="sd">            * `int` - a random seed number which will be used internally to create a :class:`numpy.random.RandomState` object.</span>
+<span class="sd">            * `int` - a random seed number which will be used internally to create</span>
+<span class="sd">                      a :class:`numpy.random.RandomState` object.</span>
 <span class="sd">            * callable - a function which gets an order and returns a shuffled order.</span>
 
 <span class="sd">        Examples</span>

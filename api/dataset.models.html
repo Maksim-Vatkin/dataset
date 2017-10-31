@@ -6,11 +6,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>dataset.models &#8212; Dataset  documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '../',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -18,12 +18,12 @@
         SOURCELINK_SUFFIX: '.txt'
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="dataset.models.tf" href="dataset.models.tf.html" />
     <link rel="prev" title="dataset.opensets" href="dataset.opensets.html" /> 
   </head>
@@ -32,10 +32,10 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
+          <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="dataset.models.tf.html" title="dataset.models.tf"
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="dataset.opensets.html" title="dataset.opensets"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" accesskey="U">API</a> &#187;</li> 
       </ul>
     </div>  
@@ -68,7 +68,7 @@
 <span class="target" id="module-dataset.models"></span><p>Contains models</p>
 <dl class="class">
 <dt id="dataset.models.BaseModel">
-<em class="property">class </em><code class="descname">BaseModel</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/base.html#BaseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">BaseModel</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base model</p>
 <dl class="attribute">
 <dt id="dataset.models.BaseModel.name">
@@ -86,41 +86,45 @@
 <p><strong>Configuration</strong>:</p>
 <ul class="simple">
 <li>build : bool - whether to build a model by calling <cite>self.build()</cite>. Default is True.</li>
-<li>load : dict - parameters for model loading. If present, a model will be loaded by calling <cite>self.load(**config[‘load’])</cite>.</li>
+<li><dl class="first docutils">
+<dt>load <span class="classifier-delimiter">:</span> <span class="classifier">dict - parameters for model loading. If present, a model will be loaded</span></dt>
+<dd>by calling <cite>self.load(**config[‘load’])</cite>.</dd>
+</dl>
+</li>
 </ul>
 <dl class="method">
 <dt id="dataset.models.BaseModel.build">
-<code class="descname">build</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/base.html#BaseModel.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.build" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.build" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the model</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.models.BaseModel.get_from_config">
-<code class="descname">get_from_config</code><span class="sig-paren">(</span><em>variable</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/base.html#BaseModel.get_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.get_from_config" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_from_config</code><span class="sig-paren">(</span><em>variable</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.get_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.get_from_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a variable from config or a default value</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.models.BaseModel.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/base.html#BaseModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the model</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.models.BaseModel.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/base.html#BaseModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.predict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">predict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a prediction using the model</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.models.BaseModel.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/base.html#BaseModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the model</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.models.BaseModel.train">
-<code class="descname">train</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/base.html#BaseModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.train" title="Permalink to this definition">¶</a></dt>
+<code class="descname">train</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train the model</p>
 </dd></dl>
 
@@ -128,7 +132,7 @@
 
 <dl class="class">
 <dt id="dataset.models.SklearnModel">
-<em class="property">class </em><code class="descname">SklearnModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/sklearn.html#SklearnModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">SklearnModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/sklearn.html#SklearnModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for scikit-learn models</p>
 <dl class="attribute">
 <dt id="dataset.models.SklearnModel.estimator">
@@ -152,13 +156,13 @@
 </div>
 <dl class="method">
 <dt id="dataset.models.SklearnModel.build">
-<code class="descname">build</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/sklearn.html#SklearnModel.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.build" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/sklearn.html#SklearnModel.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.build" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define the model</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.models.SklearnModel.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/sklearn.html#SklearnModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/sklearn.html#SklearnModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -172,7 +176,7 @@
 
 <dl class="method">
 <dt id="dataset.models.SklearnModel.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/sklearn.html#SklearnModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.predict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/sklearn.html#SklearnModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predict with the data provided</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -198,7 +202,7 @@
 
 <dl class="method">
 <dt id="dataset.models.SklearnModel.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/sklearn.html#SklearnModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/sklearn.html#SklearnModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -212,7 +216,7 @@
 
 <dl class="method">
 <dt id="dataset.models.SklearnModel.train">
-<code class="descname">train</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/sklearn.html#SklearnModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.train" title="Permalink to this definition">¶</a></dt>
+<code class="descname">train</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/sklearn.html#SklearnModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.SklearnModel.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train the model with the data provided</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -249,13 +253,13 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/dataset.models.rst.txt"
+      <li><a href="../_sources/api/dataset.models.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
+    <form class="search" action="../search.html" method="get">
       <div><input type="text" name="q" /></div>
       <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
@@ -271,10 +275,10 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
+          <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="dataset.models.tf.html" title="dataset.models.tf"
@@ -282,7 +286,7 @@
         <li class="right" >
           <a href="dataset.opensets.html" title="dataset.opensets"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li> 
       </ul>
     </div>

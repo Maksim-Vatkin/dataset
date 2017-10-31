@@ -281,17 +281,17 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter axis can be &#39;h&#39; or &#39;v&#39; only&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="ImagesBatch"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesBatch">[docs]</a><span class="k">class</span> <span class="nc">ImagesBatch</span><span class="p">(</span><span class="n">BasicImagesBatch</span><span class="p">):</span>
+<div class="viewcode-block" id="ImagesBatch"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesBatch">[docs]</a><span class="k">class</span> <span class="nc">ImagesBatch</span><span class="p">(</span><span class="n">BasicImagesBatch</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Batch class for 2D images</span>
 
 <span class="sd">    images are stored as numpy arrays (N, H, W) or (N, H, W, C)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="ImagesBatch.get_image_size"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesBatch.get_image_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+<div class="viewcode-block" id="ImagesBatch.get_image_size"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesBatch.get_image_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return image size (width, height) &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="ImagesBatch.assemble"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesBatch.assemble">[docs]</a>    <span class="k">def</span> <span class="nf">assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_res</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ImagesBatch.assemble"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesBatch.assemble">[docs]</a>    <span class="k">def</span> <span class="nf">assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_res</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Assemble the batch after a parallel action &quot;&quot;&quot;</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
         <span class="k">if</span> <span class="n">any_action_failed</span><span class="p">(</span><span class="n">all_res</span><span class="p">):</span>
@@ -312,7 +312,7 @@
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">new_images</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ImagesBatch.convert_to_pil"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesBatch.convert_to_pil">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="ImagesBatch.convert_to_pil"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesBatch.convert_to_pil">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">convert_to_pil</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Convert batch data to PIL.Image format &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -386,14 +386,14 @@
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">new_images</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="ImagesBatch.fliplr"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesBatch.fliplr">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="ImagesBatch.fliplr"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesBatch.fliplr">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">fliplr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Flip image horizontaly (left / right) &quot;&quot;&quot;</span>
         <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">component</span><span class="p">)</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">images</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ImagesBatch.flipud"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesBatch.flipud">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="ImagesBatch.flipud"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesBatch.flipud">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">flipud</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Flip image verticaly (up / down) &quot;&quot;&quot;</span>
         <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">component</span><span class="p">)</span>
@@ -401,13 +401,13 @@
         <span class="k">return</span> <span class="bp">self</span></div></div>
 
 
-<div class="viewcode-block" id="ImagesPILBatch"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesPILBatch">[docs]</a><span class="k">class</span> <span class="nc">ImagesPILBatch</span><span class="p">(</span><span class="n">BasicImagesBatch</span><span class="p">):</span>
+<div class="viewcode-block" id="ImagesPILBatch"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesPILBatch">[docs]</a><span class="k">class</span> <span class="nc">ImagesPILBatch</span><span class="p">(</span><span class="n">BasicImagesBatch</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Batch class for 2D images in PIL format &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="ImagesPILBatch.get_image_size"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesPILBatch.get_image_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+<div class="viewcode-block" id="ImagesPILBatch.get_image_size"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesPILBatch.get_image_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return image size (width, height) &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">size</span></div>
 
-<div class="viewcode-block" id="ImagesPILBatch.assemble"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesPILBatch.assemble">[docs]</a>    <span class="k">def</span> <span class="nf">assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_res</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ImagesPILBatch.assemble"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesPILBatch.assemble">[docs]</a>    <span class="k">def</span> <span class="nf">assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_res</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Assemble the batch after a parallel action &quot;&quot;&quot;</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
         <span class="k">if</span> <span class="n">any_action_failed</span><span class="p">(</span><span class="n">all_res</span><span class="p">):</span>
@@ -421,7 +421,7 @@
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">new_data</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="ImagesPILBatch.convert_to_array"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesPILBatch.convert_to_array">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="ImagesPILBatch.convert_to_array"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesPILBatch.convert_to_array">[docs]</a>    <span class="nd">@action</span>
     <span class="k">def</span> <span class="nf">convert_to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Convert images from PIL.Image format to an array &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -495,14 +495,14 @@
         <span class="n">new_image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crop_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">origin_x</span><span class="p">,</span> <span class="n">origin_y</span><span class="p">),</span> <span class="n">shape</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_image</span>
 
-<div class="viewcode-block" id="ImagesPILBatch.fliplr"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesPILBatch.fliplr">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="ImagesPILBatch.fliplr"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesPILBatch.fliplr">[docs]</a>    <span class="nd">@action</span>
     <span class="nd">@inbatch_parallel</span><span class="p">(</span><span class="s1">&#39;indices&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="s1">&#39;assemble&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">fliplr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Flip image horizontaly (left / right) &quot;&quot;&quot;</span>
         <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">component</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">FLIP_LEFT_RIGHT</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ImagesPILBatch.flipud"><a class="viewcode-back" href="../../../dataset.image.html#dataset.image.ImagesPILBatch.flipud">[docs]</a>    <span class="nd">@action</span>
+<div class="viewcode-block" id="ImagesPILBatch.flipud"><a class="viewcode-back" href="../../../api/dataset.image.html#dataset.image.ImagesPILBatch.flipud">[docs]</a>    <span class="nd">@action</span>
     <span class="nd">@inbatch_parallel</span><span class="p">(</span><span class="s1">&#39;indices&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="s1">&#39;assemble&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">flipud</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;images&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Flip image verticaly (up / down) &quot;&quot;&quot;</span>

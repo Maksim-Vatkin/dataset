@@ -6,11 +6,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>dataset.models.tf &#8212; Dataset  documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '../',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -18,12 +18,12 @@
         SOURCELINK_SUFFIX: '.txt'
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="dataset.models.tf.layers" href="dataset.models.tf.layers.html" />
     <link rel="prev" title="dataset.models" href="dataset.models.html" /> 
   </head>
@@ -32,10 +32,10 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
+          <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="dataset.models.tf.layers.html" title="dataset.models.tf.layers"
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="dataset.models.html" title="dataset.models"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.models.html" accesskey="U">dataset.models</a> &#187;</li> 
       </ul>
@@ -66,7 +66,7 @@
 <h2>TFModel<a class="headerlink" href="#tfmodel" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dataset.models.tf.TFModel">
-<em class="property">class </em><code class="descname">TFModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">TFModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dataset.models.base.BaseModel</span></code></p>
 <p>Base class for all tensorflow models</p>
 <dl class="attribute">
@@ -123,12 +123,13 @@
 </dd></dl>
 
 <p><strong>Configuration</strong></p>
-<p>session : dict - parameters for <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session#__init__">session creation</a>.</p>
+<p>session : dict - <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session#__init__">session parameters</a>.</p>
 <dl class="docutils">
 <dt>loss - a loss function, might be one of:</dt>
 <dd><ul class="first simple">
 <li>short name (<cite>‘mse’</cite>, <cite>‘ce’</cite>, <cite>‘l1’</cite>, <cite>‘cos’</cite>, <cite>‘hinge’</cite>, <cite>‘huber’</cite>, <cite>‘logloss’</cite>, <cite>‘dice’</cite>)</li>
-<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses">tf.losses</a> (e.g. <cite>‘absolute_difference’</cite> or <cite>‘sparse_softmax_cross_entropy’</cite>)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses">tf.losses</a>
+(e.g. <cite>‘absolute_difference’</cite> or <cite>‘sparse_softmax_cross_entropy’</cite>)</li>
 <li>callable</li>
 </ul>
 <p>Examples:</p>
@@ -148,7 +149,8 @@
 <p>where name might be one of:</p>
 <ul class="simple">
 <li>short name (‘exp’, ‘invtime’, ‘naturalexp’, ‘const’, ‘poly’)</li>
-<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a> (e.g. ‘exponential_decay’)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a>
+(e.g. ‘exponential_decay’)</li>
 <li>a callable</li>
 </ul>
 <p>Examples:</p>
@@ -168,7 +170,8 @@
 <p>where name might be one of:</p>
 <ul class="simple">
 <li>short name (e.g. ‘Adam’, ‘Adagrad’)</li>
-<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a> (e.g. ‘FtlrOptimizer’)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a>
+(e.g. ‘FtlrOptimizer’)</li>
 <li>a callable</li>
 </ul>
 </div></blockquote>
@@ -184,7 +187,7 @@
 </dl>
 <dl class="staticmethod">
 <dt id="dataset.models.tf.TFModel.batch_size">
-<em class="property">static </em><code class="descname">batch_size</code><span class="sig-paren">(</span><em>tensor</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.batch_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.batch_size" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">batch_size</code><span class="sig-paren">(</span><em>tensor</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.batch_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.batch_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return batch size (the length of the first dimension) of the input tensor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -202,7 +205,7 @@
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.build">
-<code class="descname">build</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.build" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.build" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the model</p>
 <ol class="arabic simple">
 <li>Define <cite>is_training</cite> and <cite>global_step</cite> tensors</li>
@@ -216,7 +219,7 @@
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.data_format">
-<code class="descname">data_format</code><span class="sig-paren">(</span><em>tensor_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.data_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.data_format" title="Permalink to this definition">¶</a></dt>
+<code class="descname">data_format</code><span class="sig-paren">(</span><em>tensor_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.data_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.data_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the tensor data format (channels_last or channels_first)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -234,13 +237,13 @@
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.get_number_of_trainable_vars">
-<code class="descname">get_number_of_trainable_vars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.get_number_of_trainable_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.get_number_of_trainable_vars" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_number_of_trainable_vars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.get_number_of_trainable_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.get_number_of_trainable_vars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of trainable variable in the model graph</p>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="dataset.models.tf.TFModel.get_shape">
-<em class="property">static </em><code class="descname">get_shape</code><span class="sig-paren">(</span><em>tensor</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.get_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.get_shape" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">get_shape</code><span class="sig-paren">(</span><em>tensor</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.get_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.get_shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return full shape of the input tensor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -258,7 +261,7 @@
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>path</em>, <em>graph=None</em>, <em>checkpoint=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>path</em>, <em>graph=None</em>, <em>checkpoint=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a tensorflow model from files</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -284,7 +287,7 @@
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.num_channels">
-<code class="descname">num_channels</code><span class="sig-paren">(</span><em>tensor_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.num_channels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.num_channels" title="Permalink to this definition">¶</a></dt>
+<code class="descname">num_channels</code><span class="sig-paren">(</span><em>tensor_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.num_channels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.num_channels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of channels (the length of the last dimension) in the tensor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -304,7 +307,7 @@
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>fetches=None</em>, <em>feed_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.predict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">predict</code><span class="sig-paren">(</span><em>fetches=None</em>, <em>feed_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get predictions on the data provided</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -335,7 +338,7 @@ which involves calculating and applying gradients and thus chainging model weigh
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>path</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>path</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save tensorflow model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -358,7 +361,7 @@ which involves calculating and applying gradients and thus chainging model weigh
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.spatial_dim">
-<code class="descname">spatial_dim</code><span class="sig-paren">(</span><em>tensor_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.spatial_dim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.spatial_dim" title="Permalink to this definition">¶</a></dt>
+<code class="descname">spatial_dim</code><span class="sig-paren">(</span><em>tensor_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.spatial_dim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.spatial_dim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the tensor spatial  dimensionality (without channels dimension)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -378,13 +381,13 @@ which involves calculating and applying gradients and thus chainging model weigh
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.store_to_attr">
-<code class="descname">store_to_attr</code><span class="sig-paren">(</span><em>attr</em>, <em>graph_item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.store_to_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.store_to_attr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">store_to_attr</code><span class="sig-paren">(</span><em>attr</em>, <em>graph_item</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.store_to_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.store_to_attr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a graph item (variable or operation) accessible as a model attribute</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.models.tf.TFModel.train">
-<code class="descname">train</code><span class="sig-paren">(</span><em>fetches=None</em>, <em>feed_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/models/tf/tf_model.html#TFModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.train" title="Permalink to this definition">¶</a></dt>
+<code class="descname">train</code><span class="sig-paren">(</span><em>fetches=None</em>, <em>feed_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.TFModel.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train the model with the data provided</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -421,7 +424,7 @@ which involves calculating and applying gradients and thus chainging model weigh
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">dataset.models.tf</a><ul>
 <li><a class="reference internal" href="#tfmodel">TFModel</a></li>
@@ -438,13 +441,13 @@ which involves calculating and applying gradients and thus chainging model weigh
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/dataset.models.tf.rst.txt"
+      <li><a href="../_sources/api/dataset.models.tf.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
+    <form class="search" action="../search.html" method="get">
       <div><input type="text" name="q" /></div>
       <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
@@ -460,10 +463,10 @@ which involves calculating and applying gradients and thus chainging model weigh
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
+          <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
           <a href="dataset.models.tf.layers.html" title="dataset.models.tf.layers"
@@ -471,7 +474,7 @@ which involves calculating and applying gradients and thus chainging model weigh
         <li class="right" >
           <a href="dataset.models.html" title="dataset.models"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li> 
       </ul>

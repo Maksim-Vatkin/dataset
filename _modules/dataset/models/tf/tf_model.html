@@ -85,7 +85,7 @@
 
 
 <div class="viewcode-block" id="TFModel"><a class="viewcode-back" href="../../../../intro/models_zoo.html#dataset.models.tf.TFModel">[docs]</a><span class="k">class</span> <span class="nc">TFModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Base class for all tensorflow models</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Base class for all tensorflow models</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -110,11 +110,12 @@
 
 <span class="sd">    **Configuration**</span>
 
-<span class="sd">    session : dict - parameters for `session creation &lt;https://www.tensorflow.org/api_docs/python/tf/Session#__init__&gt;`_.</span>
+<span class="sd">    session : dict - `session parameters &lt;https://www.tensorflow.org/api_docs/python/tf/Session#__init__&gt;`_.</span>
 
 <span class="sd">    loss - a loss function, might be one of:</span>
 <span class="sd">        - short name (`&#39;mse&#39;`, `&#39;ce&#39;`, `&#39;l1&#39;`, `&#39;cos&#39;`, `&#39;hinge&#39;`, `&#39;huber&#39;`, `&#39;logloss&#39;`, `&#39;dice&#39;`)</span>
-<span class="sd">        - a function name from `tf.losses &lt;https://www.tensorflow.org/api_docs/python/tf/losses&gt;`_ (e.g. `&#39;absolute_difference&#39;` or `&#39;sparse_softmax_cross_entropy&#39;`)</span>
+<span class="sd">        - a function name from `tf.losses &lt;https://www.tensorflow.org/api_docs/python/tf/losses&gt;`_</span>
+<span class="sd">          (e.g. `&#39;absolute_difference&#39;` or `&#39;sparse_softmax_cross_entropy&#39;`)</span>
 <span class="sd">        - callable</span>
 
 <span class="sd">        Examples:</span>
@@ -132,7 +133,8 @@
 <span class="sd">        where name might be one of:</span>
 
 <span class="sd">        - short name (&#39;exp&#39;, &#39;invtime&#39;, &#39;naturalexp&#39;, &#39;const&#39;, &#39;poly&#39;)</span>
-<span class="sd">        - a function name from `tf.train &lt;https://www.tensorflow.org/api_docs/python/tf/train&gt;`_ (e.g. &#39;exponential_decay&#39;)</span>
+<span class="sd">        - a function name from `tf.train &lt;https://www.tensorflow.org/api_docs/python/tf/train&gt;`_</span>
+<span class="sd">          (e.g. &#39;exponential_decay&#39;)</span>
 <span class="sd">        - a callable</span>
 
 <span class="sd">        Examples:</span>
@@ -149,7 +151,8 @@
 <span class="sd">            where name might be one of:</span>
 
 <span class="sd">            - short name (e.g. &#39;Adam&#39;, &#39;Adagrad&#39;)</span>
-<span class="sd">            - a function name from `tf.train &lt;https://www.tensorflow.org/api_docs/python/tf/train&gt;`_ (e.g. &#39;FtlrOptimizer&#39;)</span>
+<span class="sd">            - a function name from `tf.train &lt;https://www.tensorflow.org/api_docs/python/tf/train&gt;`_</span>
+<span class="sd">              (e.g. &#39;FtlrOptimizer&#39;)</span>
 <span class="sd">            - a callable</span>
 
 <span class="sd">        Examples:</span>
@@ -159,7 +162,6 @@
 <span class="sd">        - ``{&#39;optimizer&#39;: {&#39;name&#39;: &#39;Adagrad&#39;, &#39;initial_accumulator_value&#39;: 0.01}``</span>
 <span class="sd">        - ``{&#39;optimizer&#39;: functools.partial(tf.train.MomentumOptimizer, momentum=0.95)}``</span>
 <span class="sd">        - ``{&#39;optimizer&#39;: some_optimizer_fn}``</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>

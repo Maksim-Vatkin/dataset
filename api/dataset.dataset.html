@@ -6,11 +6,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Dataset &#8212; Dataset  documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '../',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -18,24 +18,24 @@
         SOURCELINK_SUFFIX: '.txt'
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
+          <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -50,7 +50,7 @@
 </div>
 <dl class="class">
 <dt id="dataset.Dataset">
-<em class="property">class </em><code class="descname">Dataset</code><span class="sig-paren">(</span><em>index</em>, <em>batch_class=None</em>, <em>preloaded=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Dataset</code><span class="sig-paren">(</span><em>index</em>, <em>batch_class=None</em>, <em>preloaded=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#Dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
 <dt id="Dataset.index">
 <code class="descname">index</code><a class="headerlink" href="#Dataset.index" title="Permalink to this definition">¶</a></dt>
@@ -68,7 +68,7 @@
 
 <dl class="staticmethod">
 <dt id="dataset.Dataset.build_index">
-<em class="property">static </em><code class="descname">build_index</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.build_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.build_index" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">build_index</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#Dataset.build_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.build_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an index</p>
 </dd></dl>
 
@@ -109,7 +109,7 @@
 
 <dl class="method">
 <dt id="dataset.Dataset.create_batch">
-<code class="descname">create_batch</code><span class="sig-paren">(</span><em>batch_indices</em>, <em>pos=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.create_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.create_batch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_batch</code><span class="sig-paren">(</span><em>batch_indices</em>, <em>pos=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#Dataset.create_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.create_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a batch from given indices.</p>
 <p>if <cite>pos</cite> is <cite>False</cite>, then <cite>batch_indices</cite> should contain the indices
 that should be included in the batch
@@ -118,7 +118,7 @@ otherwise <cite>batch_indices</cite> should contain their positions in the curre
 
 <dl class="method">
 <dt id="dataset.Dataset.create_subset">
-<code class="descname">create_subset</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.create_subset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.create_subset" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_subset</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#Dataset.create_subset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.create_subset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a dataset based on the given subset of indices</p>
 </dd></dl>
 
@@ -135,9 +135,17 @@ Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.vali
 <li><strong>shares</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><em>tuple of 2 floats</em><em>, or </em><em>tuple of 3 floats</em>) – train/test/validation shares. Default is 0.8.</li>
 <li><strong>shuffle</strong> (bool, <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a>, int or callable) – <p>whether to randomize items order before splitting into subsets. Default is <cite>False</cite>. Can be</p>
 <ul>
-<li><cite>bool</cite> : <cite>False</cite> - to make subsets in the order of indices in the index, or <cite>True</cite> - to make random subsets.</li>
+<li><dl class="first docutils">
+<dt><cite>bool</cite> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>False</cite> - to make subsets in the order of indices in the index,</span></dt>
+<dd><cite>True</cite> - to make random subsets.</dd>
+</dl>
+</li>
 <li>a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> object which has an inplace shuffle method.</li>
-<li><cite>int</cite> - a random seed number which will be used internally to create a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> object.</li>
+<li><dl class="first docutils">
+<dt><cite>int</cite> - a random seed number which will be used internally to create</dt>
+<dd>a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> object.</dd>
+</dl>
+</li>
 <li>callable - a function which gets an order and returns a shuffled order.</li>
 </ul>
 </li>
@@ -163,7 +171,7 @@ Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.vali
 
 <dl class="classmethod">
 <dt id="dataset.Dataset.from_dataset">
-<em class="property">classmethod </em><code class="descname">from_dataset</code><span class="sig-paren">(</span><em>dataset</em>, <em>index</em>, <em>batch_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.from_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.from_dataset" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">from_dataset</code><span class="sig-paren">(</span><em>dataset</em>, <em>index</em>, <em>batch_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#Dataset.from_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.from_dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create Dataset from another dataset with new index
 (usually a subset of the source dataset index)</p>
 </dd></dl>
@@ -183,7 +191,7 @@ Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.vali
 <dl class="attribute">
 <dt id="dataset.Dataset.index">
 <code class="descname">index</code><a class="headerlink" href="#dataset.Dataset.index" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="dataset.core.html#dataset.DatasetIndex" title="dataset.DatasetIndex"><code class="xref py py-class docutils literal"><span class="pre">dataset.DatasetIndex</span></code></a> – the dataset’s index</p>
+<dd><p><a class="reference internal" href="dataset.index.html#dataset.DatasetIndex" title="dataset.DatasetIndex"><code class="xref py py-class docutils literal"><span class="pre">dataset.DatasetIndex</span></code></a> – the dataset’s index</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -207,12 +215,12 @@ Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.vali
 <dl class="attribute">
 <dt id="dataset.Dataset.p">
 <code class="descname">p</code><a class="headerlink" href="#dataset.Dataset.p" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="dataset.core.html#dataset.Pipeline" title="dataset.Pipeline"><code class="xref py py-class docutils literal"><span class="pre">dataset.Pipeline</span></code></a> – a short alias for <cite>pipeline()</cite></p>
+<dd><p><a class="reference internal" href="dataset.pipeline.html#dataset.Pipeline" title="dataset.Pipeline"><code class="xref py py-class docutils literal"><span class="pre">dataset.Pipeline</span></code></a> – a short alias for <cite>pipeline()</cite></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.Dataset.pipeline">
-<code class="descname">pipeline</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset.html#Dataset.pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.pipeline" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pipeline</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/dataset.html#Dataset.pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Dataset.pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start a new data processing workflow</p>
 </dd></dl>
 
@@ -235,13 +243,13 @@ Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.vali
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/dataset.dataset.rst.txt"
+      <li><a href="../_sources/api/dataset.dataset.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
+    <form class="search" action="../search.html" method="get">
       <div><input type="text" name="q" /></div>
       <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
@@ -257,12 +265,12 @@ Subsets are available as <cite>.train</cite>, <cite>.test</cite> and <cite>.vali
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
+          <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

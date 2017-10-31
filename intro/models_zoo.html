@@ -24,7 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API" href="../dataset.html" />
+    <link rel="next" title="API" href="../api/dataset.html" />
     <link rel="prev" title="Working with models" href="models.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../dataset.html" title="API"
+          <a href="../api/dataset.html" title="API"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="models.html" title="Working with models"
@@ -76,7 +76,11 @@
 <p><strong>Configuration</strong>:</p>
 <ul class="simple">
 <li>build : bool - whether to build a model by calling <cite>self.build()</cite>. Default is True.</li>
-<li>load : dict - parameters for model loading. If present, a model will be loaded by calling <cite>self.load(**config[‘load’])</cite>.</li>
+<li><dl class="first docutils">
+<dt>load <span class="classifier-delimiter">:</span> <span class="classifier">dict - parameters for model loading. If present, a model will be loaded</span></dt>
+<dd>by calling <cite>self.load(**config[‘load’])</cite>.</dd>
+</dl>
+</li>
 </ul>
 <dl class="method">
 <dt>
@@ -286,12 +290,13 @@
 </dd></dl>
 
 <p><strong>Configuration</strong></p>
-<p>session : dict - parameters for <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session#__init__">session creation</a>.</p>
+<p>session : dict - <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session#__init__">session parameters</a>.</p>
 <dl class="docutils">
 <dt>loss - a loss function, might be one of:</dt>
 <dd><ul class="first simple">
 <li>short name (<cite>‘mse’</cite>, <cite>‘ce’</cite>, <cite>‘l1’</cite>, <cite>‘cos’</cite>, <cite>‘hinge’</cite>, <cite>‘huber’</cite>, <cite>‘logloss’</cite>, <cite>‘dice’</cite>)</li>
-<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses">tf.losses</a> (e.g. <cite>‘absolute_difference’</cite> or <cite>‘sparse_softmax_cross_entropy’</cite>)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses">tf.losses</a>
+(e.g. <cite>‘absolute_difference’</cite> or <cite>‘sparse_softmax_cross_entropy’</cite>)</li>
 <li>callable</li>
 </ul>
 <p>Examples:</p>
@@ -311,7 +316,8 @@
 <p>where name might be one of:</p>
 <ul class="simple">
 <li>short name (‘exp’, ‘invtime’, ‘naturalexp’, ‘const’, ‘poly’)</li>
-<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a> (e.g. ‘exponential_decay’)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a>
+(e.g. ‘exponential_decay’)</li>
 <li>a callable</li>
 </ul>
 <p>Examples:</p>
@@ -331,7 +337,8 @@
 <p>where name might be one of:</p>
 <ul class="simple">
 <li>short name (e.g. ‘Adam’, ‘Adagrad’)</li>
-<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a> (e.g. ‘FtlrOptimizer’)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a>
+(e.g. ‘FtlrOptimizer’)</li>
 <li>a callable</li>
 </ul>
 </div></blockquote>
@@ -594,7 +601,7 @@ which involves calculating and applying gradients and thus chainging model weigh
   <p class="topless"><a href="models.html"
                         title="previous chapter">Working with models</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../dataset.html"
+  <p class="topless"><a href="../api/dataset.html"
                         title="next chapter">API</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -627,7 +634,7 @@ which involves calculating and applying gradients and thus chainging model weigh
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../dataset.html" title="API"
+          <a href="../api/dataset.html" title="API"
              >next</a> |</li>
         <li class="right" >
           <a href="models.html" title="Working with models"
