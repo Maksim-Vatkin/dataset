@@ -1,0 +1,441 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tensorflow models &#8212; Dataset 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tensorflow layers and losses" href="tf_layers.html" />
+    <link rel="prev" title="BaseModel" href="models_zoo.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tf_layers.html" title="Tensorflow layers and losses"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="models_zoo.html" title="BaseModel"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tensorflow-models">
+<h1>Tensorflow models<a class="headerlink" href="#tensorflow-models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descname">TFModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Base class for all tensorflow models</p>
+<dl class="attribute">
+<dt id="TFModel.session">
+<code class="descname">session</code><a class="headerlink" href="#TFModel.session" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>tf.Session</em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TFModel.graph">
+<code class="descname">graph</code><a class="headerlink" href="#TFModel.graph" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>tf.Graph</em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TFModel.is_training">
+<code class="descname">is_training</code><a class="headerlink" href="#TFModel.is_training" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>tf.Tensor</em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TFModel.global_step">
+<code class="descname">global_step</code><a class="headerlink" href="#TFModel.global_step" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>tf.Tensor</em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TFModel.loss">
+<code class="descname">loss</code><a class="headerlink" href="#TFModel.loss" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>tf.Tensor</em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TFModel.train_step">
+<code class="descname">train_step</code><a class="headerlink" href="#TFModel.train_step" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>tf.Operation</em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">from BaseModel</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TFModel.name">
+<code class="descname">name</code><a class="headerlink" href="#TFModel.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str - a model name</em></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TFModel.config">
+<code class="descname">config</code><a class="headerlink" href="#TFModel.config" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict - configuration parameters</em></p>
+</dd></dl>
+
+<p><strong>Configuration</strong></p>
+<p><code class="docutils literal"><span class="pre">build</span></code> and <code class="docutils literal"><span class="pre">load</span></code> are inherited from <a class="reference internal" href="../api/dataset.models.html#dataset.models.BaseModel" title="dataset.models.BaseModel"><code class="xref py py-class docutils literal"><span class="pre">BaseModel</span></code></a>.</p>
+<p>session : dict - <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session#__init__">Tensorflow session parameters</a>.</p>
+<p>inputs : dict - model inputs (see <a class="reference internal" href="../api/dataset.models.tf.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</p>
+<dl class="docutils">
+<dt>loss - a loss function, might be one of:</dt>
+<dd><ul class="first simple">
+<li>short name (<cite>‘mse’</cite>, <cite>‘ce’</cite>, <cite>‘l1’</cite>, <cite>‘cos’</cite>, <cite>‘hinge’</cite>, <cite>‘huber’</cite>, <cite>‘logloss’</cite>, <cite>‘dice’</cite>)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses">tf.losses</a>
+(e.g. <cite>‘absolute_difference’</cite> or <cite>‘sparse_softmax_cross_entropy’</cite>)</li>
+<li>callable</li>
+</ul>
+<p>Examples:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">{'loss':</span> <span class="pre">'mse'}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'loss':</span> <span class="pre">'sigmoid_cross_entropy'}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'loss':</span> <span class="pre">tf.losses.huber_loss}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'loss':</span> <span class="pre">external_loss_fn}</span></code></li>
+</ul>
+</dd>
+<dt>decay - a learning rate decay algorithm might be defined in one of three formats:</dt>
+<dd><ul class="first simple">
+<li>name</li>
+<li>tuple (name, args)</li>
+<li>dict {‘name’: name, **args}</li>
+</ul>
+<p>where name might be one of:</p>
+<ul class="simple">
+<li>short name (‘exp’, ‘invtime’, ‘naturalexp’, ‘const’, ‘poly’)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a>
+(e.g. ‘exponential_decay’)</li>
+<li>a callable</li>
+</ul>
+<p>Examples:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">{'decay':</span> <span class="pre">'exp'}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'decay':</span> <span class="pre">('polynomial_decay',</span> <span class="pre">{'decay_steps':10000})}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'decay':</span> <span class="pre">{'name':</span> <span class="pre">tf.train.inverse_time_decay,</span> <span class="pre">'decay_rate':</span> <span class="pre">.5}</span></code></li>
+</ul>
+</dd>
+<dt>optimizer - an optimizer might be defined in one of three formats:</dt>
+<dd><blockquote class="first">
+<div><ul class="simple">
+<li>name</li>
+<li>tuple (name, args)</li>
+<li>dict {‘name’: name, **args}</li>
+</ul>
+<p>where name might be one of:</p>
+<ul class="simple">
+<li>short name (e.g. ‘Adam’, ‘Adagrad’, any optimiser from
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a> without a word <cite>Optimiser</cite>)</li>
+<li>a function name from <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train">tf.train</a>
+(e.g. ‘FtlrOptimizer’)</li>
+<li>a callable</li>
+</ul>
+</div></blockquote>
+<p>Examples:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">{'optimizer':</span> <span class="pre">'Adam'}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'optimizer':</span> <span class="pre">('Ftlr',</span> <span class="pre">{'learning_rate_power':</span> <span class="pre">0})}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'optimizer':</span> <span class="pre">{'name':</span> <span class="pre">'Adagrad',</span> <span class="pre">'initial_accumulator_value':</span> <span class="pre">0.01}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'optimizer':</span> <span class="pre">functools.partial(tf.train.MomentumOptimizer,</span> <span class="pre">momentum=0.95)}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'optimizer':</span> <span class="pre">some_optimizer_fn}</span></code></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="how-to-configure-model-inputs">
+<h2>How to configure model inputs<a class="headerlink" href="#how-to-configure-model-inputs" title="Permalink to this headline">¶</a></h2>
+<dl class="method">
+<dt>
+<code class="descclassname">TFModel.</code><code class="descname">_make_inputs</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel._make_inputs"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Make model input data using config</p>
+<p>In the config’s inputs section it looks for <code class="docutils literal"><span class="pre">names</span></code>, creates placeholders required, and
+makes some typical transformations (like one-hot-encoding and reshaping), if needed.</p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">a placeholder name</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>values <span class="classifier-delimiter">:</span> <span class="classifier">dict or tuple</span></dt>
+<dd><p class="first last">each input’s config</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>Input config:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">dtype</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str or tf.DType (by default ‘float32’)</span></dt>
+<dd>data type</dd>
+<dt><code class="docutils literal"><span class="pre">shape</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">int, tuple, list or None (default)</span></dt>
+<dd>a desired tensor shape which includes the number of channels/classes and doesn’t include a batch size.</dd>
+<dt><code class="docutils literal"><span class="pre">data_format</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str {<code class="docutils literal"><span class="pre">'channels_first'</span></code>, <code class="docutils literal"><span class="pre">'channels_last'</span></code>} or {<code class="docutils literal"><span class="pre">'f'</span></code>, <code class="docutils literal"><span class="pre">'l'</span></code>}</span></dt>
+<dd>The ordering of the dimensions in the inputs. Default is ‘channels_last’.</dd>
+<dt><code class="docutils literal"><span class="pre">transform</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str or callable</span></dt>
+<dd>if transform is <code class="docutils literal"><span class="pre">'ohe'</span></code>, one-hot encoding will be applied.
+The new axis is created at the last dimension if data_format is <code class="docutils literal"><span class="pre">'channels_last'</span></code> or
+at the first dimension after a batch size otherwise.</dd>
+<dt><code class="docutils literal"><span class="pre">name</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>a name for the transformed and reshaped tensor.</dd>
+</dl>
+<p>If an input config is a tuple, it should contain all items exactly in the order shown above:
+dtype, shape, data_format, transform, name.
+If an item is None, the default value will be used instead.</p>
+<p><strong>How it works</strong></p>
+<p>Input data will be cast to <code class="docutils literal"><span class="pre">dtype</span></code>, then reshaped to <code class="docutils literal"><span class="pre">shape</span></code> in accordance with <code class="docutils literal"><span class="pre">data_format</span></code>
+and finally transformed with a <code class="docutils literal"><span class="pre">transform</span></code> function. The resulting tensor will have the name <code class="docutils literal"><span class="pre">name</span></code>.
+The original placeholder tensor will have the name <code class="docutils literal"><span class="pre">key</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – placeholder names that are expected in the config inputs section</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first simple">
+<li>KeyError if there is any name missing in the config’s input section.</li>
+<li>ValueError if there are duplicate names.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul>
+<li><p class="first"><strong>placeholders</strong> (<em>dict</em>) –</p>
+<dl class="docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">a placeholder name</p>
+</dd>
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">tf.Tensor</span></dt>
+<dd><p class="first last">placeholder tensor</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>tensors</strong> (<em>dict</em>) –</p>
+<dl class="docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">a placeholder name</p>
+</dd>
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">tf.Tensor</span></dt>
+<dd><p class="first last">placeholder tensor after reshaping and transformations</p>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="how-to-write-a-custom-model">
+<h2>How to write a custom model<a class="headerlink" href="#how-to-write-a-custom-model" title="Permalink to this headline">¶</a></h2>
+<p>Usually, the only thing you need is to redefine <code class="docutils literal"><span class="pre">_build()</span></code> method.</p>
+<dl class="method">
+<dt>
+<code class="descclassname">TFModel.</code><code class="descname">_build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel._build"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Define a model architecture</p>
+<p>It takes just 2 steps:</p>
+<ol class="arabic">
+<li><p class="first">Define names for all placeholders and make input tensors by calling <a class="reference internal" href="../api/dataset.models.tf.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_build</span><span class="p">():</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;labels&#39;</span><span class="p">]</span>
+    <span class="n">placeholders</span><span class="p">,</span> <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_inputs</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If config does not contain any name from <code class="docutils literal"><span class="pre">names</span></code>, <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal"><span class="pre">KeyError</span></code></a> is raised.</p>
+</li>
+<li><p class="first">Add your layers.</p>
+</li>
+</ol>
+<p>And that’s pretty it.</p>
+<p>Things worth mentioning:</p>
+<ol class="arabic simple">
+<li>Input data and its parameters should be defined in configuration under <code class="docutils literal"><span class="pre">inputs</span></code> key.</li>
+<li><a class="reference internal" href="../api/dataset.models.tf.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a> returns <code class="docutils literal"><span class="pre">placeholders</span></code> and <code class="docutils literal"><span class="pre">inputs</span></code> which are dicts
+with the same keys as <code class="docutils literal"><span class="pre">config['inputs']</span></code>.
+They contain all placeholders and tensors after reshaping/transformations, correspondingly.
+Use <code class="docutils literal"><span class="pre">inputs</span></code> to build a model. While placeholder names will also be needed later in
+<code class="docutils literal"><span class="pre">train</span></code> and <code class="docutils literal"><span class="pre">predict</span></code> methods.</li>
+<li>You might want to use a convenient multidimensional <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a>,
+as well as <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_average_pooling" title="dataset.models.tf.layers.global_average_pooling"><code class="xref py py-func docutils literal"><span class="pre">global_average_pooling()</span></code></a>,
+<a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.mip" title="dataset.models.tf.layers.mip"><code class="xref py py-func docutils literal"><span class="pre">mip()</span></code></a>, or other predefined layers.
+Of course, you can use usual <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers">tensorflow layers</a>.</li>
+<li>For dropout, batch norm, etc you might use a predefined <code class="docutils literal"><span class="pre">self.is_training</span></code> tensor.</li>
+<li>For decay and training control you might use a predefined <code class="docutils literal"><span class="pre">self.global_step</span></code> tensor.</li>
+<li>In many cases there is no need to write a loss function, learning rate decay and optimizer
+as they might be defined through config.</li>
+<li>For a configured loss one of the inputs should have a name <code class="docutils literal"><span class="pre">targets</span></code> and
+one of the tensors in your model should have a name <code class="docutils literal"><span class="pre">predictions</span></code>.
+They will be used in a loss function.</li>
+<li>If you have defined your own loss function, call <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses/add_loss">tf.losses.add_loss(…)</a>.</li>
+<li>If you need to use your own optimizer, assign <code class="docutils literal"><span class="pre">self.train_step</span></code> to the train step operation.
+Don’t forget about <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/batch_normalization">UPDATE_OPS control dependency</a>.</li>
+</ol>
+<p class="rubric">Notes</p>
+<p>This method is executed within a self.graph context</p>
+</dd></dl>
+
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models.tf</span> <span class="kn">import</span> <span class="n">TFModel</span>
+<span class="kn">from</span> <span class="nn">dataset.models.tf.layers</span> <span class="kn">import</span> <span class="n">conv_block</span><span class="p">,</span> <span class="n">global_average_pooling</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">TFModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;labels&#39;</span><span class="p">]</span>
+        <span class="n">placeholders</span><span class="p">,</span> <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_inputs</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+        <span class="c1"># a number of dimensions may be defined in a model config</span>
+        <span class="c1"># default is 2d</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_from_config</span><span class="p">(</span><span class="s1">&#39;dim&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">num_classes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv1&#39;</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv2&#39;</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv3&#39;</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">global_average_pooling</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predictions&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that you can use this model for 1d, 2d and 3d inputs (with a proper config when initializing a model).</p>
+<p>Now you can train the model in a pipeline:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="s1">&#39;ce&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;decay&#39;</span><span class="p">:</span> <span class="s1">&#39;invtime&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;optimizer&#39;</span><span class="p">:</span> <span class="s1">&#39;Adam&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span>
+                   <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+    <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">fetches</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span>
+                 <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span>
+                            <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)},</span>
+                 <span class="n">save_to</span><span class="o">=</span><span class="n">V</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tensorflow models</a><ul>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#how-to-configure-model-inputs">How to configure model inputs</a></li>
+<li><a class="reference internal" href="#how-to-write-a-custom-model">How to write a custom model</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="models_zoo.html"
+                        title="previous chapter">BaseModel</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tf_layers.html"
+                        title="next chapter">Tensorflow layers and losses</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro/tf_models.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tf_layers.html" title="Tensorflow layers and losses"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="models_zoo.html" title="BaseModel"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>
