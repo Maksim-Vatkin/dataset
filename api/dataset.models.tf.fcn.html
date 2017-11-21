@@ -1,0 +1,409 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>FCN &#8212; Dataset 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="UNet" href="dataset.models.tf.unet.html" />
+    <link rel="prev" title="DenseNet" href="dataset.models.tf.densenet.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.unet.html" title="UNet"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.densenet.html" title="DenseNet"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dataset.models.tf.fcn">
+<span id="fcn"></span><h1>FCN<a class="headerlink" href="#module-dataset.models.tf.fcn" title="Permalink to this headline">¶</a></h1>
+<p>Shelhamer E. et al “<a class="reference external" href="https://arxiv.org/abs/1605.06211">Fully Convolutional Networks for Semantic Segmentation</a>”</p>
+<dl class="class">
+<dt id="dataset.models.tf.fcn.FCN">
+<em class="property">class </em><code class="descname">FCN</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.base.TFModel</span></code></a></p>
+<p>Base Fully convolutional network (FCN)</p>
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN.default_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.fcn.FCN.build_config">
+<code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN.build_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN.input_block">
+<em class="property">classmethod </em><code class="descname">input_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>base_network</em>, <em>name='input_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN.input_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN.input_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base network</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>base_network</strong> (<em>class</em>) – base network class</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tf.Tensor</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN.head">
+<em class="property">classmethod </em><code class="descname">head</code><span class="sig-paren">(</span><em>inputs</em>, <em>original_images</em>, <em>num_classes</em>, <em>name='head'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN.head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>original_images</strong> (<em>tf.Tensor</em>) – the tensor with source images (provide the shape to upsample to)</li>
+<li><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of classes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dataset.models.tf.fcn.FCN32">
+<em class="property">class </em><code class="descname">FCN32</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN32" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dataset.models.tf.fcn.FCN" title="dataset.models.tf.fcn.FCN"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.fcn.FCN</span></code></a></p>
+<p>Fully convolutional network (FCN32)</p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
+<dt>input_block <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>base_network <span class="classifier-delimiter">:</span> <span class="classifier">class</span></dt>
+<dd>base network (VGG16 by default)</dd>
+</dl>
+</dd>
+<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>filters <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of filters in convolutions after base network (default=100)</dd>
+<dt>upsampling_kernel <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>kernel_size for upsampling (default=3)</dd>
+</dl>
+</dd>
+<dt>head <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>factor <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>upsampling factor (default=32)</dd>
+</dl>
+</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN32.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN32.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN32.default_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN32.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>num_classes</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN32.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN32.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of classes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dataset.models.tf.fcn.FCN16">
+<em class="property">class </em><code class="descname">FCN16</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN16" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dataset.models.tf.fcn.FCN" title="dataset.models.tf.fcn.FCN"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.fcn.FCN</span></code></a></p>
+<p>Fully convolutional network (FCN16)</p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
+<dt>input_block <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>base_network <span class="classifier-delimiter">:</span> <span class="classifier">class</span></dt>
+<dd>base network (VGG16 by default)</dd>
+<dt>skip_name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>tensor name for the skip connection.
+Default=’block-3/output:0’ for VGG16.</dd>
+</dl>
+</dd>
+<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>filters <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of filters in convolutions after base network (default=100)</dd>
+<dt>upsampling_kernel <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>kernel_size for upsampling (default=3)</dd>
+</dl>
+</dd>
+<dt>head <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>factor <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>upsampling factor (default=16)</dd>
+</dl>
+</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN16.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN16.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN16.default_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN16.input_block">
+<em class="property">classmethod </em><code class="descname">input_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='input_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN16.input_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN16.input_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN16.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>num_classes</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN16.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN16.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – two input tensors</li>
+<li><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of classes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dataset.models.tf.fcn.FCN8">
+<em class="property">class </em><code class="descname">FCN8</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN8" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dataset.models.tf.fcn.FCN" title="dataset.models.tf.fcn.FCN"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.fcn.FCN</span></code></a></p>
+<p>Fully convolutional network (FCN8)</p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
+<dt>input_block <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>base_network <span class="classifier-delimiter">:</span> <span class="classifier">class</span></dt>
+<dd>base network (VGG16 by default)</dd>
+<dt>skip1_name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>tensor name for the first skip connection.
+Default=’block-3/output:0’ for VGG16.</dd>
+<dt>skip2_name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>tensor name for the second skip connection.
+Default=’block-2/output:0’ for VGG16.</dd>
+</dl>
+</dd>
+<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>filters <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of filters in convolutions after base network (default=100)</dd>
+<dt>upsampling_kernel <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>kernel_size for upsampling (default=3)</dd>
+</dl>
+</dd>
+<dt>head <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>factor <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>upsampling factor (default=8)</dd>
+</dl>
+</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN8.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN8.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN8.default_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN8.input_block">
+<em class="property">classmethod </em><code class="descname">input_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='input_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN8.input_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN8.input_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.fcn.FCN8.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>num_classes</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/fcn.html#FCN8.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.fcn.FCN8.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of classes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.models.tf.densenet.html"
+                        title="previous chapter">DenseNet</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.models.tf.unet.html"
+                        title="next chapter">UNet</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dataset.models.tf.fcn.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.unet.html" title="UNet"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.densenet.html" title="DenseNet"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

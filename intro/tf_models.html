@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Tensorflow layers and losses" href="tf_layers.html" />
-    <link rel="prev" title="BaseModel" href="models_zoo.html" /> 
+    <link rel="prev" title="LinkNet" href="../api/dataset.models.tf.linknet.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -41,7 +41,7 @@
           <a href="tf_layers.html" title="Tensorflow layers and losses"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="BaseModel"
+          <a href="../api/dataset.models.tf.linknet.html" title="LinkNet"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
@@ -55,11 +55,204 @@
             
   <div class="section" id="tensorflow-models">
 <h1>Tensorflow models<a class="headerlink" href="#tensorflow-models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-to-use-a-model">
+<h2>How to use a model<a class="headerlink" href="#how-to-use-a-model" title="Permalink to this headline">¶</a></h2>
+<p>A model might be used for training or inference. In both cases you need to specify a model config and a pipeline.</p>
+<p>A minimal config includes <code class="docutils literal"><span class="pre">inputs</span></code> and <code class="docutils literal"><span class="pre">input_block</span></code> sections:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span>
+                   <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">}),</span>
+    <span class="s1">&#39;input_block/inputs&#39;</span><span class="p">:</span> <span class="s1">&#39;images&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A minimal pipeline consists of <code class="docutils literal"><span class="pre">init_model</span></code> and <code class="docutils literal"><span class="pre">train_model</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+    <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">model_config</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">fetches</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span>
+                 <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span>
+                            <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)},</span>
+                 <span class="n">save_to</span><span class="o">=</span><span class="n">V</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Inputs section contains <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">a</span> <span class="pre">description</span> <span class="pre">of</span> <span class="pre">model</span> <span class="pre">input</span> <span class="pre">data</span></code></a>, its shapes, transformations needed and names.
+Later, these names will be used to feed data into the model.</p>
+<p>Models based on <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">TFModel</span></code></a> expect that one of the inputs has a name <code class="docutils literal"><span class="pre">targets</span></code>,
+while <code class="docutils literal"><span class="pre">input_block/inputs</span></code> specifies which input will go through the network to turn into <code class="docutils literal"><span class="pre">predictions</span></code>.
+Tensors with these names are used to define a model loss.</p>
+<p>Among other config options are <code class="docutils literal"><span class="pre">loss</span></code>, <code class="docutils literal"><span class="pre">optimizer</span></code>, <code class="docutils literal"><span class="pre">decay</span></code>. Read <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">TFModel</span></code></a> documentations to find out more.</p>
+</div>
+<div class="section" id="how-to-write-a-custom-model">
+<h2>How to write a custom model<a class="headerlink" href="#how-to-write-a-custom-model" title="Permalink to this headline">¶</a></h2>
+<p>To begin with, take a look at <a class="reference external" href="tf_layers#convolution-block">conv_block</a> to find out how to write
+complex networks in just one line of code. This block is a convenient building block for concise,
+yet very expressive neural networks.</p>
+<div class="section" id="the-simplest-case-you-should-avoid">
+<h3>The simplest case you should avoid<a class="headerlink" href="#the-simplest-case-you-should-avoid" title="Permalink to this headline">¶</a></h3>
+<p>Just redefine <code class="docutils literal"><span class="pre">body()</span></code> method.</p>
+<p>For example, let’s create a small fully convolutional network with 3 layers of 3x3 convolutions, batch normalization, dropout
+and a dense layer at the end:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models.tf</span> <span class="k">import</span> <span class="n">TFModel</span>
+<span class="kn">from</span> <span class="nn">dataset.models.tf.layers</span> <span class="k">import</span> <span class="n">conv_block</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">TFModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna cna cna df&#39;</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=.</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Despite simplicity, this approach is highly discouraged as:</p>
+<ul class="simple">
+<li>the model parameters are hard coded in the body</li>
+<li>the model cannot be configured within a pipeline</li>
+<li>the model does not allow model composition, i.e. using this model components in other models.</li>
+</ul>
+</div>
+<div class="section" id="the-right-way">
+<h3>The right way<a class="headerlink" href="#the-right-way" title="Permalink to this headline">¶</a></h3>
+<p>Here we split network configuration and network definition into separate methods.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models.tf</span> <span class="k">import</span> <span class="n">TFModel</span>
+<span class="kn">from</span> <span class="nn">dataset.models.tf.layers</span> <span class="k">import</span> <span class="n">conv_block</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">TFModel</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">TFModel</span><span class="o">.</span><span class="n">default_config</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna cna cna&#39;</span><span class="p">))</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=.</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">config</span>
+
+    <span class="k">def</span> <span class="nf">build_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build_config</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">][</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">(</span><span class="s1">&#39;targets&#39;</span><span class="p">)</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">][</span><span class="s1">&#39;filters&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">(</span><span class="s1">&#39;targets&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">config</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal"><span class="pre">default_config</span></code> and <code class="docutils literal"><span class="pre">body</span></code> are <code class="docutils literal"><span class="pre">&#64;classmethods</span></code> now, which means that they might be called without
+instantiating a <code class="docutils literal"><span class="pre">MyModel</span></code> object.
+This is needed for model composition, e.g. when <code class="docutils literal"><span class="pre">MyModel</span></code> serves as a base network for an FCN or SSD network.</p>
+<p>On the other hand, <code class="docutils literal"><span class="pre">build_config</span></code> is an ordinary method, so it is called only when an instance of <code class="docutils literal"><span class="pre">MyModel</span></code> is created.</p>
+<p>Thus, <code class="docutils literal"><span class="pre">default_config</span></code> should contain all the constants which are totaly independent of the dataset
+and a specific task at hand, while <code class="docutils literal"><span class="pre">build_config</span></code> is intended to extract values from the dataset through pipeline’s configuration
+(for details see <a class="reference external" href="models#configuring-a-model">Configuring a model</a> and <a class="reference external" href="#configuration">TFModel configuration</a> below).</p>
+<p>Now you can train the model with a simple pipeline:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="s1">&#39;ce&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;decay&#39;</span><span class="p">:</span> <span class="s1">&#39;invtime&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;optimizer&#39;</span><span class="p">:</span> <span class="s1">&#39;Adam&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span>
+                   <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">}),</span>
+    <span class="s1">&#39;input_block/inputs&#39;</span><span class="p">:</span> <span class="s1">&#39;images&#39;</span>
+<span class="p">}</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+    <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">model_config</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">fetches</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span>
+                 <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span>
+                            <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)},</span>
+                 <span class="n">save_to</span><span class="o">=</span><span class="n">V</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To switch to a fully convolutional head with 3x3 convolutions and global average pooling,
+just add 1 line to the config:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="s1">&#39;head/layout&#39;</span><span class="p">:</span> <span class="s1">&#39;cV&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>As a result, the very same model class might be used</p>
+<ul class="simple">
+<li>in numerous scenarios</li>
+<li>with different configurations</li>
+<li>for various tasks</li>
+<li>with heterogenous data.</li>
+</ul>
+</div>
+<div class="section" id="model-structure">
+<h3>Model structure<a class="headerlink" href="#model-structure" title="Permalink to this headline">¶</a></h3>
+<p>A model comprises of</p>
+<ul class="simple">
+<li>input_block</li>
+<li>body (which, in turn, might include blocks)</li>
+<li>head.</li>
+</ul>
+<p>This division might seem somewhat arbitrary, though, many modern networks follow it.</p>
+<div class="section" id="input-block">
+<h4>input_block<a class="headerlink" href="#input-block" title="Permalink to this headline">¶</a></h4>
+<p>This block just transforms the raw inputs into more managable and initially preprocessed tensors.</p>
+<p>Some networks do not need this (like VGG). However, most network have 1 or 2 convolutional layers
+and sometimes also a max pooling layer with stride 2. These layers can be put into body, as well.
+But the input block takes all irregular front layers, thus allowing for a regular body structure.</p>
+</div>
+<div class="section" id="body">
+<h4>body<a class="headerlink" href="#body" title="Permalink to this headline">¶</a></h4>
+<p>Body contains a repetitive structure of building blocks. Most networks (like VGG, ResNet and the likes) have a straight sequence of blocks, while others (e.g. UNet or LinkNet) look like graphs with many interconnections.</p>
+<p>Input block’s output goes into body as inputs.
+And body’s output is a compressed representation (embedding) of the input tensors.
+It can later be used for various tasks: classification, regression, detection, etc.
+So <code class="docutils literal"><span class="pre">body</span></code> produces a task-independent embedding.</p>
+</div>
+<div class="section" id="block">
+<h4>block<a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h4>
+<p>The network building block reflects the model’s unique logic and specific technology.</p>
+<p>Not surprisingly, many networks comprise different types of blocks, for example:</p>
+<ul class="simple">
+<li>UNet and LinkNet have downsampling and upsampling blocks</li>
+<li>Inception includes inception, reduction, and expanded blocks</li>
+<li>DenseNet have dense and transition blocks</li>
+<li>SqueezeNet alternates fire blocks with max-pooling.</li>
+</ul>
+<p>You can have as many block types as you need.
+Nevertheless, aim to make them universal and reusable elsewhere.
+For instance, LinkNet uses ResNet’s blocks.</p>
+</div>
+<div class="section" id="head">
+<h4>head<a class="headerlink" href="#head" title="Permalink to this headline">¶</a></h4>
+<p>It receives body’s output and produces a task-specific result, for instance, class logits for classification.
+The default head consists of one <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a>. So, by specifying a model’s config you can
+instantiate models for different tasks.</p>
+<p>Classification with 10 classes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="s1">&#39;ce&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span>
+                   <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;classes&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">})</span>
+    <span class="s1">&#39;head&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cdV&#39;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=.</span><span class="mi">2</span><span class="p">),</span>
+    <span class="s1">&#39;input_block/inputs&#39;</span><span class="p">:</span> <span class="s1">&#39;images&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Regression:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="s1">&#39;mse&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">heart_signals</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)},</span>
+                   <span class="n">disease_score</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">})</span>
+    <span class="s1">&#39;head&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=.</span><span class="mi">2</span><span class="p">),</span>
+    <span class="s1">&#39;input_block/inputs&#39;</span><span class="p">:</span> <span class="s1">&#39;heart_signals&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descname">TFModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel"><span class="viewcode-link">[source]</span></a></dt>
+<em class="property">class </em><code class="descname">TFModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/base.html#TFModel"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Base class for all tensorflow models</p>
 <dl class="attribute">
 <dt id="TFModel.session">
@@ -116,9 +309,11 @@
 
 <p><strong>Configuration</strong></p>
 <p><code class="docutils literal"><span class="pre">build</span></code> and <code class="docutils literal"><span class="pre">load</span></code> are inherited from <a class="reference internal" href="../api/dataset.models.html#dataset.models.BaseModel" title="dataset.models.BaseModel"><code class="xref py py-class docutils literal"><span class="pre">BaseModel</span></code></a>.</p>
-<p>session : dict - <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session#__init__">Tensorflow session parameters</a>.</p>
-<p>inputs : dict - model inputs (see <a class="reference internal" href="../api/dataset.models.tf.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</p>
 <dl class="docutils">
+<dt>session <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session#__init__">Tensorflow session parameters</a>.</dd>
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>model inputs (see <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
 <dt>loss - a loss function, might be one of:</dt>
 <dd><ul class="first simple">
 <li>short name (<cite>‘mse’</cite>, <cite>‘ce’</cite>, <cite>‘l1’</cite>, <cite>‘cos’</cite>, <cite>‘hinge’</cite>, <cite>‘huber’</cite>, <cite>‘logloss’</cite>, <cite>‘dice’</cite>)</li>
@@ -179,7 +374,65 @@
 <li><code class="docutils literal"><span class="pre">{'optimizer':</span> <span class="pre">some_optimizer_fn}</span></code></li>
 </ul>
 </dd>
+<dt>common <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>default parameters for all <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a></dd>
+<dt>input_block <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first">parameters for the input block, usually <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a> parameters.</p>
+<p>The only required parameter here is <code class="docutils literal"><span class="pre">input_block/inputs</span></code> which should contain a name or
+a list of names from <code class="docutils literal"><span class="pre">inputs</span></code> which tensors will be passed to <code class="docutils literal"><span class="pre">input_block</span></code> as <code class="docutils literal"><span class="pre">inputs</span></code>.</p>
+<p>Examples:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">{'input_block/inputs':</span> <span class="pre">'images'}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'input_block':</span> <span class="pre">dict(inputs='features')}</span></code></li>
+</ul>
+</dd>
+<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>parameters for the base network layers, usually <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a> parameters</dd>
+<dt>head <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>parameters for the head layers, usually <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a> parameters</dd>
+<dt>output <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>ops <span class="classifier-delimiter">:</span> <span class="classifier">tuple of str</span></dt>
+<dd><p class="first">helper operations:</p>
+<ul class="last simple">
+<li>‘accuracy’ - add ‘accuracy’ tensor with accuracy score for predictions</li>
+<li>‘proba’ - add ‘predicted_proba’ tensor with probabilties for predictions</li>
+<li>‘labels’ - add ‘predicted_labels’ tensor with best match labels for predictions</li>
+</ul>
+</dd>
 </dl>
+</dd>
+</dl>
+<p><strong>How to create your own model</strong></p>
+<ol class="arabic simple">
+<li>Take a look at <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a> since it is widely used as a building block almost everywhere.</li>
+<li>Define model defaults (e.g. number of filters, batch normalization options, etc)
+by overriding <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.default_config" title="dataset.models.tf.base.TFModel.default_config"><code class="xref py py-meth docutils literal"><span class="pre">TFModel.default_config()</span></code></a>.
+Or skip it and hard code all the parameters in unpredictable places without the possibility to
+change them easily through model’s config.</li>
+<li>Define build configuration (e.g. number of classes, etc)
+by overriding <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.build_config" title="dataset.models.tf.base.TFModel.build_config"><code class="xref py py-meth docutils literal"><span class="pre">build_config()</span></code></a>.</li>
+<li>Override <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.input_block" title="dataset.models.tf.base.TFModel.input_block"><code class="xref py py-meth docutils literal"><span class="pre">input_block()</span></code></a>, <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.body" title="dataset.models.tf.base.TFModel.body"><code class="xref py py-meth docutils literal"><span class="pre">body()</span></code></a> and <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.head" title="dataset.models.tf.base.TFModel.head"><code class="xref py py-meth docutils literal"><span class="pre">head()</span></code></a>, if needed.
+In many cases defaults and build config are just enough to build a network without additional code writing.</li>
+</ol>
+<p>Things worth mentioning:</p>
+<ol class="arabic simple">
+<li>Input data and its parameters should be defined in configuration under <code class="docutils literal"><span class="pre">inputs</span></code> key.
+See <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a> for details.</li>
+<li>You might want to use a convenient multidimensional <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a>,
+as well as <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_average_pooling" title="dataset.models.tf.layers.global_average_pooling"><code class="xref py py-func docutils literal"><span class="pre">global_average_pooling()</span></code></a>, <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.mip" title="dataset.models.tf.layers.mip"><code class="xref py py-func docutils literal"><span class="pre">mip()</span></code></a>, or other predefined layers.
+Of course, you can use usual <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers">tensorflow layers</a>.</li>
+<li>If you make dropout, batch norm, etc by hand, you might use a predefined <code class="docutils literal"><span class="pre">self.is_training</span></code> tensor.</li>
+<li>For decay and training control there is a predefined <code class="docutils literal"><span class="pre">self.global_step</span></code> tensor.</li>
+<li>In many cases there is no need to write a loss function, learning rate decay and optimizer
+as they might be defined through config.</li>
+<li>For a configured loss one of the inputs should have a name <code class="docutils literal"><span class="pre">targets</span></code> and
+one of the tensors in your model should have a name <code class="docutils literal"><span class="pre">predictions</span></code>.
+They will be used in a loss function.</li>
+<li>If you have defined your own loss function, call <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses/add_loss">tf.losses.add_loss(…)</a>.</li>
+<li>If you need to use your own optimizer, assign <code class="docutils literal"><span class="pre">self.train_step</span></code> to the train step operation.
+Don’t forget about <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/batch_normalization">UPDATE_OPS control dependency</a>.</li>
+</ol>
 </dd></dl>
 
 </div>
@@ -187,10 +440,10 @@
 <h2>How to configure model inputs<a class="headerlink" href="#how-to-configure-model-inputs" title="Permalink to this headline">¶</a></h2>
 <dl class="method">
 <dt>
-<code class="descclassname">TFModel.</code><code class="descname">_make_inputs</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel._make_inputs"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Make model input data using config</p>
+<code class="descclassname">TFModel.</code><code class="descname">_make_inputs</code><span class="sig-paren">(</span><em>names=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/base.html#TFModel._make_inputs"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Create model input data from config provided</p>
 <p>In the config’s inputs section it looks for <code class="docutils literal"><span class="pre">names</span></code>, creates placeholders required, and
-makes some typical transformations (like one-hot-encoding and reshaping), if needed.</p>
+makes some typical transformations (like one-hot-encoding), if needed.</p>
 <p><strong>Configuration</strong></p>
 <dl class="docutils">
 <dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
@@ -215,32 +468,38 @@ makes some typical transformations (like one-hot-encoding and reshaping), if nee
 <dt><code class="docutils literal"><span class="pre">dtype</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str or tf.DType (by default ‘float32’)</span></dt>
 <dd>data type</dd>
 <dt><code class="docutils literal"><span class="pre">shape</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">int, tuple, list or None (default)</span></dt>
-<dd>a desired tensor shape which includes the number of channels/classes and doesn’t include a batch size.</dd>
+<dd>a tensor shape which includes the number of channels/classes and doesn’t include a batch size.</dd>
+<dt><code class="docutils literal"><span class="pre">classes</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">array-like or None (default)</span></dt>
+<dd>an array of class labels if data labels are strings or anything else except <code class="docutils literal"><span class="pre">np.arange(num_classes)</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">data_format</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str {<code class="docutils literal"><span class="pre">'channels_first'</span></code>, <code class="docutils literal"><span class="pre">'channels_last'</span></code>} or {<code class="docutils literal"><span class="pre">'f'</span></code>, <code class="docutils literal"><span class="pre">'l'</span></code>}</span></dt>
 <dd>The ordering of the dimensions in the inputs. Default is ‘channels_last’.</dd>
 <dt><code class="docutils literal"><span class="pre">transform</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str or callable</span></dt>
-<dd>if transform is <code class="docutils literal"><span class="pre">'ohe'</span></code>, one-hot encoding will be applied.
-The new axis is created at the last dimension if data_format is <code class="docutils literal"><span class="pre">'channels_last'</span></code> or
-at the first dimension after a batch size otherwise.</dd>
+<dd><p class="first">Predefined transforms are</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">'ohe'</span></code> - one-hot encoding</li>
+<li><code class="docutils literal"><span class="pre">'mip</span> <span class="pre">&#64;</span> <span class="pre">d'</span></code> - maximum intensity projection <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.mip" title="dataset.models.tf.layers.mip"><code class="xref py py-func docutils literal"><span class="pre">mip()</span></code></a>
+with depth <code class="docutils literal"><span class="pre">d</span></code> (should be int)</li>
+</ul>
+</dd>
 <dt><code class="docutils literal"><span class="pre">name</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>a name for the transformed and reshaped tensor.</dd>
 </dl>
 <p>If an input config is a tuple, it should contain all items exactly in the order shown above:
-dtype, shape, data_format, transform, name.
+dtype, shape, classes, data_format, transform, name.
 If an item is None, the default value will be used instead.</p>
 <p><strong>How it works</strong></p>
-<p>Input data will be cast to <code class="docutils literal"><span class="pre">dtype</span></code>, then reshaped to <code class="docutils literal"><span class="pre">shape</span></code> in accordance with <code class="docutils literal"><span class="pre">data_format</span></code>
-and finally transformed with a <code class="docutils literal"><span class="pre">transform</span></code> function. The resulting tensor will have the name <code class="docutils literal"><span class="pre">name</span></code>.
-The original placeholder tensor will have the name <code class="docutils literal"><span class="pre">key</span></code>.</p>
+<p>A placholder with <code class="docutils literal"><span class="pre">dtype</span></code>, <code class="docutils literal"><span class="pre">shape</span></code> and with a name <code class="docutils literal"><span class="pre">key</span></code> is created first.
+Then it is transformed with a <code class="docutils literal"><span class="pre">transform</span></code> function in accordance with <code class="docutils literal"><span class="pre">data_format</span></code>.
+The resulting tensor will have the name <code class="docutils literal"><span class="pre">name</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – placeholder names that are expected in the config inputs section</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – placeholder names that are expected in the config’s ‘inputs’ section</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first simple">
-<li>KeyError if there is any name missing in the config’s input section.</li>
+<li>KeyError if there is any name missing in the config’s ‘inputs’ section.</li>
 <li>ValueError if there are duplicate names.</li>
 </ul>
 </td>
@@ -262,7 +521,7 @@ The original placeholder tensor will have the name <code class="docutils literal
 <dd><p class="first last">a placeholder name</p>
 </dd>
 <dt>value <span class="classifier-delimiter">:</span> <span class="classifier">tf.Tensor</span></dt>
-<dd><p class="first last">placeholder tensor after reshaping and transformations</p>
+<dd><p class="first last">an input tensor after transformations</p>
 </dd>
 </dl>
 </li>
@@ -275,99 +534,6 @@ The original placeholder tensor will have the name <code class="docutils literal
 </dd></dl>
 
 </div>
-<div class="section" id="how-to-write-a-custom-model">
-<h2>How to write a custom model<a class="headerlink" href="#how-to-write-a-custom-model" title="Permalink to this headline">¶</a></h2>
-<p>Usually, the only thing you need is to redefine <code class="docutils literal"><span class="pre">_build()</span></code> method.</p>
-<dl class="method">
-<dt>
-<code class="descclassname">TFModel.</code><code class="descname">_build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/tf_model.html#TFModel._build"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Define a model architecture</p>
-<p>It takes just 2 steps:</p>
-<ol class="arabic">
-<li><p class="first">Define names for all placeholders and make input tensors by calling <a class="reference internal" href="../api/dataset.models.tf.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_build</span><span class="p">():</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;labels&#39;</span><span class="p">]</span>
-    <span class="n">placeholders</span><span class="p">,</span> <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_inputs</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>If config does not contain any name from <code class="docutils literal"><span class="pre">names</span></code>, <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal"><span class="pre">KeyError</span></code></a> is raised.</p>
-</li>
-<li><p class="first">Add your layers.</p>
-</li>
-</ol>
-<p>And that’s pretty it.</p>
-<p>Things worth mentioning:</p>
-<ol class="arabic simple">
-<li>Input data and its parameters should be defined in configuration under <code class="docutils literal"><span class="pre">inputs</span></code> key.</li>
-<li><a class="reference internal" href="../api/dataset.models.tf.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a> returns <code class="docutils literal"><span class="pre">placeholders</span></code> and <code class="docutils literal"><span class="pre">inputs</span></code> which are dicts
-with the same keys as <code class="docutils literal"><span class="pre">config['inputs']</span></code>.
-They contain all placeholders and tensors after reshaping/transformations, correspondingly.
-Use <code class="docutils literal"><span class="pre">inputs</span></code> to build a model. While placeholder names will also be needed later in
-<code class="docutils literal"><span class="pre">train</span></code> and <code class="docutils literal"><span class="pre">predict</span></code> methods.</li>
-<li>You might want to use a convenient multidimensional <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block" title="dataset.models.tf.layers.conv_block"><code class="xref py py-func docutils literal"><span class="pre">conv_block()</span></code></a>,
-as well as <a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_average_pooling" title="dataset.models.tf.layers.global_average_pooling"><code class="xref py py-func docutils literal"><span class="pre">global_average_pooling()</span></code></a>,
-<a class="reference internal" href="../api/dataset.models.tf.layers.html#dataset.models.tf.layers.mip" title="dataset.models.tf.layers.mip"><code class="xref py py-func docutils literal"><span class="pre">mip()</span></code></a>, or other predefined layers.
-Of course, you can use usual <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers">tensorflow layers</a>.</li>
-<li>For dropout, batch norm, etc you might use a predefined <code class="docutils literal"><span class="pre">self.is_training</span></code> tensor.</li>
-<li>For decay and training control you might use a predefined <code class="docutils literal"><span class="pre">self.global_step</span></code> tensor.</li>
-<li>In many cases there is no need to write a loss function, learning rate decay and optimizer
-as they might be defined through config.</li>
-<li>For a configured loss one of the inputs should have a name <code class="docutils literal"><span class="pre">targets</span></code> and
-one of the tensors in your model should have a name <code class="docutils literal"><span class="pre">predictions</span></code>.
-They will be used in a loss function.</li>
-<li>If you have defined your own loss function, call <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/losses/add_loss">tf.losses.add_loss(…)</a>.</li>
-<li>If you need to use your own optimizer, assign <code class="docutils literal"><span class="pre">self.train_step</span></code> to the train step operation.
-Don’t forget about <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/layers/batch_normalization">UPDATE_OPS control dependency</a>.</li>
-</ol>
-<p class="rubric">Notes</p>
-<p>This method is executed within a self.graph context</p>
-</dd></dl>
-
-</div>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models.tf</span> <span class="kn">import</span> <span class="n">TFModel</span>
-<span class="kn">from</span> <span class="nn">dataset.models.tf.layers</span> <span class="kn">import</span> <span class="n">conv_block</span><span class="p">,</span> <span class="n">global_average_pooling</span>
-
-<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">TFModel</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;labels&#39;</span><span class="p">]</span>
-        <span class="n">placeholders</span><span class="p">,</span> <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_inputs</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
-
-        <span class="c1"># a number of dimensions may be defined in a model config</span>
-        <span class="c1"># default is 2d</span>
-        <span class="n">dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_from_config</span><span class="p">(</span><span class="s1">&#39;dim&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">num_classes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)</span>
-
-        <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv1&#39;</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv2&#39;</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv3&#39;</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">global_average_pooling</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predictions&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Note that you can use this model for 1d, 2d and 3d inputs (with a proper config when initializing a model).</p>
-<p>Now you can train the model in a pipeline:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="s1">&#39;ce&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;decay&#39;</span><span class="p">:</span> <span class="s1">&#39;invtime&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;optimizer&#39;</span><span class="p">:</span> <span class="s1">&#39;Adam&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dim&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span>
-                   <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">})</span>
-<span class="p">}</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
-    <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">fetches</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span>
-                 <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span>
-                            <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)},</span>
-                 <span class="n">save_to</span><span class="o">=</span><span class="n">V</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
 </div>
 
 
@@ -379,17 +545,28 @@ Don’t forget about <a class="reference external" href="https://www.tensorflow.
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Tensorflow models</a><ul>
+<li><a class="reference internal" href="#how-to-use-a-model">How to use a model</a></li>
+<li><a class="reference internal" href="#how-to-write-a-custom-model">How to write a custom model</a><ul>
+<li><a class="reference internal" href="#the-simplest-case-you-should-avoid">The simplest case you should avoid</a></li>
+<li><a class="reference internal" href="#the-right-way">The right way</a></li>
+<li><a class="reference internal" href="#model-structure">Model structure</a><ul>
+<li><a class="reference internal" href="#input-block">input_block</a></li>
+<li><a class="reference internal" href="#body">body</a></li>
+<li><a class="reference internal" href="#block">block</a></li>
+<li><a class="reference internal" href="#head">head</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#configuration">Configuration</a></li>
 <li><a class="reference internal" href="#how-to-configure-model-inputs">How to configure model inputs</a></li>
-<li><a class="reference internal" href="#how-to-write-a-custom-model">How to write a custom model</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="models_zoo.html"
-                        title="previous chapter">BaseModel</a></p>
+  <p class="topless"><a href="../api/dataset.models.tf.linknet.html"
+                        title="previous chapter">LinkNet</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="tf_layers.html"
                         title="next chapter">Tensorflow layers and losses</a></p>
@@ -427,7 +604,7 @@ Don’t forget about <a class="reference external" href="https://www.tensorflow.
           <a href="tf_layers.html" title="Tensorflow layers and losses"
              >next</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="BaseModel"
+          <a href="../api/dataset.models.tf.linknet.html" title="LinkNet"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li> 

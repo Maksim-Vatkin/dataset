@@ -58,9 +58,22 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.html">dataset.models.tf</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.layers.html">dataset.models.tf.layers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.losses.html">dataset.models.tf.losses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.html#tfmodel">TFModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.base.html">TFModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.vgg.html">VGG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.inception.html">Inception</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.resnet.html">ResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.mobilenet.html">MobileNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.densenet.html">DenseNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.fcn.html">FCN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.unet.html">UNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.linknet.html">LinkNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.layers.html">Custom layers and blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.losses.html">Custom losses</a></li>
 </ul>
 </li>
 </ul>
@@ -105,10 +118,10 @@ by calling <cite>self.load(**config[‘load’])</cite>.</p>
 <dd><p>Define the model</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="dataset.models.BaseModel.get_from_config">
-<code class="descname">get_from_config</code><span class="sig-paren">(</span><em>variable</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.get_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.get_from_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a variable from config or a default value</p>
+<dl class="classmethod">
+<dt id="dataset.models.BaseModel.get">
+<em class="property">classmethod </em><code class="descname">get</code><span class="sig-paren">(</span><em>variables</em>, <em>config=None</em>, <em>default=None</em>, <em>pop=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return variables from config</p>
 </dd></dl>
 
 <dl class="method">
@@ -117,10 +130,22 @@ by calling <cite>self.load(**config[‘load’])</cite>.</p>
 <dd><p>Load the model</p>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="dataset.models.BaseModel.pop">
+<em class="property">classmethod </em><code class="descname">pop</code><span class="sig-paren">(</span><em>variables</em>, <em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return variables and remove them from config</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="dataset.models.BaseModel.predict">
 <code class="descname">predict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a prediction using the model</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.BaseModel.put">
+<em class="property">classmethod </em><code class="descname">put</code><span class="sig-paren">(</span><em>variable</em>, <em>value</em>, <em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put a new variable into config</p>
 </dd></dl>
 
 <dl class="method">

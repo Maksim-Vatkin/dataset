@@ -46,331 +46,224 @@
           <div class="body" role="main">
             
   <h1>Source code for dataset.models.tf.layers.conv</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Contains convolution layers &quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot; Contains convolutional layers &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
-<span class="kn">from</span> <span class="nn">.conv1d_tr</span> <span class="k">import</span> <span class="n">conv1d_transpose</span>
-<span class="kn">from</span> <span class="nn">.pooling</span> <span class="k">import</span> <span class="n">max_pooling</span>
 
-
-<span class="n">ND_LAYERS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="s1">&#39;conv&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv1d</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv3d</span><span class="p">],</span>
-    <span class="s1">&#39;batch_norm&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">batch_normalization</span><span class="p">,</span>
-    <span class="s1">&#39;transposed_conv&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">conv1d_transpose</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d_transpose</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv3d_transpose</span><span class="p">],</span>
-    <span class="s1">&#39;max_pooling&#39;</span><span class="p">:</span> <span class="n">max_pooling</span><span class="p">,</span>
-    <span class="s1">&#39;dropout&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dropout</span>
+<span class="n">_CONV_LAYERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv1d</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv3d</span>
 <span class="p">}</span>
 
-<span class="n">C_LAYERS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;activation&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;conv&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="s1">&#39;batch_norm&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="s1">&#39;transposed_conv&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="s1">&#39;max_pooling&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="s1">&#39;dropout&#39;</span>
-<span class="p">}</span>
-
-<span class="k">def</span> <span class="nf">_get_layer_fn</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="n">ND_LAYERS</span><span class="p">[</span><span class="n">fn</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">f</span> <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="ow">or</span> <span class="n">f</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">f</span><span class="p">[</span><span class="n">dim</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-
-<div class="viewcode-block" id="conv_block"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block">[docs]</a><span class="k">def</span> <span class="nf">conv_block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-               <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
-               <span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool_strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Complex multi-dimensional convolution layer with batch normalization, activation, pooling and dropout</span>
+<span class="k">def</span> <span class="nf">conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Nd convolution layer. Just a wrapper around ``tf.layers.conv1d``, ``conv2d``, ``conv3d``.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    d : int {1, 2, 3}</span>
+<span class="sd">    dim : int {1, 2, 3}</span>
 <span class="sd">        number of dimensions</span>
-<span class="sd">    input_tensor : tf.Tensor</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    `tf.layers.conv1d &lt;https://www.tensorflow.org/api_docs/python/tf/layers/conv1d&gt;`_,</span>
+<span class="sd">    `tf.layers.conv2d &lt;https://www.tensorflow.org/api_docs/python/tf/layers/conv2d&gt;`_,</span>
+<span class="sd">    `tf.layers.conv3d &lt;https://www.tensorflow.org/api_docs/python/tf/layers/conv3d&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">layer_fn</span> <span class="o">=</span> <span class="n">_CONV_LAYERS</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">layer_fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="conv1d_transpose"><a class="viewcode-back" href="../../../../../intro/tf_layers.html#dataset.models.tf.layers.conv1d_transpose">[docs]</a><span class="k">def</span> <span class="nf">conv1d_transpose</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transposed 1D convolution layer</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputs : tf.Tensor</span>
 <span class="sd">        input tensor</span>
 <span class="sd">    filters : int</span>
 <span class="sd">        number of filters in the ouput tensor</span>
 <span class="sd">    kernel_size : int</span>
 <span class="sd">        kernel size</span>
-<span class="sd">    layout : str</span>
-<span class="sd">        a sequence of layers:</span>
-
-<span class="sd">        - c - convolution</span>
-<span class="sd">        - t - transposed convolution</span>
-<span class="sd">        - n - batch normalization</span>
-<span class="sd">        - a - activation</span>
-<span class="sd">        - p - max pooling</span>
-<span class="sd">        - d - dropout</span>
-
-<span class="sd">        Default is &#39;cnap&#39;.</span>
-<span class="sd">    name : str</span>
-<span class="sd">        name of the layer that will be used as a scope.</span>
 <span class="sd">    strides : int</span>
-<span class="sd">        Default is 1.</span>
+<span class="sd">        convolution stride. Default is 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tf.Tensor</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    `tf.layers.conv2d_transpose &lt;https://www.tensorflow.org/api_docs/python/tf/layers/conv2d_transpose&gt;`_,</span>
+<span class="sd">    `tf.layers.conv3d_transpose &lt;https://www.tensorflow.org/api_docs/python/tf/layers/conv3d_transpose&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s1">&#39;channels_last&#39;</span> <span class="k">else</span> <span class="mi">2</span>
+    <span class="n">up_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">conv_output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d_transpose</span><span class="p">(</span><span class="n">up_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">),</span>
+                                             <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">strides</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">conv_output</span><span class="p">,</span> <span class="p">[</span><span class="n">axis</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="conv_transpose"><a class="viewcode-back" href="../../../../../intro/tf_layers.html#dataset.models.tf.layers.conv_transpose">[docs]</a><span class="k">def</span> <span class="nf">conv_transpose</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transposed Nd convolution layer</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim : int {1, 2, 3}</span>
+<span class="sd">        number of dimensions</span>
+<span class="sd">    inputs : tf.Tensor</span>
+<span class="sd">        input tensor</span>
+<span class="sd">    filters : int</span>
+<span class="sd">        number of filters in the ouput tensor</span>
+<span class="sd">    kernel_size : int</span>
+<span class="sd">        kernel size</span>
+<span class="sd">    strides : int</span>
+<span class="sd">        convolution stride. Default is 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tf.Tensor</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`.conv1d_transpose`,</span>
+<span class="sd">    `tf.layers.conv2d_transpose &lt;https://www.tensorflow.org/api_docs/python/tf/layers/conv2d_transpose&gt;`_,</span>
+<span class="sd">    `tf.layers.conv3d_transpose &lt;https://www.tensorflow.org/api_docs/python/tf/layers/conv3d_transpose&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">ndims</span> <span class="o">-</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">conv1d_transpose</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d_transpose</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv3d_transpose</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="separable_conv"><a class="viewcode-back" href="../../../../../intro/tf_layers.html#dataset.models.tf.layers.separable_conv">[docs]</a><span class="k">def</span> <span class="nf">separable_conv</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span>
+                   <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Make Nd depthwise convolutions that acts separately on channels,</span>
+<span class="sd">    followed by a pointwise convolution that mixes channels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim : int {1, 2, 3}</span>
+<span class="sd">        number of dimensions</span>
+<span class="sd">    inputs : tf.Tensor</span>
+<span class="sd">        input tensor</span>
+<span class="sd">    filters : int</span>
+<span class="sd">        number of filters in the ouput tensor</span>
+<span class="sd">    kernel_size : int</span>
+<span class="sd">        kernel size</span>
+<span class="sd">    strides : int</span>
+<span class="sd">        convolution stride. Default is 1.</span>
 <span class="sd">    padding : str</span>
 <span class="sd">        padding mode, can be &#39;same&#39; or &#39;valid&#39;. Default - &#39;same&#39;,</span>
 <span class="sd">    data_format : str</span>
 <span class="sd">        &#39;channels_last&#39; or &#39;channels_first&#39;. Default - &#39;channels_last&#39;.</span>
-<span class="sd">    dilation_rate: int</span>
+<span class="sd">    dilation_rate : int</span>
 <span class="sd">        Default is 1.</span>
+<span class="sd">    depth_multiplier : int</span>
+<span class="sd">        The number of depthwise convolution output channels for each input channel.</span>
+<span class="sd">        The total number of depthwise convolution output channels will be equal to</span>
+<span class="sd">        ``num_filters_in`` * ``depth_multiplier``.</span>
 <span class="sd">    activation : callable</span>
 <span class="sd">        Default is `tf.nn.relu`.</span>
-<span class="sd">    pool_size : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    pool_strides : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    dropout_rate : float</span>
-<span class="sd">        Default is 0.</span>
-<span class="sd">    is_training : bool or tf.Tensor</span>
-<span class="sd">        Default is True.</span>
-
-<span class="sd">    conv : dict</span>
-<span class="sd">        parameters for convolution layers, like initializers, regularalizers, etc</span>
-<span class="sd">    transposed_conv : dict</span>
-<span class="sd">        parameters for transposed conv layers, like initializers, regularalizers, etc</span>
-<span class="sd">    batch_norm : dict</span>
-<span class="sd">        parameters for batch normalization layers, like momentum, intiializers, etc</span>
-<span class="sd">    max_pooling : dict</span>
-<span class="sd">        parameters for max_pooling layers, like initializers, regularalizers, etc</span>
-<span class="sd">    dropout : dict</span>
-<span class="sd">        parameters for dropout layers, like noise_shape, etc</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The name of the layer</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    output tensor : tf.Tensor</span>
+<span class="sd">    tf.Tensor</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">ndims</span> <span class="o">-</span> <span class="mi">2</span>
+    <span class="n">conv_layer</span> <span class="o">=</span> <span class="n">_CONV_LAYERS</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of dimensions should be 1, 2 or 3, but given </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">separable_conv2d</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span>
+                                          <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">depth_multiplier</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span>
+                            <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">__enter__</span><span class="p">()</span>
 
-    <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">context</span><span class="o">.</span><span class="n">__enter__</span><span class="p">()</span>
+        <span class="n">inputs_shape</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s1">&#39;channels_last&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">dim</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">size</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">channels_in</span> <span class="o">=</span> <span class="n">inputs_shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
 
-    <span class="n">tensor</span> <span class="o">=</span> <span class="n">input_tensor</span>
-    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layout</span><span class="p">:</span>
-        <span class="n">layer_name</span> <span class="o">=</span> <span class="n">C_LAYERS</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
-        <span class="n">layer_fn</span> <span class="o">=</span> <span class="n">_get_layer_fn</span><span class="p">(</span><span class="n">layer_name</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="n">depthwise_layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">channels_in</span><span class="p">):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">dim</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">start</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">channel</span>
 
-        <span class="k">if</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
-            <span class="n">tensor</span> <span class="o">=</span> <span class="n">activation</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+            <span class="n">input_slice</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">slice_conv</span> <span class="o">=</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">input_slice</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span>
+                                    <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;slice-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">channel</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">depthwise_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slice_conv</span><span class="p">)</span>
+
+        <span class="c1"># Concatenate the per-channel convolutions along the channel dimension.</span>
+        <span class="n">depthwise_conv</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">depthwise_layers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">channels_in</span> <span class="o">*</span> <span class="n">depth_multiplier</span> <span class="o">!=</span> <span class="n">filters</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">depthwise_conv</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span>
+                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pointwise&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
-                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="n">dilation_rate</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
-                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fused</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">is_training</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">pool_size</span><span class="o">=</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">pool_strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
-                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dropout_rate</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dropout_rate</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">dropout_rate</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">is_training</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">depthwise_conv</span>
 
-            <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">layer_name</span><span class="p">,</span> <span class="p">{})}</span>
-            <span class="n">tensor</span> <span class="o">=</span> <span class="n">layer_fn</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">context</span><span class="o">.</span><span class="n">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">tensor</span></div>
+    <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="conv1d_block"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv1d_block">[docs]</a><span class="k">def</span> <span class="nf">conv1d_block</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
-                 <span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool_strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Complex 1d convolution with batch normalization, activation, pooling and dropout layers</span>
+<div class="viewcode-block" id="separable_conv1d"><a class="viewcode-back" href="../../../../../intro/tf_layers.html#dataset.models.tf.layers.separable_conv1d">[docs]</a><span class="k">def</span> <span class="nf">separable_conv1d</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span>
+                     <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Make 1d depthwise convolutions that acts separately on channels,</span>
+<span class="sd">    followed by a pointwise convolution that mixes channels.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    input_tensor : tf.Tensor</span>
-<span class="sd">        input tensor</span>
-<span class="sd">    filters : int</span>
-<span class="sd">        number of filters in the ouput tensor</span>
-<span class="sd">    kernel_size : int</span>
-<span class="sd">        kernel size</span>
-<span class="sd">    layout : str</span>
-<span class="sd">        a sequence of layers:</span>
-
-<span class="sd">        - c - convolution</span>
-<span class="sd">        - t - transposed convolution</span>
-<span class="sd">        - n - batch normalization</span>
-<span class="sd">        - a - activation</span>
-<span class="sd">        - p - max pooling</span>
-<span class="sd">        - d - dropout</span>
-
-<span class="sd">        Default is &#39;cnap&#39;.</span>
-<span class="sd">    name : str</span>
-<span class="sd">        name of the layer that will be used as a scope.</span>
-<span class="sd">    strides : int</span>
-<span class="sd">        Default is 1.</span>
-<span class="sd">    padding : str</span>
-<span class="sd">        padding mode, can be &#39;same&#39; or &#39;valid&#39;. Default - &#39;same&#39;,</span>
-<span class="sd">    data_format : str</span>
-<span class="sd">        &#39;channels_last&#39; or &#39;channels_first&#39;. Default - &#39;channels_last&#39;.</span>
-<span class="sd">    dilation_rate: int</span>
-<span class="sd">        Default is 1.</span>
-<span class="sd">    activation : callable</span>
-<span class="sd">        Default is `tf.nn.relu`.</span>
-<span class="sd">    pool_size : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    pool_strides : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    dropout_rate : float</span>
-<span class="sd">        Default is 0.</span>
-<span class="sd">    is_training : bool or tf.Tensor</span>
-<span class="sd">        Default is True.</span>
-
-<span class="sd">    conv : dict</span>
-<span class="sd">        parameters for convolution layers, like initializers, regularalizers, etc</span>
-<span class="sd">    transposed_conv : dict</span>
-<span class="sd">        parameters for transposed conv layers, like initializers, regularalizers, etc</span>
-<span class="sd">    batch_norm : dict</span>
-<span class="sd">        parameters for batch normalization layers, like momentum, intiializers, etc</span>
-<span class="sd">    max_pooling : dict</span>
-<span class="sd">        parameters for max_pooling layers, like initializers, regularalizers, etc</span>
-<span class="sd">    dropout : dict</span>
-<span class="sd">        parameters for dropout layers, like noise_shape, etc</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    output tensor: tf.Tensor</span>
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`.separable_conv`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">conv_block</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
-                      <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span>
-                      <span class="n">pool_size</span><span class="p">,</span> <span class="n">pool_strides</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="p">,</span> <span class="n">is_training</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">separable_conv</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span>
+                          <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="separable_conv2d"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv2d">[docs]</a><span class="k">def</span> <span class="nf">separable_conv2d</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span>
+                     <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Make 2d depthwise convolutions that acts separately on channels,</span>
+<span class="sd">    followed by a pointwise convolution that mixes channels.</span>
 
-<div class="viewcode-block" id="conv2d_block"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv2d_block">[docs]</a><span class="k">def</span> <span class="nf">conv2d_block</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
-                 <span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool_strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Complex 2d convolution with batch normalization, activation, pooling and dropout layers</span>
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`.separable_conv`,</span>
+<span class="sd">    `tf.layers.separable_conv2d &lt;https://www.tensorflow.org/api_docs/python/tf/layers/separable_conv2d&gt;`_</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    input_tensor : tf.Tensor</span>
-<span class="sd">        input tensor</span>
-<span class="sd">    filters : int</span>
-<span class="sd">        number of filters in the ouput tensor</span>
-<span class="sd">    kernel_size : int</span>
-<span class="sd">        kernel size</span>
-<span class="sd">    layout : str</span>
-<span class="sd">        a sequence of layers:</span>
-
-<span class="sd">        - c - convolution</span>
-<span class="sd">        - t - transposed convolution</span>
-<span class="sd">        - n - batch normalization</span>
-<span class="sd">        - a - activation</span>
-<span class="sd">        - p - max pooling</span>
-<span class="sd">        - d - dropout</span>
-
-<span class="sd">        Default is &#39;cnap&#39;.</span>
-<span class="sd">    name : str</span>
-<span class="sd">        name of the layer that will be used as a scope.</span>
-<span class="sd">    strides : int</span>
-<span class="sd">        Default is 1.</span>
-<span class="sd">    padding : str</span>
-<span class="sd">        padding mode, can be &#39;same&#39; or &#39;valid&#39;. Default - &#39;same&#39;,</span>
-<span class="sd">    data_format : str</span>
-<span class="sd">        &#39;channels_last&#39; or &#39;channels_first&#39;. Default - &#39;channels_last&#39;.</span>
-<span class="sd">    dilation_rate: int</span>
-<span class="sd">        Default is 1.</span>
-<span class="sd">    activation : callable</span>
-<span class="sd">        Default is `tf.nn.relu`.</span>
-<span class="sd">    pool_size : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    pool_strides : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    dropout_rate : float</span>
-<span class="sd">        Default is 0.</span>
-<span class="sd">    is_training : bool or tf.Tensor</span>
-<span class="sd">        Default is True.</span>
-
-<span class="sd">    conv : dict</span>
-<span class="sd">        parameters for convolution layers, like initializers, regularalizers, etc</span>
-<span class="sd">    transposed_conv : dict</span>
-<span class="sd">        parameters for transposed conv layers, like initializers, regularalizers, etc</span>
-<span class="sd">    batch_norm : dict</span>
-<span class="sd">        parameters for batch normalization layers, like momentum, intiializers, etc</span>
-<span class="sd">    max_pooling : dict</span>
-<span class="sd">        parameters for max_pooling layers, like initializers, regularalizers, etc</span>
-<span class="sd">    dropout : dict</span>
-<span class="sd">        parameters for dropout layers, like noise_shape, etc</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    output tensor: tf.Tensor</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    `tf.layers.separable_conv2d &lt;https://www.tensorflow.org/api_docs/python/tf/layers/separable_conv2d&gt;`_</span>
+<span class="sd">    is implemented using CUDA and, as a result, much faster.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">conv_block</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
-                      <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span>
-                      <span class="n">pool_size</span><span class="p">,</span> <span class="n">pool_strides</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="p">,</span> <span class="n">is_training</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">separable_conv</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span>
+                          <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="separable_conv3d"><a class="viewcode-back" href="../../../../../intro/tf_layers.html#dataset.models.tf.layers.separable_conv3d">[docs]</a><span class="k">def</span> <span class="nf">separable_conv3d</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span>
+                     <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Make 3d depthwise convolutions that acts separately on channels,</span>
+<span class="sd">    followed by a pointwise convolution that mixes channels.</span>
 
-<div class="viewcode-block" id="conv3d_block"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv3d_block">[docs]</a><span class="k">def</span> <span class="nf">conv3d_block</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
-                 <span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool_strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Complex 2d convolution with batch normalization, activation, pooling and dropout layers</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    input_tensor : tf.Tensor</span>
-<span class="sd">        input tensor</span>
-<span class="sd">    filters : int</span>
-<span class="sd">        number of filters in the ouput tensor</span>
-<span class="sd">    kernel_size : int</span>
-<span class="sd">        kernel size</span>
-<span class="sd">    layout : str</span>
-<span class="sd">        a sequence of layers:</span>
-
-<span class="sd">        - c - convolution</span>
-<span class="sd">        - t - transposed convolution</span>
-<span class="sd">        - n - batch normalization</span>
-<span class="sd">        - a - activation</span>
-<span class="sd">        - p - max pooling</span>
-<span class="sd">        - d - dropout</span>
-
-<span class="sd">        Default is &#39;cnap&#39;.</span>
-<span class="sd">    name : str</span>
-<span class="sd">        name of the layer that will be used as a scope.</span>
-<span class="sd">    strides : int</span>
-<span class="sd">        Default is 1.</span>
-<span class="sd">    padding : str</span>
-<span class="sd">        padding mode, can be &#39;same&#39; or &#39;valid&#39;. Default - &#39;same&#39;,</span>
-<span class="sd">    data_format : str</span>
-<span class="sd">        &#39;channels_last&#39; or &#39;channels_first&#39;. Default - &#39;channels_last&#39;.</span>
-<span class="sd">    dilation_rate: int</span>
-<span class="sd">        Default is 1.</span>
-<span class="sd">    activation : callable</span>
-<span class="sd">        Default is `tf.nn.relu`.</span>
-<span class="sd">    pool_size : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    pool_strides : int</span>
-<span class="sd">        Default is 2.</span>
-<span class="sd">    dropout_rate : float</span>
-<span class="sd">        Default is 0.</span>
-<span class="sd">    is_training : bool or tf.Tensor</span>
-<span class="sd">        Default is True.</span>
-
-<span class="sd">    conv : dict</span>
-<span class="sd">        parameters for convolution layers, like initializers, regularalizers, etc</span>
-<span class="sd">    transposed_conv : dict</span>
-<span class="sd">        parameters for transposed conv layers, like initializers, regularalizers, etc</span>
-<span class="sd">    batch_norm : dict</span>
-<span class="sd">        parameters for batch normalization layers, like momentum, intiializers, etc</span>
-<span class="sd">    max_pooling : dict</span>
-<span class="sd">        parameters for max_pooling layers, like initializers, regularalizers, etc</span>
-<span class="sd">    dropout : dict</span>
-<span class="sd">        parameters for dropout layers, like noise_shape, etc</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    output tensor: tf.Tensor</span>
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`.separable_conv`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">conv_block</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
-                      <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span>
-                      <span class="n">pool_size</span><span class="p">,</span> <span class="n">pool_strides</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="p">,</span> <span class="n">is_training</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">separable_conv</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span>
+                          <span class="n">dilation_rate</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

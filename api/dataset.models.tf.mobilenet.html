@@ -1,0 +1,207 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>MobileNet &#8212; Dataset 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SqueezeNet" href="dataset.models.tf.squeezenet.html" />
+    <link rel="prev" title="ResNet" href="dataset.models.tf.resnet.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.squeezenet.html" title="SqueezeNet"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.resnet.html" title="ResNet"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dataset.models.tf.mobilenet">
+<span id="mobilenet"></span><h1>MobileNet<a class="headerlink" href="#module-dataset.models.tf.mobilenet" title="Permalink to this headline">¶</a></h1>
+<p>Howard A. G. et al. “<a class="reference external" href="https://arxiv.org/abs/1704.04861">MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications”</a>”</p>
+<dl class="class">
+<dt id="dataset.models.tf.mobilenet.MobileNet">
+<em class="property">class </em><code class="descname">MobileNet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.base.TFModel</span></code></a></p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">TFModel._make_inputs()</span></code></a>)</dd>
+</dl>
+<p>input_block : dict</p>
+<dl class="docutils">
+<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>strides <span class="classifier-delimiter">:</span> <span class="classifier">list of int</span></dt>
+<dd>strides in separable convolutions</dd>
+<dt>double_filters <span class="classifier-delimiter">:</span> <span class="classifier">list of bool</span></dt>
+<dd>if True, number of filters in 1x1 covolution will be doubled</dd>
+<dt>width_factor <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>multiplier for the number of channels (default=1)</dd>
+</dl>
+</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.mobilenet.MobileNet.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet.default_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.mobilenet.MobileNet.build_config">
+<code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet.build_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.mobilenet.MobileNet.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.mobilenet.MobileNet.block">
+<em class="property">classmethod </em><code class="descname">block</code><span class="sig-paren">(</span><em>inputs</em>, <em>strides=1</em>, <em>double_filters=False</em>, <em>width_factor=1</em>, <em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet.block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet.block" title="Permalink to this definition">¶</a></dt>
+<dd><p>A network building block consisting of a separable depthwise convolution and 1x1 pointwise covolution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – strides in separable convolution</li>
+<li><strong>double_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – if True number of filters in 1x1 covolution will be doubled</li>
+<li><strong>width_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – multiplier for the number of filters</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.models.tf.resnet.html"
+                        title="previous chapter">ResNet</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.models.tf.squeezenet.html"
+                        title="next chapter">SqueezeNet</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dataset.models.tf.mobilenet.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.squeezenet.html" title="SqueezeNet"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.resnet.html" title="ResNet"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >&lt;no title&gt;</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

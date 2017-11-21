@@ -53,6 +53,7 @@
 <span class="kn">import</span> <span class="nn">concurrent.futures</span> <span class="k">as</span> <span class="nn">cf</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">.named_expr</span> <span class="k">import</span> <span class="n">_DummyBatch</span><span class="p">,</span> <span class="n">eval_expr</span>
 
@@ -272,10 +273,11 @@
 
                     <span class="n">global_config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
                     <span class="n">local_config</span> <span class="o">=</span> <span class="n">init_config</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
-                    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">global_config</span><span class="p">,</span> <span class="o">**</span><span class="n">local_config</span><span class="p">}</span>
-                    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">_calc_expr</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
-                    <span class="k">return</span> <span class="n">model_class</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">})</span>
+                    <span class="n">global_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_calc_expr</span><span class="p">(</span><span class="n">global_config</span><span class="p">))</span>
+                    <span class="n">global_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_calc_expr</span><span class="p">(</span><span class="n">local_config</span><span class="p">))</span>
+                    <span class="k">return</span> <span class="n">model_class</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">global_config</span><span class="p">)</span>
+
 
                 <span class="n">_model_definition_method</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">name</span>
                 <span class="k">return</span> <span class="n">_model_definition_method</span>
@@ -385,9 +387,7 @@
                                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Ambigous config contains several keys &quot;</span> <span class="o">+</span>
                                                          <span class="s2">&quot;with similar names&quot;</span><span class="p">,</span> <span class="n">model_names</span><span class="p">)</span>
                                     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                                        <span class="n">config_p</span> <span class="o">=</span> <span class="n">full_config</span><span class="p">[</span><span class="n">model_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
-                                        <span class="n">config_a</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
-                                        <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">config_p</span><span class="p">,</span> <span class="o">**</span><span class="n">config_a</span><span class="p">}</span>
+                                        <span class="n">config</span> <span class="o">=</span> <span class="n">full_config</span><span class="p">[</span><span class="n">model_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
 
                             <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">pipeline</span><span class="p">,)</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;static&#39;</span> <span class="k">else</span> <span class="p">(</span><span class="n">batch</span><span class="p">,)</span>
                             <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">config</span><span class="p">,)</span>
@@ -657,6 +657,20 @@
 
 
 <span class="n">parallel</span> <span class="o">=</span> <span class="n">inbatch_parallel</span>  <span class="c1"># pylint: disable=invalid-name</span>
+
+<span class="k">def</span> <span class="nf">njit</span><span class="p">(</span><span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Fake njit decorator to use when numba is not installed &quot;&quot;&quot;</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">nogil</span>
+    <span class="k">def</span> <span class="nf">njit_fake_decorator</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a decorator &quot;&quot;&quot;</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapped_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Log warning that numba is not installed which causes preformance degradation &quot;&quot;&quot;</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;numba is not installed. This causes a severe performance degradation for method </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
+                            <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapped_method</span>
+    <span class="k">return</span> <span class="n">njit_fake_decorator</span>
 </pre></div>
 
           </div>

@@ -104,7 +104,7 @@
 
         <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">delete_all_variables</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_run</span> <span class="o">=</span> <span class="kc">None</span>
@@ -503,8 +503,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">PRINT_VARIABLE_ID</span><span class="p">,</span> <span class="s1">&#39;var_name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_exec_print_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">]))</span>
+    <span class="k">def</span> <span class="nf">_exec_print_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">],</span> <span class="n">NamedExpression</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Pipeline.save_to_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.save_to_variable">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save a value to a given variable during pipeline execution &quot;&quot;&quot;</span>
@@ -626,7 +630,7 @@
             <span class="n">_action</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">arg</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
         <span class="k">return</span> <span class="n">_action</span>
 
-<div class="viewcode-block" id="Pipeline.call"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">save_to</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Pipeline.call"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">save_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Call any function during pipeline execution</span>
 
 <span class="sd">        Parameters</span>
@@ -648,7 +652,8 @@
             <span class="n">output</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Callable is expected, but got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">fn</span><span class="p">)))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_output</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;save_to&#39;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;save_to&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_output</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;save_to&#39;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">])</span>
 
 <div class="viewcode-block" id="Pipeline.get_model_by_name"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.get_model_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get a model specification by its name &quot;&quot;&quot;</span>
@@ -757,7 +762,7 @@
 <span class="sd">        Would call a `resnet` model `train` method with a `feed_dict` argument:</span>
 <span class="sd">        ``resnet.train(feed_dict={&#39;x&#39;: batch.images})``</span>
 
-<span class="sd">        &gt;&gt;&gt; pipeline.train_model(&#39;resnet&#39;, C(MyBatch.make_resnet_data))</span>
+<span class="sd">        &gt;&gt;&gt; pipeline.train_model(&#39;resnet&#39;, MyBatch.make_resnet_data)</span>
 <span class="sd">        Equivalent to::</span>
 
 <span class="sd">            train_data = batch.make_resnet_data(resnet_model)</span>
@@ -811,17 +816,17 @@
 
 <span class="sd">        &gt;&gt;&gt; pipeline</span>
 <span class="sd">            .init_variable(&#39;inferred_masks&#39;, init_on_each_run=list)</span>
-<span class="sd">            .predict_model(&#39;tf_unet&#39;, fetches=&#39;predicted_masks&#39;, feed_dict={&#39;x&#39;: B(&#39;images&#39;)},</span>
+<span class="sd">            .predict_model(&#39;tf_unet&#39;, fetches=&#39;predictions&#39;, feed_dict={&#39;x&#39;: B(&#39;images&#39;)},</span>
 <span class="sd">                           save_to=V(&#39;inferred_masks&#39;))</span>
 <span class="sd">        Would call a `tf_unet` model `train` method with `fetches` and `feed_dict` arguments:</span>
-<span class="sd">        ``predictions = tf_unet.train(fetches=&#39;predicted_masks&#39;, feed_dict={&#39;x&#39;: batch.images})``</span>
+<span class="sd">        ``predictions = tf_unet.train(fetches=&#39;predictions&#39;, feed_dict={&#39;x&#39;: batch.images})``</span>
 <span class="sd">        Predictions for each batch will be stored in a pipeline variable `inferred_masks`.</span>
 
-<span class="sd">        &gt;&gt;&gt; pipeline.train_model(&#39;deepnet&#39;, MyBatch.make_deepnet_data)</span>
+<span class="sd">        &gt;&gt;&gt; pipeline.predict_model(&#39;deepnet&#39;, MyBatch.make_deepnet_data)</span>
 <span class="sd">        Equivalent to::</span>
 
 <span class="sd">            predict_data = batch.make_deepnet_data(model=deepnet_model)</span>
-<span class="sd">            deepnet_model.train(**predict_data)</span>
+<span class="sd">            deepnet_model.predict(**predict_data)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">PREDICT_MODEL_ID</span><span class="p">,</span> <span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;make_data&#39;</span><span class="p">:</span> <span class="n">make_data</span><span class="p">,</span>
                                   <span class="s1">&#39;save_to&#39;</span><span class="p">:</span> <span class="n">save_to</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="n">mode</span><span class="p">})</span>
@@ -1070,7 +1075,8 @@
                 <span class="k">yield</span> <span class="n">batch</span></div>
 
 
-<div class="viewcode-block" id="Pipeline.gen_batch"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.gen_batch">[docs]</a>    <span class="k">def</span> <span class="nf">gen_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prefetch</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Pipeline.gen_batch"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.gen_batch">[docs]</a>    <span class="k">def</span> <span class="nf">gen_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop_last</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prefetch</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">on_iter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Generate batches &quot;&quot;&quot;</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;threads&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tf_session</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;tf_session&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -1106,6 +1112,8 @@
                     <span class="k">yield</span> <span class="n">batch_res</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_prefetch_count</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_prefetch_count</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">on_iter</span><span class="p">):</span>
+                        <span class="n">on_iter</span><span class="p">(</span><span class="n">batch_res</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_stop_flag</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1115,7 +1123,9 @@
                 <span class="k">except</span> <span class="n">SkipBatchException</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">yield</span> <span class="n">batch_res</span></div>
+                    <span class="k">yield</span> <span class="n">batch_res</span>
+                    <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">on_iter</span><span class="p">):</span>
+                        <span class="n">on_iter</span><span class="p">(</span><span class="n">batch_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pipeline.create_batch"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.create_batch">[docs]</a>    <span class="k">def</span> <span class="nf">create_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_index</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create a new batch by given indices and execute all previous lazy actions &quot;&quot;&quot;</span>

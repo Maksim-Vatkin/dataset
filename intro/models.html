@@ -24,7 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="BaseModel" href="models_zoo.html" />
+    <link rel="next" title="&lt;no title&gt;" href="models_zoo.html" />
     <link rel="prev" title="Inter-batch parallelism" href="prefetch.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="BaseModel"
+          <a href="models_zoo.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="prefetch.html" title="Inter-batch parallelism"
@@ -100,11 +100,10 @@ A static model is initialized immediately in the <code class="docutils literal">
 <li><p class="first"><code class="docutils literal"><span class="pre">build</span></code> : bool - whether to call <code class="docutils literal"><span class="pre">model.build(...)</span></code> to create a model. Default is <code class="docutils literal"><span class="pre">True</span></code>.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">load</span></code> : dict - parameters for model loading from some storage. If present, a model will be loaded by calling <cite>self.load(**config[‘load’])</cite>.</p>
-<p>If <code class="docutils literal"><span class="pre">True</span></code>, <code class="docutils literal"><span class="pre">model.load()</span></code> will be called. Default is <code class="docutils literal"><span class="pre">False</span></code>.</p>
 <p>Loading usually requires some additional config parameters like paths, file names or file formats. Check the documentation for the model you use for more details.</p>
 </li>
 </ul>
-<p>For some models only one of <code class="docutils literal"><span class="pre">build</span></code> or <code class="docutils literal"><span class="pre">load</span></code> can be <code class="docutils literal"><span class="pre">True</span></code>. While other models might need a building phase even if a model is loaded from a disk.</p>
+<p>For some models only one of <code class="docutils literal"><span class="pre">build</span></code> or <code class="docutils literal"><span class="pre">load</span></code> should be specified. While other models might need a building phase even if a model is loaded from a disk.</p>
 <p>Read a model specfication to know how to configure it.</p>
 <p>For flexibilty <code class="docutils literal"><span class="pre">config</span></code> might include so called <code class="docutils literal"><span class="pre">named</span> <span class="pre">expressions</span></code> which are defined by name but substitued with their actual values:</p>
 <ul class="simple">
@@ -264,7 +263,7 @@ But it will be used in each children pipeline with different datasets (which mig
 <div class="section" id="parallel-training">
 <h2>Parallel training<a class="headerlink" href="#parallel-training" title="Permalink to this headline">¶</a></h2>
 <p>If you <a class="reference internal" href="prefetch.html"><span class="doc">prefetch</span></a> with actions based on non-thread-safe models, you might encounter that your model hardly learns anything. The reason is that model variables might not update concurrently. To solve this problem a lock can be added to an action to allow for only one concurrent execution:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBatch</span><span class="p">:</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBatch</span><span class="p">(</span><span class="n">Batch</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="nd">@action</span><span class="p">(</span><span class="n">use_lock</span><span class="o">=</span><span class="s2">&quot;some_model_lock&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">train_it</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
@@ -279,9 +278,20 @@ But it will be used in each children pipeline with different datasets (which mig
 <h2>Models zoo<a class="headerlink" href="#models-zoo" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="models_zoo.html">BaseModel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models_zoo.html#scikit-learn-model">Scikit learn model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models_zoo.html#tensorflow-model">Tensorflow model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.base.html">TFModel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.vgg.html">VGG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.inception.html">Inception</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.resnet.html">ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.mobilenet.html">MobileNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.densenet.html">DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.fcn.html">FCN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.unet.html">UNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.linknet.html">LinkNet</a></li>
 </ul>
 </div>
 </div>
@@ -330,7 +340,7 @@ But it will be used in each children pipeline with different datasets (which mig
                         title="previous chapter">Inter-batch parallelism</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="models_zoo.html"
-                        title="next chapter">BaseModel</a></p>
+                        title="next chapter">&lt;no title&gt;</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -362,7 +372,7 @@ But it will be used in each children pipeline with different datasets (which mig
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="BaseModel"
+          <a href="models_zoo.html" title="&lt;no title&gt;"
              >next</a> |</li>
         <li class="right" >
           <a href="prefetch.html" title="Inter-batch parallelism"

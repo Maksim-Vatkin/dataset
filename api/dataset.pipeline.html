@@ -88,7 +88,7 @@ Same as <cite>set_variable(name, value)</cite>.</p>
 
 <dl class="method">
 <dt id="dataset.Pipeline.call">
-<code class="descname">call</code><span class="sig-paren">(</span><em>fn</em>, <em>save_to</em>, <em>mode='w'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.call" title="Permalink to this definition">¶</a></dt>
+<code class="descname">call</code><span class="sig-paren">(</span><em>fn</em>, <em>save_to=None</em>, <em>mode='w'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.call" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call any function during pipeline execution</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -157,7 +157,7 @@ If the variable does not exists, the warning will be issued.</p>
 
 <dl class="method">
 <dt id="dataset.Pipeline.gen_batch">
-<code class="descname">gen_batch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>shuffle=True</em>, <em>n_epochs=1</em>, <em>drop_last=False</em>, <em>prefetch=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.gen_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.gen_batch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">gen_batch</code><span class="sig-paren">(</span><em>batch_size</em>, <em>shuffle=True</em>, <em>n_epochs=1</em>, <em>drop_last=False</em>, <em>prefetch=0</em>, <em>on_iter=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.gen_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.gen_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate batches</p>
 </dd></dl>
 
@@ -453,20 +453,20 @@ All other value will be used “as is”.</p>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
 <span class="go">    .init_variable(&#39;inferred_masks&#39;, init_on_each_run=list)</span>
-<span class="go">    .predict_model(&#39;tf_unet&#39;, fetches=&#39;predicted_masks&#39;, feed_dict={&#39;x&#39;: B(&#39;images&#39;)},</span>
+<span class="go">    .predict_model(&#39;tf_unet&#39;, fetches=&#39;predictions&#39;, feed_dict={&#39;x&#39;: B(&#39;images&#39;)},</span>
 <span class="go">                   save_to=V(&#39;inferred_masks&#39;))</span>
 <span class="go">Would call a `tf_unet` model `train` method with `fetches` and `feed_dict` arguments:</span>
-<span class="go">``predictions = tf_unet.train(fetches=&#39;predicted_masks&#39;, feed_dict={&#39;x&#39;: batch.images})``</span>
+<span class="go">``predictions = tf_unet.train(fetches=&#39;predictions&#39;, feed_dict={&#39;x&#39;: batch.images})``</span>
 <span class="go">Predictions for each batch will be stored in a pipeline variable `inferred_masks`.</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;deepnet&#39;</span><span class="p">,</span> <span class="n">MyBatch</span><span class="o">.</span><span class="n">make_deepnet_data</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">predict_model</span><span class="p">(</span><span class="s1">&#39;deepnet&#39;</span><span class="p">,</span> <span class="n">MyBatch</span><span class="o">.</span><span class="n">make_deepnet_data</span><span class="p">)</span>
 <span class="go">Equivalent to::</span>
 </pre></div>
 </div>
 <blockquote>
 <div>predict_data = batch.make_deepnet_data(model=deepnet_model)
-deepnet_model.train(<a href="#id5"><span class="problematic" id="id6">**</span></a>predict_data)</div></blockquote>
+deepnet_model.predict(<a href="#id5"><span class="problematic" id="id6">**</span></a>predict_data)</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -593,7 +593,7 @@ All other value will be used “as is”.</p>
 <span class="go">``resnet.train(feed_dict={&#39;x&#39;: batch.images})``</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="n">C</span><span class="p">(</span><span class="n">MyBatch</span><span class="o">.</span><span class="n">make_resnet_data</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="n">MyBatch</span><span class="o">.</span><span class="n">make_resnet_data</span><span class="p">)</span>
 <span class="go">Equivalent to::</span>
 </pre></div>
 </div>

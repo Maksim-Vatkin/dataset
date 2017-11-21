@@ -60,7 +60,7 @@
 <span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">BaseModel</span>
 
 
-<div class="viewcode-block" id="SklearnModel"><a class="viewcode-back" href="../../../intro/models_zoo.html#dataset.models.SklearnModel">[docs]</a><span class="k">class</span> <span class="nc">SklearnModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="SklearnModel"><a class="viewcode-back" href="../../../api/dataset.models.html#dataset.models.SklearnModel">[docs]</a><span class="k">class</span> <span class="nc">SklearnModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Base class for scikit-learn models</span>
 
 <span class="sd">    Attributes</span>
@@ -92,12 +92,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SklearnModel.build"><a class="viewcode-back" href="../../../intro/models_zoo.html#dataset.models.SklearnModel.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SklearnModel.build"><a class="viewcode-back" href="../../../api/dataset.models.html#dataset.models.SklearnModel.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Define the model &quot;&quot;&quot;</span>
         <span class="n">_</span> <span class="o">=</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_from_config</span><span class="p">(</span><span class="s1">&#39;estimator&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SklearnModel.load"><a class="viewcode-back" href="../../../intro/models_zoo.html#dataset.models.SklearnModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="SklearnModel.load"><a class="viewcode-back" href="../../../api/dataset.models.html#dataset.models.SklearnModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load the model.</span>
 
 <span class="sd">        Parameters</span>
@@ -107,7 +107,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SklearnModel.save"><a class="viewcode-back" href="../../../intro/models_zoo.html#dataset.models.SklearnModel.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="SklearnModel.save"><a class="viewcode-back" href="../../../api/dataset.models.html#dataset.models.SklearnModel.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save the model.</span>
 
 <span class="sd">        Parameters</span>
@@ -120,7 +120,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Scikit-learn estimator does not exist. Check your config for &#39;estimator&#39;.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SklearnModel.train"><a class="viewcode-back" href="../../../intro/models_zoo.html#dataset.models.SklearnModel.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SklearnModel.train"><a class="viewcode-back" href="../../../api/dataset.models.html#dataset.models.SklearnModel.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Train the model with the data provided</span>
 
 <span class="sd">        Parameters</span>
@@ -140,7 +140,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SklearnModel.predict"><a class="viewcode-back" href="../../../intro/models_zoo.html#dataset.models.SklearnModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SklearnModel.predict"><a class="viewcode-back" href="../../../api/dataset.models.html#dataset.models.SklearnModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Predict with the data provided</span>
 
 <span class="sd">        Parameters</span>

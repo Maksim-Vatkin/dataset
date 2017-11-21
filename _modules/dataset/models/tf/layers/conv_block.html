@@ -1,0 +1,361 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>dataset.models.tf.layers.conv_block &#8212; Dataset 0.2.0 documentation</title>
+    <link rel="stylesheet" href="../../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for dataset.models.tf.layers.conv_block</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Contains convolution layers &quot;&quot;&quot;</span>
+<span class="c1"># pylint:disable=too-many-statements</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">mip</span><span class="p">,</span> <span class="n">flatten</span>
+<span class="kn">from</span> <span class="nn">.conv</span> <span class="k">import</span> <span class="n">conv1d_transpose</span><span class="p">,</span> <span class="n">separable_conv</span>
+<span class="kn">from</span> <span class="nn">.pooling</span> <span class="k">import</span> <span class="n">max_pooling</span><span class="p">,</span> <span class="n">average_pooling</span><span class="p">,</span> <span class="n">global_max_pooling</span><span class="p">,</span> <span class="n">global_average_pooling</span><span class="p">,</span> <span class="n">fractional_max_pooling</span>
+
+
+<span class="n">ND_LAYERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;dense&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dense</span><span class="p">,</span>
+    <span class="s1">&#39;conv&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv1d</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv3d</span><span class="p">],</span>
+    <span class="s1">&#39;transposed_conv&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">conv1d_transpose</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d_transpose</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv3d_transpose</span><span class="p">],</span>
+    <span class="s1">&#39;separable_conv&#39;</span><span class="p">:</span><span class="n">separable_conv</span><span class="p">,</span>
+    <span class="s1">&#39;max_pooling&#39;</span><span class="p">:</span> <span class="n">max_pooling</span><span class="p">,</span>
+    <span class="s1">&#39;average_pooling&#39;</span><span class="p">:</span> <span class="n">average_pooling</span><span class="p">,</span>
+    <span class="s1">&#39;fractional_max_pooling&#39;</span><span class="p">:</span> <span class="n">fractional_max_pooling</span><span class="p">,</span>
+    <span class="s1">&#39;global_max_pooling&#39;</span><span class="p">:</span> <span class="n">global_max_pooling</span><span class="p">,</span>
+    <span class="s1">&#39;global_average_pooling&#39;</span><span class="p">:</span> <span class="n">global_average_pooling</span><span class="p">,</span>
+    <span class="s1">&#39;batch_norm&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">batch_normalization</span><span class="p">,</span>
+    <span class="s1">&#39;dropout&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dropout</span><span class="p">,</span>
+    <span class="s1">&#39;mip&#39;</span><span class="p">:</span> <span class="n">mip</span>
+<span class="p">}</span>
+
+<span class="n">C_LAYERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;activation&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="s1">&#39;dense&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;conv&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="s1">&#39;transposed_conv&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="s1">&#39;separable_conv&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="s1">&#39;max_pooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="s1">&#39;average_pooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="s1">&#39;fractional_max_pooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="s1">&#39;global_max_pooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="s1">&#39;global_average_pooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="s1">&#39;batch_norm&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="s1">&#39;dropout&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="s1">&#39;mip&#39;</span>
+<span class="p">}</span>
+
+<span class="n">_LAYERS_KEYS</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">C_LAYERS</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">_GROUP_KEYS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">_LAYERS_KEYS</span>
+    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">C_GROUPS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">_LAYERS_KEYS</span><span class="p">,</span> <span class="n">_GROUP_KEYS</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">_get_layer_fn</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">ND_LAYERS</span><span class="p">[</span><span class="n">fn</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">f</span> <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="ow">or</span> <span class="n">f</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">f</span><span class="p">[</span><span class="n">dim</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_unpack_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">layer_no</span><span class="p">,</span> <span class="n">layers_max</span><span class="p">):</span>
+    <span class="n">new_args</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="n">layers_max</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">arg_value</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">][</span><span class="n">layer_no</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arg_value</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+        <span class="n">new_args</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">arg</span><span class="p">:</span> <span class="n">arg_value</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">new_args</span>
+
+<div class="viewcode-block" id="conv_block"><a class="viewcode-back" href="../../../../../api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block">[docs]</a><span class="k">def</span> <span class="nf">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+               <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool_strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Complex multi-dimensional block with a sequence of convolutions, batch normalization, activation, pooling,</span>
+<span class="sd">    dropout and even dense layers.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputs : tf.Tensor</span>
+<span class="sd">        input tensor</span>
+<span class="sd">    filters : int</span>
+<span class="sd">        number of filters in the ouput tensor</span>
+<span class="sd">    kernel_size : int</span>
+<span class="sd">        kernel size</span>
+<span class="sd">    layout : str</span>
+<span class="sd">        a sequence of layers:</span>
+
+<span class="sd">        - c - convolution</span>
+<span class="sd">        - t - transposed convolution</span>
+<span class="sd">        - s - separable convolution</span>
+<span class="sd">        - f - dense (fully connected)</span>
+<span class="sd">        - n - batch normalization</span>
+<span class="sd">        - a - activation</span>
+<span class="sd">        - p - max pooling</span>
+<span class="sd">        - v - average pooling</span>
+<span class="sd">        - r - fractional max pooling</span>
+<span class="sd">        - P - global max pooling</span>
+<span class="sd">        - V - global average pooling</span>
+<span class="sd">        - d - dropout</span>
+<span class="sd">        - m - maximum intensity projection (:func:`.layers.mip`)</span>
+
+<span class="sd">        Default is &#39;&#39;.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        name of the layer that will be used as a scope.</span>
+<span class="sd">    strides : int</span>
+<span class="sd">        Default is 1.</span>
+<span class="sd">    padding : str</span>
+<span class="sd">        padding mode, can be &#39;same&#39; or &#39;valid&#39;. Default - &#39;same&#39;,</span>
+<span class="sd">    data_format : str</span>
+<span class="sd">        &#39;channels_last&#39; or &#39;channels_first&#39;. Default - &#39;channels_last&#39;.</span>
+<span class="sd">    dilation_rate: int</span>
+<span class="sd">        Default is 1.</span>
+<span class="sd">    activation : callable</span>
+<span class="sd">        Default is `tf.nn.relu`.</span>
+<span class="sd">    pool_size : int</span>
+<span class="sd">        Default is 2.</span>
+<span class="sd">    pool_strides : int</span>
+<span class="sd">        Default is 2.</span>
+<span class="sd">    dropout_rate : float</span>
+<span class="sd">        Default is 0.</span>
+<span class="sd">    is_training : bool or tf.Tensor</span>
+<span class="sd">        Default is True.</span>
+
+<span class="sd">    dense : dict</span>
+<span class="sd">        parameters for dense layers, like initializers, regularalizers, etc</span>
+<span class="sd">    conv : dict</span>
+<span class="sd">        parameters for convolution layers, like initializers, regularalizers, etc</span>
+<span class="sd">    transposed_conv : dict</span>
+<span class="sd">        parameters for transposed conv layers, like initializers, regularalizers, etc</span>
+<span class="sd">    batch_norm : dict or None</span>
+<span class="sd">        parameters for batch normalization layers, like momentum, intiializers, etc</span>
+<span class="sd">        If None or inculdes parameters &#39;off&#39; or &#39;disable&#39; set to True or 1,</span>
+<span class="sd">        the layer will be excluded whatsoever.</span>
+<span class="sd">    max_pooling : dict</span>
+<span class="sd">        parameters for max_pooling layers, like initializers, regularalizers, etc</span>
+<span class="sd">    dropout : dict or None</span>
+<span class="sd">        parameters for dropout layers, like noise_shape, etc</span>
+<span class="sd">        If None or inculdes parameters &#39;off&#39; or &#39;disable&#39; set to True or 1,</span>
+<span class="sd">        the layer will be excluded whatsoever.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    output tensor : tf.Tensor</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    When ``layout`` includes several layers of the same type, each one can have its own parameters,</span>
+<span class="sd">    if corresponding args are passed as lists (not tuples).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    A simple 2d block: 3x3 conv, batch norm, relu, 2x2 max-pooling with stride 2::</span>
+
+<span class="sd">        x = conv_block(2, x, 32, 3, layout=&#39;cnap&#39;)</span>
+
+<span class="sd">    A canonical bottleneck block (1x1, 3x3, 1x1 conv with relu in-between)::</span>
+
+<span class="sd">        x = conv_block(2, x, [64, 64, 256], [1, 3, 1], layout=&#39;cacac&#39;)</span>
+
+<span class="sd">    A complex Nd block:</span>
+
+<span class="sd">    - 5x5 conv with 32 filters</span>
+<span class="sd">    - relu</span>
+<span class="sd">    - 3x3 conv with 32 filters</span>
+<span class="sd">    - relu</span>
+<span class="sd">    - 3x3 conv with 64 filters and a spatial stride 2</span>
+<span class="sd">    - relu</span>
+<span class="sd">    - batch norm</span>
+<span class="sd">    - dropout with rate 0.15</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        x = conv_block(x, [32, 32, 64], [5, 3, 3], layout=&#39;cacacand&#39;, strides=[1, 1, 2], dropout_rate=.15)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;conv_block: layout is empty, so there is nothing to do, just returning inputs.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span>
+
+    <span class="n">dim</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">ndims</span> <span class="o">-</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of dimensions of the inputs tensor should be 1, 2 or 3, but given </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dim</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">__enter__</span><span class="p">()</span>
+
+    <span class="n">layout_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layout</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">C_GROUPS</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">layout_dict</span><span class="p">:</span>
+            <span class="n">layout_dict</span><span class="p">[</span><span class="n">C_GROUPS</span><span class="p">[</span><span class="n">layer</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">layout_dict</span><span class="p">[</span><span class="n">C_GROUPS</span><span class="p">[</span><span class="n">layer</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">tensor</span> <span class="o">=</span> <span class="n">inputs</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layout</span><span class="p">):</span>
+
+        <span class="n">layout_dict</span><span class="p">[</span><span class="n">C_GROUPS</span><span class="p">[</span><span class="n">layer</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">layer_name</span> <span class="o">=</span> <span class="n">C_LAYERS</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
+        <span class="n">layer_fn</span> <span class="o">=</span> <span class="n">_get_layer_fn</span><span class="p">(</span><span class="n">layer_name</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">)</span>
+            <span class="n">layer_fn</span> <span class="o">=</span> <span class="n">_unpack_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">layout_dict</span><span class="p">[</span><span class="n">C_GROUPS</span><span class="p">[</span><span class="n">layer</span><span class="p">]])[</span><span class="s1">&#39;activation&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">layer_fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">tensor</span> <span class="o">=</span> <span class="n">layer_fn</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">layer_args</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">layer_name</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">skip_layer</span> <span class="o">=</span> <span class="n">layer_args</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">layer_args</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> \
+                         <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer_args</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;disable&#39;</span> <span class="ow">in</span> <span class="n">layer_args</span> <span class="ow">and</span> <span class="n">layer_args</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;disable&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">skip_layer</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;f&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">ndims</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">tensor</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;units cannot be None if layout includes dense layers&#39;</span><span class="p">)</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="n">dilation_rate</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filters</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;filters cannot be None or 0 if layout includes convolutional layers&#39;</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="n">dilation_rate</span><span class="p">,</span> <span class="n">depth_multiplier</span><span class="o">=</span><span class="n">depth_multiplier</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filters</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;filters cannot be None or 0 if layout includes convolutional layers&#39;</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filters</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;filters cannot be None or 0 if layout includes convolutional layers&#39;</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span>
+                <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s1">&#39;channels_last&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fused</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">is_training</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pooling_ratio</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pooling_ratio&#39;</span><span class="p">,</span> <span class="mf">1.4142</span><span class="p">),</span>
+                            <span class="n">pseudo_random</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pseudo_random&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                            <span class="n">overlapping</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;overlapping&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">C_GROUPS</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">pool_strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
+                            <span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">dropout_rate</span><span class="p">:</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">dropout_rate</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">is_training</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">skip_layer</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">]:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">layer</span> <span class="o">==</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">data_format</span><span class="o">=</span><span class="n">data_format</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_layer</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">layer_args</span><span class="p">}</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">_unpack_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">layout_dict</span><span class="p">[</span><span class="n">C_GROUPS</span><span class="p">[</span><span class="n">layer</span><span class="p">]])</span>
+
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;layer-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="n">tensor</span> <span class="o">=</span> <span class="n">layer_fn</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tensor</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>
