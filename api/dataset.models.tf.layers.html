@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>dataset.models.tf.layers &#8212; Dataset 0.2.0 documentation</title>
+    <title>dataset.models.tf.layers &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="dataset.models.tf.losses" href="dataset.models.tf.losses.html" />
-    <link rel="prev" title="dataset.models.tf" href="dataset.models.tf.html" /> 
+    <link rel="prev" title="TFModel" href="dataset.models.tf.base.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -41,9 +41,9 @@
           <a href="dataset.models.tf.losses.html" title="dataset.models.tf.losses"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="dataset.models.tf.html" title="dataset.models.tf"
+          <a href="dataset.models.tf.base.html" title="TFModel"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="dataset.models.tf.html" accesskey="U">dataset.models.tf</a> &#187;</li> 
@@ -134,8 +134,6 @@ dropout and even dense layers.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
-<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the ouput tensor</li>
-<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
 <li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a sequence of layers:</p>
 <ul>
 <li>c - convolution</li>
@@ -154,7 +152,10 @@ dropout and even dense layers.</p>
 </ul>
 <p>Default is ‘’.</p>
 </li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the number of filters in the ouput tensor</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – name of the layer that will be used as a scope.</li>
+<li><strong>units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the number of units in the dense layer</li>
 <li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Default is 1.</li>
 <li><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – padding mode, can be ‘same’ or ‘valid’. Default - ‘same’,</li>
 <li><strong>data_format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ‘channels_last’ or ‘channels_first’. Default - ‘channels_last’.</li>
@@ -189,12 +190,12 @@ the layer will be excluded whatsoever.</li>
 <p>When <code class="docutils literal"><span class="pre">layout</span></code> includes several layers of the same type, each one can have its own parameters,
 if corresponding args are passed as lists (not tuples).</p>
 <p class="rubric">Examples</p>
-<p>A simple 2d block: 3x3 conv, batch norm, relu, 2x2 max-pooling with stride 2:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">)</span>
+<p>A simple block: 3x3 conv, batch norm, relu, 2x2 max-pooling with stride 2:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cnap&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>A canonical bottleneck block (1x1, 3x3, 1x1 conv with relu in-between):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cacac&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cacac&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>A complex Nd block:</p>
@@ -395,7 +396,6 @@ followed by a pointwise convolution that mixes channels.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dim</strong> (<em>int {1</em><em>, </em><em>2</em><em>, </em><em>3}</em>) – number of dimensions</li>
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
 <li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the ouput tensor</li>
 <li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – kernel size</li>
@@ -467,8 +467,8 @@ followed by a pointwise convolution that mixes channels.</p>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="dataset.models.tf.html"
-                        title="previous chapter">dataset.models.tf</a></p>
+  <p class="topless"><a href="dataset.models.tf.base.html"
+                        title="previous chapter">TFModel</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="dataset.models.tf.losses.html"
                         title="next chapter">dataset.models.tf.losses</a></p>
@@ -506,9 +506,9 @@ followed by a pointwise convolution that mixes channels.</p>
           <a href="dataset.models.tf.losses.html" title="dataset.models.tf.losses"
              >next</a> |</li>
         <li class="right" >
-          <a href="dataset.models.tf.html" title="dataset.models.tf"
+          <a href="dataset.models.tf.base.html" title="TFModel"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="dataset.models.tf.html" >dataset.models.tf</a> &#187;</li> 

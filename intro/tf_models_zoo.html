@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>dataset.models.tf &#8212; Dataset 0.2.1 documentation</title>
+    <title>&lt;no title&gt; &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="TFModel" href="dataset.models.tf.base.html" />
-    <link rel="prev" title="dataset.models" href="dataset.models.html" /> 
+    <link rel="next" title="VGG" href="../api/dataset.models.tf.vgg.html" />
+    <link rel="prev" title="TensorFlow models" href="models_zoo.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,14 +38,15 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dataset.models.tf.base.html" title="TFModel"
+          <a href="../api/dataset.models.tf.vgg.html" title="VGG"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="dataset.models.html" title="dataset.models"
+          <a href="models_zoo.html" title="TensorFlow models"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="dataset.models.html" accesskey="U">dataset.models</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="models.html" >Working with models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="models_zoo.html" accesskey="U">TensorFlow models</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -54,30 +55,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="dataset-models-tf">
-<h1>dataset.models.tf<a class="headerlink" href="#dataset-models-tf" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.base.html">TFModel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.vgg.html">VGG</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.inception.html">Inception</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_base">Base Inception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v4">Inception version 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.vgg.html">VGG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.inception.html">Inception</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_base">Base Inception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v4">Inception version 4</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.resnet.html">ResNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.mobilenet.html">MobileNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.densenet.html">DenseNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.fcn.html">FCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.unet.html">UNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.linknet.html">LinkNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.layers.html">Custom layers and blocks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset.models.tf.losses.html">Custom losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.resnet.html">ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.mobilenet.html">MobileNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.densenet.html">DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.fcn.html">FCN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.unet.html">UNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.linknet.html">LinkNet</a></li>
 </ul>
-</div>
 </div>
 
 
@@ -87,15 +82,15 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="dataset.models.html"
-                        title="previous chapter">dataset.models</a></p>
+  <p class="topless"><a href="models_zoo.html"
+                        title="previous chapter">TensorFlow models</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="dataset.models.tf.base.html"
-                        title="next chapter">TFModel</a></p>
+  <p class="topless"><a href="../api/dataset.models.tf.vgg.html"
+                        title="next chapter">VGG</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/dataset.models.tf.rst.txt"
+      <li><a href="../_sources/intro/tf_models_zoo.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -123,14 +118,15 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dataset.models.tf.base.html" title="TFModel"
+          <a href="../api/dataset.models.tf.vgg.html" title="VGG"
              >next</a> |</li>
         <li class="right" >
-          <a href="dataset.models.html" title="dataset.models"
+          <a href="models_zoo.html" title="TensorFlow models"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="models.html" >Working with models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="models_zoo.html" >TensorFlow models</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

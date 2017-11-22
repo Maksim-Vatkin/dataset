@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Working with models &#8212; Dataset 0.2.0 documentation</title>
+    <title>Working with models &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="models_zoo.html" />
+    <link rel="next" title="TensorFlow models" href="models_zoo.html" />
     <link rel="prev" title="Inter-batch parallelism" href="prefetch.html" /> 
   </head>
   <body>
@@ -38,12 +38,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="&lt;no title&gt;"
+          <a href="models_zoo.html" title="TensorFlow models"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="prefetch.html" title="Inter-batch parallelism"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>  
@@ -58,8 +58,8 @@
 <p>Pipelines can include model definitions, training, evauluation and prediction actions which links models and pipelines.</p>
 <div class="section" id="model-class">
 <h2>Model class<a class="headerlink" href="#model-class" title="Permalink to this headline">¶</a></h2>
-<p>Models are defined in model classes. You can use standard models or write your own models.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<p>Models are defined in model classes. You can use standard models or write your own models.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models</span> <span class="k">import</span> <span class="n">BaseModel</span>
 
 <span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -83,7 +83,7 @@ Consequently, the model has an access to the pipeline and the very first batch t
 <div class="section" id="adding-a-model-to-a-pipeline">
 <h2>Adding a model to a pipeline<a class="headerlink" href="#adding-a-model-to-a-pipeline" title="Permalink to this headline">¶</a></h2>
 <p>First of all, a model should be initialized:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
                           <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
                           <span class="o">...</span>
 </pre></div>
@@ -112,7 +112,7 @@ A static model is initialized immediately in the <code class="docutils literal">
 <li><code class="docutils literal"><span class="pre">C('name')</span></code> - a pipeline config option</li>
 <li><code class="docutils literal"><span class="pre">F(name)</span></code> - a function, method or any other callable</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">pipeline</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pipeline</span>
     <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s1">&#39;images_shape&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;input_shape&#39;</span><span class="p">:</span> <span class="n">V</span><span class="p">(</span><span class="s1">&#39;images_shape&#39;</span><span class="p">)})</span>
 
@@ -128,10 +128,11 @@ A static model is initialized immediately in the <code class="docutils literal">
 <div class="section" id="training-a-model">
 <h2>Training a model<a class="headerlink" href="#training-a-model" title="Permalink to this headline">¶</a></h2>
 <p>A train action should be stated below an initialization action:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
     <span class="o">...</span>
     <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">))</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">train_model</span></code>’s arguments might be specific to a particular model you use. So read a model specfication to find out what it expects for training.</p>
@@ -152,7 +153,7 @@ Could be a named expression: <code class="docutils literal"><span class="pre">B(
 <p>For sets and dicts <code class="docutils literal"><span class="pre">'u'</span></code> and <code class="docutils literal"><span class="pre">'a'</span></code> do the same.</p>
 </li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">my_config</span><span class="p">)</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">AnotherModel</span><span class="p">,</span> <span class="s1">&#39;another_model&#39;</span><span class="p">,</span> <span class="n">another_config</span><span class="p">)</span>
     <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s1">&#39;current_loss&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -164,11 +165,12 @@ Could be a named expression: <code class="docutils literal"><span class="pre">B(
     <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;another_model&#39;</span><span class="p">,</span> <span class="n">fetches</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span>
                  <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)},</span>
                  <span class="n">save_to</span><span class="o">=</span><span class="n">V</span><span class="p">(</span><span class="s1">&#39;loss_history&#39;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>Here, parameters <code class="docutils literal"><span class="pre">output</span></code>, <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> are specific to <code class="docutils literal"><span class="pre">my_model</span></code>, while <code class="docutils literal"><span class="pre">fetches</span></code> and <code class="docutils literal"><span class="pre">feed_dict</span></code> are specific to <code class="docutils literal"><span class="pre">another_model</span></code>.</p>
-<p>You can also write an action which works with a model directly.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBatch</span><span class="p">(</span><span class="n">Batch</span><span class="p">):</span>
+<p>You can also write an action which works with a model directly.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBatch</span><span class="p">(</span><span class="n">Batch</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="nd">@action</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;some_model&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">train_linked_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
@@ -180,32 +182,34 @@ Could be a named expression: <code class="docutils literal"><span class="pre">B(
         <span class="o">...</span>
 
 
-<span class="n">full_workflow</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+<span class="n">full_workflow</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">my_config</span><span class="p">)</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">MyOtherModel</span><span class="p">,</span> <span class="s1">&#39;some_model&#39;</span><span class="p">,</span> <span class="n">some_config</span><span class="p">)</span>
     <span class="o">.</span><span class="n">some_preprocessing</span><span class="p">()</span>
     <span class="o">.</span><span class="n">some_augmentation</span><span class="p">()</span>
     <span class="o">.</span><span class="n">train_in_batch</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">)</span>
     <span class="o">.</span><span class="n">train_linked_model</span><span class="p">()</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="predicting-with-a-model">
 <h2>Predicting with a model<a class="headerlink" href="#predicting-with-a-model" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">predict_model</span></code> is very similar to <a class="reference external" href="#training-a-model">train_model</a> described above:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">full_workflow</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
     <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s1">&#39;predicted_labels&#39;</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="o">...</span>
     <span class="o">.</span><span class="n">predict_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span> <span class="n">save_to</span><span class="o">=</span><span class="n">V</span><span class="p">(</span><span class="s1">&#39;predicted_labels&#39;</span><span class="p">))</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>Read a model specfication to find out what it needs for predicting and what its output is.</p>
 </div>
 <div class="section" id="saving-a-model">
 <h2>Saving a model<a class="headerlink" href="#saving-a-model" title="Permalink to this headline">¶</a></h2>
-<p>You can write a model to a persistent storage at any time by calling <code class="docutils literal"><span class="pre">save_model(...)</span></code></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">some_pipeline</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/some/path&#39;</span><span class="p">)</span>
+<p>You can write a model to a persistent storage at any time by calling <code class="docutils literal"><span class="pre">save_model(...)</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">some_pipeline</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/some/path&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>As usual, the first argument is a model name, while all other arguments are model specific, so read a model documentation
@@ -218,18 +222,19 @@ which might be highly undesired).</p>
 </div>
 <div class="section" id="models-and-template-pipelines">
 <h2>Models and template pipelines<a class="headerlink" href="#models-and-template-pipelines" title="Permalink to this headline">¶</a></h2>
-<p>A template pipeline is not linked to any dataset and thus it will never run. It might be used as a building block for more complex pipelines.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">template_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+<p>A template pipeline is not linked to any dataset and thus it will never run. It might be used as a building block for more complex pipelines.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">template_pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pipeline</span><span class="p">()</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">)</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">MyModel2</span><span class="p">)</span>
     <span class="o">.</span><span class="n">prepocess</span><span class="p">()</span>
     <span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
     <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;MyModel&#39;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
     <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;MyModel2&#39;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<p>Linking a pipeline to a dataset creates a new pipeline that can be run.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mnist_pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">template_pipeline</span> <span class="o">&lt;&lt;</span> <span class="n">mnist_dataset</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<p>Linking a pipeline to a dataset creates a new pipeline that can be run.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mnist_pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">template_pipeline</span> <span class="o">&lt;&lt;</span> <span class="n">mnist_dataset</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">cifar_pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">template_pipeline</span> <span class="o">&lt;&lt;</span> <span class="n">cifar_dataset</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -240,22 +245,24 @@ But it will be used in each children pipeline with different datasets (which mig
 <div class="section" id="importing-models">
 <h2>Importing models<a class="headerlink" href="#importing-models" title="Permalink to this headline">¶</a></h2>
 <p>Models exist within pipelines. This is very convenient if a single pipeline includes everything: preprocessing, model training, model evaluation, model saving and so on. However, sometimes you might want to share a model between pipelines. For instance, when you train a model in one pipeline and later use it in an inference pipeline.</p>
-<p>This can be easily achieved with a model import.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">train_pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">images_dataset</span><span class="o">.</span><span class="n">p</span>
+<p>This can be easily achieved with a model import.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">train_pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">images_dataset</span><span class="o">.</span><span class="n">p</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">Resnet50</span><span class="p">)</span>
     <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="o">.</span><span class="n">random_rotate</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
     <span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s2">&quot;Resnet50&quot;</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">inference_pipeline_template</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pipeline</span><span class="p">()</span>
     <span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
     <span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
     <span class="o">.</span><span class="n">import_model</span><span class="p">(</span><span class="s2">&quot;Resnet50&quot;</span><span class="p">,</span> <span class="n">train_pipeline</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">predict_model</span><span class="p">(</span><span class="s2">&quot;Resnet50&quot;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">predict_model</span><span class="p">(</span><span class="s2">&quot;Resnet50&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="o">...</span>
 
-<span class="n">infer</span> <span class="o">=</span> <span class="p">(</span><span class="n">inference_pipeline_template</span> <span class="o">&lt;&lt;</span> <span class="n">some_dataset</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">INFER_BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">infer</span> <span class="o">=</span> <span class="p">(</span><span class="n">inference_pipeline_template</span> <span class="o">&lt;&lt;</span> <span class="n">some_dataset</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">INFER_BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>When <code class="docutils literal"><span class="pre">inference_pipeline_template</span></code> is run, the model <code class="docutils literal"><span class="pre">Resnet50</span></code> from <code class="docutils literal"><span class="pre">train_pipeline</span></code> will be imported.</p>
@@ -263,7 +270,7 @@ But it will be used in each children pipeline with different datasets (which mig
 <div class="section" id="parallel-training">
 <h2>Parallel training<a class="headerlink" href="#parallel-training" title="Permalink to this headline">¶</a></h2>
 <p>If you <a class="reference internal" href="prefetch.html"><span class="doc">prefetch</span></a> with actions based on non-thread-safe models, you might encounter that your model hardly learns anything. The reason is that model variables might not update concurrently. To solve this problem a lock can be added to an action to allow for only one concurrent execution:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBatch</span><span class="p">(</span><span class="n">Batch</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBatch</span><span class="p">(</span><span class="n">Batch</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="nd">@action</span><span class="p">(</span><span class="n">use_lock</span><span class="o">=</span><span class="s2">&quot;some_model_lock&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">train_it</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
@@ -278,20 +285,24 @@ But it will be used in each children pipeline with different datasets (which mig
 <h2>Models zoo<a class="headerlink" href="#models-zoo" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.base.html">TFModel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.vgg.html">VGG</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.inception.html">Inception</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_zoo.html">TensorFlow models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.vgg.html">VGG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html">Inception</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_base">Base Inception</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v4">Inception version 4</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.resnet.html">ResNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.mobilenet.html">MobileNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.densenet.html">DenseNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.fcn.html">FCN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.unet.html">UNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.linknet.html">LinkNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.resnet.html">ResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.mobilenet.html">MobileNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.densenet.html">DenseNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.fcn.html">FCN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.unet.html">UNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.linknet.html">LinkNet</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -340,7 +351,7 @@ But it will be used in each children pipeline with different datasets (which mig
                         title="previous chapter">Inter-batch parallelism</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="models_zoo.html"
-                        title="next chapter">&lt;no title&gt;</a></p>
+                        title="next chapter">TensorFlow models</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -372,12 +383,12 @@ But it will be used in each children pipeline with different datasets (which mig
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="&lt;no title&gt;"
+          <a href="models_zoo.html" title="TensorFlow models"
              >next</a> |</li>
         <li class="right" >
           <a href="prefetch.html" title="Inter-batch parallelism"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>

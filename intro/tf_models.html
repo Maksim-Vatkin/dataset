@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Tensorflow models &#8212; Dataset 0.2.0 documentation</title>
+    <title>Tensorflow models &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="../api/dataset.models.tf.linknet.html" title="LinkNet"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>  
@@ -61,11 +61,19 @@
 <p>A minimal config includes <code class="docutils literal"><span class="pre">inputs</span></code> and <code class="docutils literal"><span class="pre">input_block</span></code> sections:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span>
-                   <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">}),</span>
+                   <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;classes&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">}),</span>
     <span class="s1">&#39;input_block/inputs&#39;</span><span class="p">:</span> <span class="s1">&#39;images&#39;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>Inputs section contains <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">a</span> <span class="pre">description</span> <span class="pre">of</span> <span class="pre">model</span> <span class="pre">input</span> <span class="pre">data</span></code></a>, its shapes, transformations needed and names of the resulting tensors.</p>
+<p>This config will create placeholders with the names <code class="docutils literal"><span class="pre">images</span></code> and <code class="docutils literal"><span class="pre">labels</span></code>.
+Later, these names will be used to feed data into the model when training or predicting.
+Besides, one-hot encoding will be applied to <code class="docutils literal"><span class="pre">labels</span></code> and the encoded tensor will be named <code class="docutils literal"><span class="pre">targets</span></code>.</p>
+<p>Models based on <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">TFModel</span></code></a> expect that one of the inputs has a name <code class="docutils literal"><span class="pre">targets</span></code> (before or after transformations),
+while <code class="docutils literal"><span class="pre">input_block/inputs</span></code> specifies which input (or inputs) will go through the network to turn into a tensor named <code class="docutils literal"><span class="pre">predictions</span></code>.
+Tensors with the names <code class="docutils literal"><span class="pre">targets</span></code> and <code class="docutils literal"><span class="pre">predictions</span></code> are used to define a model loss. Or you can write your own loss in a derived model.</p>
+<p>Among other config options are <code class="docutils literal"><span class="pre">loss</span></code>, <code class="docutils literal"><span class="pre">optimizer</span></code>, <code class="docutils literal"><span class="pre">decay</span></code>. Read <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">TFModel</span></code></a> documentations to find out more.</p>
 <p>A minimal pipeline consists of <code class="docutils literal"><span class="pre">init_model</span></code> and <code class="docutils literal"><span class="pre">train_model</span></code>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
     <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">MyModel</span><span class="p">,</span> <span class="s1">&#39;my_model&#39;</span><span class="p">,</span> <span class="n">model_config</span><span class="p">)</span>
@@ -76,12 +84,6 @@
     <span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Inputs section contains <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">a</span> <span class="pre">description</span> <span class="pre">of</span> <span class="pre">model</span> <span class="pre">input</span> <span class="pre">data</span></code></a>, its shapes, transformations needed and names.
-Later, these names will be used to feed data into the model.</p>
-<p>Models based on <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">TFModel</span></code></a> expect that one of the inputs has a name <code class="docutils literal"><span class="pre">targets</span></code>,
-while <code class="docutils literal"><span class="pre">input_block/inputs</span></code> specifies which input will go through the network to turn into <code class="docutils literal"><span class="pre">predictions</span></code>.
-Tensors with these names are used to define a model loss.</p>
-<p>Among other config options are <code class="docutils literal"><span class="pre">loss</span></code>, <code class="docutils literal"><span class="pre">optimizer</span></code>, <code class="docutils literal"><span class="pre">decay</span></code>. Read <a class="reference internal" href="../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">TFModel</span></code></a> documentations to find out more.</p>
 </div>
 <div class="section" id="how-to-write-a-custom-model">
 <h2>How to write a custom model<a class="headerlink" href="#how-to-write-a-custom-model" title="Permalink to this headline">¶</a></h2>
@@ -112,7 +114,7 @@ and a dense layer at the end:</p>
 </div>
 <div class="section" id="the-right-way">
 <h3>The right way<a class="headerlink" href="#the-right-way" title="Permalink to this headline">¶</a></h3>
-<p>Here we split network configuration and network definition into separate methods.:</p>
+<p>Here we split network configuration and network definition into separate methods:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models.tf</span> <span class="k">import</span> <span class="n">TFModel</span>
 <span class="kn">from</span> <span class="nn">dataset.models.tf.layers</span> <span class="k">import</span> <span class="n">conv_block</span>
 
@@ -239,7 +241,7 @@ instantiate models for different tasks.</p>
     <span class="o">...</span>
     <span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="s1">&#39;mse&#39;</span><span class="p">,</span>
     <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">heart_signals</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)},</span>
-                   <span class="n">disease_score</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">})</span>
+                   <span class="n">targets</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
     <span class="s1">&#39;head&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;df&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=.</span><span class="mi">2</span><span class="p">),</span>
     <span class="s1">&#39;input_block/inputs&#39;</span><span class="p">:</span> <span class="s1">&#39;heart_signals&#39;</span>
 <span class="p">}</span>
@@ -254,59 +256,6 @@ instantiate models for different tasks.</p>
 <dt>
 <em class="property">class </em><code class="descname">TFModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/base.html#TFModel"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Base class for all tensorflow models</p>
-<dl class="attribute">
-<dt id="TFModel.session">
-<code class="descname">session</code><a class="headerlink" href="#TFModel.session" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Session</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TFModel.graph">
-<code class="descname">graph</code><a class="headerlink" href="#TFModel.graph" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Graph</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TFModel.is_training">
-<code class="descname">is_training</code><a class="headerlink" href="#TFModel.is_training" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Tensor</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TFModel.global_step">
-<code class="descname">global_step</code><a class="headerlink" href="#TFModel.global_step" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Tensor</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TFModel.loss">
-<code class="descname">loss</code><a class="headerlink" href="#TFModel.loss" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Tensor</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TFModel.train_step">
-<code class="descname">train_step</code><a class="headerlink" href="#TFModel.train_step" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Operation</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">from BaseModel</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="TFModel.name">
-<code class="descname">name</code><a class="headerlink" href="#TFModel.name" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>str - a model name</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TFModel.config">
-<code class="descname">config</code><a class="headerlink" href="#TFModel.config" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>dict - configuration parameters</em></p>
-</dd></dl>
-
 <p><strong>Configuration</strong></p>
 <p><code class="docutils literal"><span class="pre">build</span></code> and <code class="docutils literal"><span class="pre">load</span></code> are inherited from <a class="reference internal" href="../api/dataset.models.html#dataset.models.BaseModel" title="dataset.models.BaseModel"><code class="xref py py-class docutils literal"><span class="pre">BaseModel</span></code></a>.</p>
 <dl class="docutils">
@@ -384,6 +333,7 @@ a list of names from <code class="docutils literal"><span class="pre">inputs</sp
 <ul class="last simple">
 <li><code class="docutils literal"><span class="pre">{'input_block/inputs':</span> <span class="pre">'images'}</span></code></li>
 <li><code class="docutils literal"><span class="pre">{'input_block':</span> <span class="pre">dict(inputs='features')}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'input_block':</span> <span class="pre">dict(inputs='images',</span> <span class="pre">layout='nac</span> <span class="pre">nac',</span> <span class="pre">filters=64,</span> <span class="pre">kernel_size=[7,</span> <span class="pre">3],</span> <span class="pre">strides=[1,</span> <span class="pre">2])}</span></code></li>
 </ul>
 </dd>
 <dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
@@ -534,6 +484,28 @@ The resulting tensor will have the name <code class="docutils literal"><span cla
 </dd></dl>
 
 </div>
+<div class="section" id="ready-to-use-models">
+<h2>Ready to use models<a class="headerlink" href="#ready-to-use-models" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.vgg.html">VGG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.inception.html">Inception</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_base">Base Inception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v4">Inception version 4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.resnet.html">ResNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.mobilenet.html">MobileNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.densenet.html">DenseNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.fcn.html">FCN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.unet.html">UNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/dataset.models.tf.linknet.html">LinkNet</a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
@@ -560,6 +532,7 @@ The resulting tensor will have the name <code class="docutils literal"><span cla
 </li>
 <li><a class="reference internal" href="#configuration">Configuration</a></li>
 <li><a class="reference internal" href="#how-to-configure-model-inputs">How to configure model inputs</a></li>
+<li><a class="reference internal" href="#ready-to-use-models">Ready to use models</a></li>
 </ul>
 </li>
 </ul>
@@ -606,7 +579,7 @@ The resulting tensor will have the name <code class="docutils literal"><span cla
         <li class="right" >
           <a href="../api/dataset.models.tf.linknet.html" title="LinkNet"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>

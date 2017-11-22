@@ -6,13 +6,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Index &#8212; Dataset 0.2.0 documentation</title>
+    <title>Index &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dataset 0.2.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -172,9 +172,7 @@
 </li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN8.body">(dataset.models.tf.fcn.FCN8 class method)</a>
 </li>
-        <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1.body">(dataset.models.tf.inception_v1.Inception_v1 class method)</a>
-</li>
-        <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.body">(dataset.models.tf.inception_v3.Inception_v3 class method)</a>
+        <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_base.Inception.body">(dataset.models.tf.inception_base.Inception class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.body">(dataset.models.tf.linknet.LinkNet class method)</a>
 </li>
@@ -189,10 +187,10 @@
         <li><a href="api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG.body">(dataset.models.tf.vgg.VGG class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.bottleneck_block">bottleneck_block() (dataset.models.tf.resnet.ResNet class method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.html#dataset.models.BaseModel.build">build() (BaseModel method)</a>
 
       <ul>
@@ -209,6 +207,8 @@
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1.build_config">(Inception_v1 method)</a>
 </li>
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.build_config">(Inception_v3 method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.build_config">(Inception_v4 method)</a>
 </li>
         <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.build_config">(LinkNet method)</a>
 </li>
@@ -282,15 +282,11 @@
 </li>
       </ul></li>
       <li><a href="api/dataset.models.html#dataset.models.BaseModel.config">config (BaseModel attribute)</a>
-
-      <ul>
-        <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.config">(TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.config">[1]</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv1d_transpose">conv1d_transpose() (in module dataset.models.tf.layers)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block">conv_block() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_transpose">conv_transpose() (in module dataset.models.tf.layers)</a>
@@ -355,9 +351,13 @@
 </li>
       <li><a href="api/dataset.models.tf.fcn.html#module-dataset.models.tf.fcn">dataset.models.tf.fcn (module)</a>
 </li>
+      <li><a href="api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_base">dataset.models.tf.inception_base (module)</a>
+</li>
       <li><a href="api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">dataset.models.tf.inception_v1 (module)</a>
 </li>
       <li><a href="api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">dataset.models.tf.inception_v3 (module)</a>
+</li>
+      <li><a href="api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v4">dataset.models.tf.inception_v4 (module)</a>
 </li>
       <li><a href="api/dataset.models.tf.layers.html#module-dataset.models.tf.layers">dataset.models.tf.layers (module)</a>
 </li>
@@ -401,6 +401,8 @@
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1.default_config">(dataset.models.tf.inception_v1.Inception_v1 class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.default_config">(dataset.models.tf.inception_v3.Inception_v3 class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.default_config">(dataset.models.tf.inception_v4.Inception_v4 class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.default_config">(dataset.models.tf.linknet.LinkNet class method)</a>
 </li>
@@ -607,6 +609,8 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.get_image_size">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.Batch.get_items">get_items() (Batch method)</a>
 
       <ul>
@@ -615,8 +619,6 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.get_items">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.get_last_action_proba">get_last_action_proba() (Pipeline method)</a>
 </li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.get_last_action_repeat">get_last_action_repeat() (Pipeline method)</a>
@@ -648,10 +650,6 @@
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_average_pooling">global_average_pooling() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_max_pooling">global_max_pooling() (in module dataset.models.tf.layers)</a>
-</li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.global_step">global_step (TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.global_step">[1]</a>
-</li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.graph">graph (TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.graph">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -695,9 +693,19 @@
 </li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.inc_variable">inc_variable() (Pipeline method)</a>
 </li>
+      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_base.Inception">Inception (class in dataset.models.tf.inception_base)</a>
+</li>
+      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.inception_a_block">inception_a_block() (dataset.models.tf.inception_v4.Inception_v4 class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.inception_b_block">inception_b_block() (dataset.models.tf.inception_v4.Inception_v4 class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.inception_c_block">inception_c_block() (dataset.models.tf.inception_v4.Inception_v4 class method)</a>
+</li>
       <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1">Inception_v1 (class in dataset.models.tf.inception_v1)</a>
 </li>
       <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3">Inception_v3 (class in dataset.models.tf.inception_v3)</a>
+</li>
+      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4">Inception_v4 (class in dataset.models.tf.inception_v4)</a>
 </li>
       <li><a href="api/dataset.dataset.html#Dataset.index">index (Dataset attribute)</a>, <a href="api/dataset.dataset.html#dataset.Dataset.index">[1]</a>
 
@@ -738,6 +746,8 @@
 </li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN8.input_block">(dataset.models.tf.fcn.FCN8 class method)</a>
 </li>
+        <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.input_block">(dataset.models.tf.inception_v4.Inception_v4 class method)</a>
+</li>
       </ul></li>
       <li><a href="api/dataset.dataset.html#Dataset.is_split">is_split (Dataset attribute)</a>, <a href="api/dataset.dataset.html#dataset.Dataset.is_split">[1]</a>
 
@@ -745,8 +755,6 @@
         <li><a href="api/dataset.index.html#dataset.DatasetIndex.is_split">(DatasetIndex attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.is_training">is_training (TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.is_training">[1]</a>
-</li>
       <li><a href="api/dataset.batch.html#dataset.Batch.items">items (Batch attribute)</a>
 
       <ul>
@@ -791,10 +799,6 @@
         <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.load">(TFModel method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.loss">loss (TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.loss">[1]</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -854,11 +858,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.html#dataset.models.BaseModel.name">name (BaseModel attribute)</a>
-
-      <ul>
-        <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.name">(TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.name">[1]</a>
 </li>
-      </ul></li>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.next_batch">next_batch() (Dataset method)</a>
 
       <ul>
@@ -867,10 +867,10 @@
         <li><a href="api/dataset.pipeline.html#dataset.Pipeline.next_batch">(Pipeline method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.next_sub_block">next_sub_block() (dataset.models.tf.resnet.ResNet class method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.noop">noop() (ImagesBatch method)</a>
 
       <ul>
@@ -957,7 +957,13 @@
       </ul></li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.rebatch">rebatch() (Pipeline method)</a>
 </li>
-      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.reduction_block">reduction_block() (dataset.models.tf.inception_v3.Inception_v3 class method)</a>
+      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_base.Inception.reduction_block">reduction_block() (dataset.models.tf.inception_base.Inception class method)</a>
+
+      <ul>
+        <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1.reduction_block">(dataset.models.tf.inception_v1.Inception_v1 class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.reduction_grid_block">reduction_grid_block() (dataset.models.tf.inception_v4.Inception_v4 class method)</a>
 </li>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.reset_iter">reset_iter() (Dataset method)</a>
 
@@ -967,14 +973,14 @@
         <li><a href="api/dataset.pipeline.html#dataset.Pipeline.reset_iter">(Pipeline method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.resize">resize() (ImagesBatch method)</a>
 
       <ul>
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.resize">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet">ResNet (class in dataset.models.tf.resnet)</a>
 </li>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet101">ResNet101 (class in dataset.models.tf.resnet)</a>
@@ -1035,11 +1041,9 @@
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv2d">separable_conv2d() (in module dataset.models.tf.layers)</a>
 </li>
-      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv3d">separable_conv3d() (in module dataset.models.tf.layers)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.session">session (TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.session">[1]</a>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv3d">separable_conv3d() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.set_variable">set_variable() (Pipeline method)</a>
 </li>
@@ -1109,8 +1113,6 @@
         <li><a href="api/dataset.opensets.html#dataset.opensets.CIFAR100.TRAIN_NAME_ID">(CIFAR100 attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.train_step">train_step (TFModel attribute)</a>, <a href="intro/tf_models.html#TFModel.train_step">[1]</a>
-</li>
       <li><a href="api/dataset.models.tf.densenet.html#dataset.models.tf.densenet.DenseNet.transition_layer">transition_layer() (dataset.models.tf.densenet.DenseNet class method)</a>
 </li>
   </ul></td>
@@ -1183,7 +1185,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dataset 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dataset 0.2.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

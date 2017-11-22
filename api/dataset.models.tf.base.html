@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>TFModel &#8212; Dataset 0.2.0 documentation</title>
+    <title>TFModel &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="VGG" href="dataset.models.tf.vgg.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="../intro/models_zoo.html" /> 
+    <link rel="next" title="dataset.models.tf.layers" href="dataset.models.tf.layers.html" />
+    <link rel="prev" title="dataset.models.tf" href="dataset.models.tf.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,15 +38,15 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dataset.models.tf.vgg.html" title="VGG"
+          <a href="dataset.models.tf.layers.html" title="dataset.models.tf.layers"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../intro/models_zoo.html" title="&lt;no title&gt;"
+          <a href="dataset.models.tf.html" title="dataset.models.tf"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="dataset.models.tf.html" accesskey="U">dataset.models.tf</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -63,59 +63,6 @@
 <em class="property">class </em><code class="descname">TFModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/base.html#TFModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.base.TFModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dataset.models.base.BaseModel</span></code></p>
 <p>Base class for all tensorflow models</p>
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.session">
-<code class="descname">session</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.session" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Session</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.graph">
-<code class="descname">graph</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.graph" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Graph</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.is_training">
-<code class="descname">is_training</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.is_training" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Tensor</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.global_step">
-<code class="descname">global_step</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.global_step" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Tensor</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.loss">
-<code class="descname">loss</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.loss" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Tensor</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.train_step">
-<code class="descname">train_step</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.train_step" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tf.Operation</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">from BaseModel</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.name">
-<code class="descname">name</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.name" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>str - a model name</em></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dataset.models.tf.base.TFModel.config">
-<code class="descname">config</code><a class="headerlink" href="#dataset.models.tf.base.TFModel.config" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>dict - configuration parameters</em></p>
-</dd></dl>
-
 <p><strong>Configuration</strong></p>
 <p><code class="docutils literal"><span class="pre">build</span></code> and <code class="docutils literal"><span class="pre">load</span></code> are inherited from <a class="reference internal" href="dataset.models.html#dataset.models.BaseModel" title="dataset.models.BaseModel"><code class="xref py py-class docutils literal"><span class="pre">BaseModel</span></code></a>.</p>
 <dl class="docutils">
@@ -193,6 +140,7 @@ a list of names from <code class="docutils literal"><span class="pre">inputs</sp
 <ul class="last simple">
 <li><code class="docutils literal"><span class="pre">{'input_block/inputs':</span> <span class="pre">'images'}</span></code></li>
 <li><code class="docutils literal"><span class="pre">{'input_block':</span> <span class="pre">dict(inputs='features')}</span></code></li>
+<li><code class="docutils literal"><span class="pre">{'input_block':</span> <span class="pre">dict(inputs='images',</span> <span class="pre">layout='nac</span> <span class="pre">nac',</span> <span class="pre">filters=64,</span> <span class="pre">kernel_size=[7,</span> <span class="pre">3],</span> <span class="pre">strides=[1,</span> <span class="pre">2])}</span></code></li>
 </ul>
 </dd>
 <dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
@@ -453,7 +401,7 @@ Don’t forget about <a class="reference external" href="https://www.tensorflow.
 
 <dl class="method">
 <dt id="dataset.models.tf.base.TFModel.train">
-<code class="descname">train</code><span class="sig-paren">(</span><em>fetches=None</em>, <em>feed_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/base.html#TFModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.base.TFModel.train" title="Permalink to this definition">¶</a></dt>
+<code class="descname">train</code><span class="sig-paren">(</span><em>fetches=None</em>, <em>feed_dict=None</em>, <em>use_lock=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/base.html#TFModel.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.base.TFModel.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train the model with the data provided</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -462,6 +410,7 @@ Don’t forget about <a class="reference external" href="https://www.tensorflow.
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>fetches</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – a sequence of <cite>tf.Operation</cite> and/or <cite>tf.Tensor</cite> to calculate</li>
 <li><strong>feed_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – input data, where key is a placeholder name and value is a numpy value</li>
+<li><strong>use_lock</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – if True, the whole train step is locked, thus allowing for multithreading.</li>
 </ul>
 </td>
 </tr>
@@ -907,11 +856,11 @@ The resulting tensor will have the name <code class="docutils literal"><span cla
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../intro/models_zoo.html"
-                        title="previous chapter">&lt;no title&gt;</a></p>
+  <p class="topless"><a href="dataset.models.tf.html"
+                        title="previous chapter">dataset.models.tf</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="dataset.models.tf.vgg.html"
-                        title="next chapter">VGG</a></p>
+  <p class="topless"><a href="dataset.models.tf.layers.html"
+                        title="next chapter">dataset.models.tf.layers</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -943,15 +892,15 @@ The resulting tensor will have the name <code class="docutils literal"><span cla
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dataset.models.tf.vgg.html" title="VGG"
+          <a href="dataset.models.tf.layers.html" title="dataset.models.tf.layers"
              >next</a> |</li>
         <li class="right" >
-          <a href="../intro/models_zoo.html" title="&lt;no title&gt;"
+          <a href="dataset.models.tf.html" title="dataset.models.tf"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >&lt;no title&gt;</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dataset.models.html" >dataset.models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="dataset.models.tf.html" >dataset.models.tf</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

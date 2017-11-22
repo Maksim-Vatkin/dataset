@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Inception &#8212; Dataset 0.2.0 documentation</title>
+    <title>Inception &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -43,10 +43,11 @@
         <li class="right" >
           <a href="dataset.models.tf.vgg.html" title="VGG"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >TensorFlow models</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="../intro/tf_models_zoo.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -57,13 +58,106 @@
             
   <div class="section" id="inception">
 <h1>Inception<a class="headerlink" href="#inception" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-dataset.models.tf.inception_base">
+<span id="base-inception"></span><h2>Base Inception<a class="headerlink" href="#module-dataset.models.tf.inception_base" title="Permalink to this headline">¶</a></h2>
+<p>Parent class to inception models</p>
+<dl class="class">
+<dt id="dataset.models.tf.inception_base.Inception">
+<em class="property">class </em><code class="descname">Inception</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_base.html#Inception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_base.Inception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.base.TFModel</span></code></a></p>
+<p>The base class for all inception models</p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>layout <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first">a sequence of blocks in the network:</p>
+<ul class="last simple">
+<li>b - inception block for v1 and v3 models</li>
+<li>r - reduction block</li>
+<li>f - factorization_block for Inception_v3 model (see <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.factorization_block" title="dataset.models.tf.inception_v3.Inception_v3.factorization_block"><code class="xref py py-meth docutils literal"><span class="pre">factorization_block()</span></code></a>)</li>
+<li>m - mixed_block for Inception_v3 model (see <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.mixed_block" title="dataset.models.tf.inception_v3.Inception_v3.mixed_block"><code class="xref py py-meth docutils literal"><span class="pre">mixed_block()</span></code></a>)</li>
+<li>e - expanded_block for Inception_v3 model (see <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.expanded_block" title="dataset.models.tf.inception_v3.Inception_v3.expanded_block"><code class="xref py py-meth docutils literal"><span class="pre">expanded_block()</span></code></a>)</li>
+<li>A - inception block A for Inception_v4 model (see <a class="reference internal" href="#dataset.models.tf.inception_v4.Inception_v4.inception_a_block" title="dataset.models.tf.inception_v4.Inception_v4.inception_a_block"><code class="xref py py-meth docutils literal"><span class="pre">inception_a_block()</span></code></a>)</li>
+<li>B - inception block B for Inception_v4 model (see <a class="reference internal" href="#dataset.models.tf.inception_v4.Inception_v4.inception_b_block" title="dataset.models.tf.inception_v4.Inception_v4.inception_b_block"><code class="xref py py-meth docutils literal"><span class="pre">inception_b_block()</span></code></a>)</li>
+<li>C - Inception block C for Inception_v4 model (see <a class="reference internal" href="#dataset.models.tf.inception_v4.Inception_v4.inception_c_block" title="dataset.models.tf.inception_v4.Inception_v4.inception_c_block"><code class="xref py py-meth docutils literal"><span class="pre">inception_c_block()</span></code></a>)</li>
+<li>G - grid-reduction block for Inception_v4 model (see <a class="reference internal" href="#dataset.models.tf.inception_v4.Inception_v4.reduction_grid_block" title="dataset.models.tf.inception_v4.Inception_v4.reduction_grid_block"><code class="xref py py-meth docutils literal"><span class="pre">reduction_grid_block()</span></code></a>)</li>
+</ul>
+</dd>
+<dt>arch <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first">parameters for each block:</p>
+<dl class="last docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>block’s short name</dd>
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>specific parameters (e.g. filters)</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_base.Inception.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_base.html#Inception.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_base.Inception.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a sequence of blocks</li>
+<li><strong>arch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for each block</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_base.Inception.reduction_block">
+<em class="property">classmethod </em><code class="descname">reduction_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>layout='cna'</em>, <em>name='reduction_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_base.html#Inception.reduction_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_base.Inception.reduction_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduction block.</p>
+<p>For details see figure 10 in the article.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<em>tuple of 3 ints</em>) – number of output filters</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-dataset.models.tf.inception_v1">
 <span id="inception-version-1"></span><h2>Inception version 1<a class="headerlink" href="#module-dataset.models.tf.inception_v1" title="Permalink to this headline">¶</a></h2>
 <p>Szegedy C. et al “<a class="reference external" href="https://arxiv.org/abs/1409.4842">Going Deeper with Convolutions</a>”</p>
 <dl class="class">
 <dt id="dataset.models.tf.inception_v1.Inception_v1">
 <em class="property">class </em><code class="descname">Inception_v1</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v1.html#Inception_v1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v1.Inception_v1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.base.TFModel</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dataset.models.tf.inception_base.Inception" title="dataset.models.tf.inception_base.Inception"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.inception_base.Inception</span></code></a></p>
 <p>Inception network, version 1</p>
 <p><strong>Configuration</strong></p>
 <dl class="docutils">
@@ -81,30 +175,6 @@
 <dt id="dataset.models.tf.inception_v1.Inception_v1.build_config">
 <code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v1.html#Inception_v1.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v1.Inception_v1.build_config" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="dataset.models.tf.inception_v1.Inception_v1.body">
-<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v1.html#Inception_v1.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v1.Inception_v1.body" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base layers</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
-<li><strong>arch</strong> (<em>list of dict</em>) – network architecture</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.inception_v1.Inception_v1.block">
@@ -140,70 +210,17 @@
 </table>
 </dd></dl>
 
-</dd></dl>
-
-</div>
-<div class="section" id="module-dataset.models.tf.inception_v3">
-<span id="inception-version-3"></span><h2>Inception version 3<a class="headerlink" href="#module-dataset.models.tf.inception_v3" title="Permalink to this headline">¶</a></h2>
-<p>Christian Szegedy et al. “<a class="reference external" href="https://arxiv.org/abs/1512.00567">Rethinking the Inception Architecture for Computer Vision</a>”</p>
-<dl class="class">
-<dt id="dataset.models.tf.inception_v3.Inception_v3">
-<em class="property">class </em><code class="descname">Inception_v3</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.base.TFModel</span></code></a></p>
-<p>The base Inception_v3 model</p>
-<p class="rubric">Notes</p>
-<p>Since the article misses some important details (e.g. the number of filters in all convolutions),
-this class is based on <a class="reference external" href="https://github.com/tensorflow/models/blob/master/research/slim/nets/inception_v3.py">Google’s implementation</a></p>
-<p><strong>Configuration</strong></p>
-<dl class="docutils">
-<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
-<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><dl class="first last docutils">
-<dt>layout <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first">a sequence of blocks in the network:</p>
-<ul class="last simple">
-<li>b - <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.block" title="dataset.models.tf.inception_v3.Inception_v3.block"><code class="xref py py-meth docutils literal"><span class="pre">inception</span> <span class="pre">block</span></code></a></li>
-<li>r - <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.reduction_block" title="dataset.models.tf.inception_v3.Inception_v3.reduction_block"><code class="xref py py-meth docutils literal"><span class="pre">reduction_block()</span></code></a></li>
-<li>f - <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.factorization_block" title="dataset.models.tf.inception_v3.Inception_v3.factorization_block"><code class="xref py py-meth docutils literal"><span class="pre">factorization_block()</span></code></a></li>
-<li>m - <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.mixed_block" title="dataset.models.tf.inception_v3.Inception_v3.mixed_block"><code class="xref py py-meth docutils literal"><span class="pre">mixed_block()</span></code></a></li>
-<li>e - <a class="reference internal" href="#dataset.models.tf.inception_v3.Inception_v3.expanded_block" title="dataset.models.tf.inception_v3.Inception_v3.expanded_block"><code class="xref py py-meth docutils literal"><span class="pre">expanded_block()</span></code></a></li>
-</ul>
-</dd>
-<dt>arch <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first">parameters for each block:</p>
-<dl class="last docutils">
-<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>block’s short name</dd>
-<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>specific parameters (e.g. filters)</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
 <dl class="classmethod">
-<dt id="dataset.models.tf.inception_v3.Inception_v3.default_config">
-<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3.default_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dataset.models.tf.inception_v3.Inception_v3.build_config">
-<code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3.build_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="dataset.models.tf.inception_v3.Inception_v3.body">
-<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3.body" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base layers.</p>
+<dt id="dataset.models.tf.inception_v1.Inception_v1.reduction_block">
+<em class="property">classmethod </em><code class="descname">reduction_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>layout='p'</em>, <em>filters=None</em>, <em>name='reduction_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v1.html#Inception_v1.reduction_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v1.Inception_v1.reduction_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduction block.</p>
+<p>Just a max pooling in 3x3 with strides=2</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
-<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a sequence of blocks</li>
-<li><strong>arch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – parameters for each block</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
 </ul>
 </td>
@@ -217,6 +234,46 @@ this class is based on <a class="reference external" href="https://github.com/te
 </tbody>
 </table>
 </dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dataset.models.tf.inception_v3">
+<span id="inception-version-3"></span><h2>Inception version 3<a class="headerlink" href="#module-dataset.models.tf.inception_v3" title="Permalink to this headline">¶</a></h2>
+<p>Christian Szegedy et al. “<a class="reference external" href="https://arxiv.org/abs/1512.00567">Rethinking the Inception Architecture for Computer Vision</a>”</p>
+<dl class="class">
+<dt id="dataset.models.tf.inception_v3.Inception_v3">
+<em class="property">class </em><code class="descname">Inception_v3</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dataset.models.tf.inception_base.Inception" title="dataset.models.tf.inception_base.Inception"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.inception_base.Inception</span></code></a></p>
+<p>The base Inception_v3 model</p>
+<p class="rubric">Notes</p>
+<p>Since the article misses some important details (e.g. the number of filters in all convolutions),
+this class is based on <a class="reference external" href="https://github.com/tensorflow/models/blob/master/research/slim/nets/inception_v3.py">Google’s implementation</a></p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_v3.Inception_v3.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3.default_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the default parameters to inception_v3 model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>config</strong> – default parameters to build network</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.inception_v3.Inception_v3.build_config">
+<code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3.build_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.inception_v3.Inception_v3.block">
@@ -230,32 +287,6 @@ this class is based on <a class="reference external" href="https://github.com/te
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
 <li><strong>filters</strong> (<em>tuple of 4 ints</em>) – number of output filters</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="dataset.models.tf.inception_v3.Inception_v3.reduction_block">
-<em class="property">classmethod </em><code class="descname">reduction_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>layout='cna'</em>, <em>name='reduction_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v3.html#Inception_v3.reduction_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v3.Inception_v3.reduction_block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reduction block.</p>
-<p>For details see figure 10 in the article.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
-<li><strong>filters</strong> (<em>tuple of 3 ints</em>) – number of output filters</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
 </ul>
 </td>
@@ -351,6 +382,171 @@ this class is based on <a class="reference external" href="https://github.com/te
 </dd></dl>
 
 </div>
+<div class="section" id="module-dataset.models.tf.inception_v4">
+<span id="inception-version-4"></span><h2>Inception version 4<a class="headerlink" href="#module-dataset.models.tf.inception_v4" title="Permalink to this headline">¶</a></h2>
+<p>Christian Szegedy et al. “<a class="reference external" href="https://arxiv.org/abs/1602.07261">Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning</a>”</p>
+<dl class="class">
+<dt id="dataset.models.tf.inception_v4.Inception_v4">
+<em class="property">class </em><code class="descname">Inception_v4</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dataset.models.tf.inception_base.Inception" title="dataset.models.tf.inception_base.Inception"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.inception_base.Inception</span></code></a></p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_v4.Inception_v4.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4.default_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default parameters for Inception_v4 model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>config</strong> – default parameters to network</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.inception_v4.Inception_v4.build_config">
+<code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4.build_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_v4.Inception_v4.input_block">
+<em class="property">classmethod </em><code class="descname">input_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='input_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4.input_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4.input_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input network block.</p>
+<p>For details see figure 3 in the article.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_v4.Inception_v4.inception_a_block">
+<em class="property">classmethod </em><code class="descname">inception_a_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>layout='cna'</em>, <em>name='inception_a_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4.inception_a_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4.inception_a_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inception block A.</p>
+<p>For details see figure 4 in the article.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<em>tuple of 2 int</em>) – number of output filters</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_v4.Inception_v4.inception_b_block">
+<em class="property">classmethod </em><code class="descname">inception_b_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>layout='cna'</em>, <em>name='inception_b_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4.inception_b_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4.inception_b_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inception block B.</p>
+<p>For details see figure 5 in the article.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<em>tuple of 5 int</em>) – number of output filters</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_v4.Inception_v4.reduction_grid_block">
+<em class="property">classmethod </em><code class="descname">reduction_grid_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>layout='cna'</em>, <em>name='reduction_b_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4.reduction_grid_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4.reduction_grid_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>grid-reduction block.</p>
+<p>For details see figure 8 in the article.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<em>tuple of 3 int</em>) – number of output filters</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.inception_v4.Inception_v4.inception_c_block">
+<em class="property">classmethod </em><code class="descname">inception_c_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>layout='cna'</em>, <em>name='inception_c_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/inception_v4.html#Inception_v4.inception_c_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.inception_v4.Inception_v4.inception_c_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inception block C.</p>
+<p>For details see figure 6 in the article.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<em>tuple of 4 int</em>) – number of output filters</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -362,8 +558,10 @@ this class is based on <a class="reference external" href="https://github.com/te
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Inception</a><ul>
+<li><a class="reference internal" href="#module-dataset.models.tf.inception_base">Base Inception</a></li>
 <li><a class="reference internal" href="#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
 <li><a class="reference internal" href="#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
+<li><a class="reference internal" href="#module-dataset.models.tf.inception_v4">Inception version 4</a></li>
 </ul>
 </li>
 </ul>
@@ -410,10 +608,11 @@ this class is based on <a class="reference external" href="https://github.com/te
         <li class="right" >
           <a href="dataset.models.tf.vgg.html" title="VGG"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >&lt;no title&gt;</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >TensorFlow models</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="../intro/tf_models_zoo.html" >&lt;no title&gt;</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

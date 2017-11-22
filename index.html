@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to Dataset’s documentation! &#8212; Dataset 0.2.0 documentation</title>
+    <title>Welcome to Dataset’s documentation! &#8212; Dataset 0.2.1 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="intro/intro.html" title="A short introduction"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Dataset 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Dataset 0.2.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -128,7 +128,8 @@ and call <code class="docutils literal"><span class="pre">train_model</span></co
 <span class="n">my_workflow</span> <span class="o">=</span> <span class="n">my_dataset</span><span class="o">.</span><span class="n">pipeline</span><span class="p">()</span>
               <span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="s1">&#39;dynamic&#39;</span><span class="p">,</span> <span class="n">ResNet34</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span>
                           <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">(</span><span class="s1">&#39;image_shape&#39;</span><span class="p">)},</span>
-                                     <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;classes&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">}}})</span>
+                                     <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;classes&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;ohe&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;targets&#39;</span><span class="p">}},</span>
+                          <span class="s1">&#39;input_block/inputs&#39;</span><span class="p">:</span> <span class="s1">&#39;images&#39;</span><span class="p">})</span>
               <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;/some/path&#39;</span><span class="p">)</span>
               <span class="o">.</span><span class="n">some_transform</span><span class="p">()</span>
               <span class="o">.</span><span class="n">another_transform</span><span class="p">()</span>
@@ -261,7 +262,7 @@ This is extremely convenient in a fast paced research environment.</p>
         <li class="right" >
           <a href="intro/intro.html" title="A short introduction"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Dataset 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Dataset 0.2.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
