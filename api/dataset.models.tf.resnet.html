@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>ResNet &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,10 +22,15 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="MobileNet" href="dataset.models.tf.mobilenet.html" />
-    <link rel="prev" title="Inception" href="dataset.models.tf.inception.html" /> 
+    <link rel="prev" title="Inception" href="dataset.models.tf.inception.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -45,11 +50,37 @@
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >TensorFlow models</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="../intro/tf_models_zoo.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" accesskey="U">Predefined models</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.models.tf.inception.html"
+                        title="previous chapter">Inception</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.models.tf.mobilenet.html"
+                        title="next chapter">MobileNet</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dataset.models.tf.resnet.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -59,6 +90,7 @@
   <div class="section" id="module-dataset.models.tf.resnet">
 <span id="resnet"></span><h1>ResNet<a class="headerlink" href="#module-dataset.models.tf.resnet" title="Permalink to this headline">¶</a></h1>
 <p>Kaiming He et al. “<a class="reference external" href="https://arxiv.org/abs/1512.03385">Deep Residual Learning for Image Recognition</a>”</p>
+<p>Kaiming He et al. “<a class="reference external" href="https://arxiv.org/abs/1603.05027">Identity Mappings in Deep Residual Networks</a>”</p>
 <p>Sergey Zagoruyko, Nikos Komodakis. “<a class="reference external" href="https://arxiv.org/abs/1605.07146">Wide Residual Networks</a>”</p>
 <p>Xie S. et al. “<a class="reference external" href="https://arxiv.org/abs/1611.05431">Aggregated Residual Transformations for Deep Neural Networks</a>”</p>
 <dl class="class">
@@ -81,17 +113,15 @@
 <dt>num_blocks <span class="classifier-delimiter">:</span> <span class="classifier">list of int</span></dt>
 <dd>number of blocks in each group with the same number of filters.</dd>
 <dt>filters <span class="classifier-delimiter">:</span> <span class="classifier">list of int</span></dt>
-<dd>number of filters in each group (default=[64, 128, 256, 512])</dd>
-</dl>
-</dd>
-<dt>head <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>‘Vdf’ with dropout_rate=.4</dd>
+<dd>number of filters in each group</dd>
 <dt>block <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
 <dd><dl class="first last docutils">
 <dt>bottleneck <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
 <dd>whether to use bottleneck blocks (1x1,3x3,1x1) or simple (3x3,3x3)</dd>
 <dt>bottleneck_factor <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd>filter shrinking factor in a bottleneck block (default=4)</dd>
+<dt>post_activation <span class="classifier-delimiter">:</span> <span class="classifier">None or callable</span></dt>
+<dd>an activation to use after residual and shortcut summation (default is None)</dd>
 <dt>width_factor <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd>widening factor to make WideResNet (default=1)</dd>
 <dt>se_block <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
@@ -104,6 +134,10 @@
 <dd>the number of aggregations in ResNeXt block (default=32)</dd>
 </dl>
 </dd>
+</dl>
+</dd>
+<dt>head <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>‘Vdf’ with dropout_rate=.4</dd>
 </dl>
 <dl class="classmethod">
 <dt id="dataset.models.tf.resnet.ResNet.default_config">
@@ -145,7 +179,7 @@
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.resnet.ResNet.double_block">
-<em class="property">classmethod </em><code class="descname">double_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='double_block'</em>, <em>strides=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.double_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.double_block" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">double_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='double_block'</em>, <em>downsample=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.double_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.double_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Two ResNet blocks one after another</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -153,8 +187,9 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
-<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of output filters</li>
+<li><strong>downsample</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to decrease spatial dimensions</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – block parameters</li>
 </ul>
 </td>
 </tr>
@@ -178,14 +213,17 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
-<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of output filters</li>
-<li><strong>resnext</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to use a usuall or aggregated ResNeXt block</li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><em>list/tuple of ints</em>) – number of output filters</li>
+<li><strong>width_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – a factor to increase number of filters to build a wide network</li>
+<li><strong>downsample</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to decrease spatial dimensions with strides=2 in the first convolution</li>
+<li><strong>resnext</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to use an aggregated ResNeXt block</li>
 <li><strong>resnext_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – cardinality for ResNeXt block</li>
-<li><strong>bottleneck</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to use a simple or bottleneck block</li>
+<li><strong>bottleneck</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to use a simple (<cite>False</cite>) or bottleneck (<cite>True</cite>) block</li>
 <li><strong>bottleneck_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – the filters nultiplier in the bottleneck block</li>
 <li><strong>se_block</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to include squeeze and excitation block</li>
 <li><strong>se_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – se block ratio</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – conv_block parameters for all sub blocks</li>
 </ul>
 </td>
 </tr>
@@ -201,7 +239,7 @@
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.resnet.ResNet.sub_block">
-<em class="property">classmethod </em><code class="descname">sub_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>bottleneck</em>, <em>bottleneck_factor</em>, <em>name</em>, <em>strides=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.sub_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.sub_block" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">sub_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>bottleneck</em>, <em>bottleneck_factor</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.sub_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.sub_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>ResNet convolution block</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -210,9 +248,10 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
 <li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of output filters</li>
+<li><strong>downsample</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to decrease spatial dimensions with strides=2</li>
 <li><strong>bottleneck</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to use a simple or a bottleneck block</li>
 <li><strong>bottleneck_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – filter count scaling factor</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – conv_block parameters</li>
 </ul>
 </td>
 </tr>
@@ -228,7 +267,7 @@
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.resnet.ResNet.simple_block">
-<em class="property">classmethod </em><code class="descname">simple_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>name</em>, <em>strides</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.simple_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.simple_block" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">simple_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>layout='acn acn'</em>, <em>filters=None</em>, <em>kernel_size=3</em>, <em>downsample=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.simple_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.simple_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>A simple residual block with two 3x3 convolutions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -237,7 +276,10 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
 <li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – convolution kernel size</li>
+<li><strong>downsample</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to decrease spatial dimensions with strides=2</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – conv_block parameters</li>
 </ul>
 </td>
 </tr>
@@ -253,7 +295,7 @@
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.resnet.ResNet.bottleneck_block">
-<em class="property">classmethod </em><code class="descname">bottleneck_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>bottleneck_factor</em>, <em>name</em>, <em>strides</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.bottleneck_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.bottleneck_block" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">bottleneck_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>layout='acn acn acn'</em>, <em>filters=None</em>, <em>kernel_size=None</em>, <em>bottleneck_factor=4</em>, <em>downsample=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.bottleneck_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.bottleneck_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>A stack of 1x1, 3x3, 1x1 convolutions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -262,7 +304,10 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
 <li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of filters in the first two convolutions</li>
+<li><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – convolution kernel size</li>
 <li><strong>bottleneck_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – scale factor for the number of filters</li>
+<li><strong>downsample</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to decrease spatial dimensions with strides=2</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – conv_block parameters</li>
 </ul>
 </td>
 </tr>
@@ -290,6 +335,32 @@
 <li><strong>bottleneck</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to use a simple or a bottleneck block</li>
 <li><strong>resnext_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – cardinality for ResNeXt model</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – <cite>sub_block</cite> parameters</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.resnet.ResNet.make_encoder">
+<em class="property">classmethod </em><code class="descname">make_encoder</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='encoder'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/resnet.html#ResNet.make_encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.resnet.ResNet.make_encoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the body and return encoder tensors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – body params</li>
 </ul>
 </td>
 </tr>
@@ -371,33 +442,6 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="dataset.models.tf.inception.html"
-                        title="previous chapter">Inception</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="dataset.models.tf.mobilenet.html"
-                        title="next chapter">MobileNet</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/dataset.models.tf.resnet.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -417,14 +461,13 @@
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >TensorFlow models</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="../intro/tf_models_zoo.html" >&lt;no title&gt;</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" >Predefined models</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

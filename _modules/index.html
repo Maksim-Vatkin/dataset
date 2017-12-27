@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Overview: module code &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,8 +22,13 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -37,7 +42,21 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -57,7 +76,11 @@
 <li><a href="dataset/models/sklearn.html">dataset.models.sklearn</a></li>
 <li><a href="dataset/models/tf/base.html">dataset.models.tf.base</a></li>
 <li><a href="dataset/models/tf/densenet.html">dataset.models.tf.densenet</a></li>
+<li><a href="dataset/models/tf/densenet_fc.html">dataset.models.tf.densenet_fc</a></li>
+<li><a href="dataset/models/tf/encoder_decoder.html">dataset.models.tf.encoder_decoder</a></li>
+<li><a href="dataset/models/tf/faster_rcnn.html">dataset.models.tf.faster_rcnn</a></li>
 <li><a href="dataset/models/tf/fcn.html">dataset.models.tf.fcn</a></li>
+<li><a href="dataset/models/tf/gcn.html">dataset.models.tf.gcn</a></li>
 <li><a href="dataset/models/tf/inception_base.html">dataset.models.tf.inception_base</a></li>
 <li><a href="dataset/models/tf/inception_v1.html">dataset.models.tf.inception_v1</a></li>
 <li><a href="dataset/models/tf/inception_v3.html">dataset.models.tf.inception_v3</a></li>
@@ -66,33 +89,24 @@
 <li><a href="dataset/models/tf/layers/conv_block.html">dataset.models.tf.layers.conv_block</a></li>
 <li><a href="dataset/models/tf/layers/core.html">dataset.models.tf.layers.core</a></li>
 <li><a href="dataset/models/tf/layers/pooling.html">dataset.models.tf.layers.pooling</a></li>
+<li><a href="dataset/models/tf/layers/resize.html">dataset.models.tf.layers.resize</a></li>
+<li><a href="dataset/models/tf/layers/roi.html">dataset.models.tf.layers.roi</a></li>
 <li><a href="dataset/models/tf/linknet.html">dataset.models.tf.linknet</a></li>
 <li><a href="dataset/models/tf/losses.html">dataset.models.tf.losses</a></li>
 <li><a href="dataset/models/tf/mobilenet.html">dataset.models.tf.mobilenet</a></li>
+<li><a href="dataset/models/tf/refinenet.html">dataset.models.tf.refinenet</a></li>
+<li><a href="dataset/models/tf/resattention.html">dataset.models.tf.resattention</a></li>
 <li><a href="dataset/models/tf/resnet.html">dataset.models.tf.resnet</a></li>
 <li><a href="dataset/models/tf/squeezenet.html">dataset.models.tf.squeezenet</a></li>
 <li><a href="dataset/models/tf/unet.html">dataset.models.tf.unet</a></li>
 <li><a href="dataset/models/tf/vgg.html">dataset.models.tf.vgg</a></li>
+<li><a href="dataset/models/tf/vnet.html">dataset.models.tf.vnet</a></li>
 <li><a href="dataset/opensets/cifar.html">dataset.opensets.cifar</a></li>
 <li><a href="dataset/opensets/mnist.html">dataset.opensets.mnist</a></li>
 <li><a href="dataset/pipeline.html">dataset.pipeline</a></li>
 </ul>
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -111,7 +125,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>dataset.models.tf.inception_v3 &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,8 +22,13 @@
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +43,21 @@
         <li class="nav-item nav-item-0"><a href="../../../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -81,7 +100,7 @@
 <span class="sd">        dict with keys &#39;images&#39; and &#39;masks&#39; (see :meth:`._make_inputs`)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Inception_v3.default_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.default_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Define the default parameters to inception_v3 model.</span>
 
 <span class="sd">        Returns</span>
@@ -96,6 +115,7 @@
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;layout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;bbbrffffmee&#39;</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;arch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_DEFAULT_V3_ARCH</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;Vdf&#39;</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=.</span><span class="mi">8</span><span class="p">))</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ce&#39;</span>
         <span class="k">return</span> <span class="n">config</span></div>
 
 <div class="viewcode-block" id="Inception_v3.build_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.build_config">[docs]</a>    <span class="k">def</span> <span class="nf">build_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -104,7 +124,7 @@
         <span class="k">return</span> <span class="n">config</span></div>
 
 <div class="viewcode-block" id="Inception_v3.block"><a class="viewcode-back" href="../../../../api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.block">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Network building block.</span>
 
 <span class="sd">        For details see figure 5 in the article.</span>
@@ -132,12 +152,12 @@
 
             <span class="n">branch_pool</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="o">+</span><span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c_pool&#39;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s1">&#39;pool_strides&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 
-            <span class="n">axis</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">branch_1</span><span class="p">,</span> <span class="n">branch_1_3</span><span class="p">,</span> <span class="n">branch_1_3_3</span><span class="p">,</span> <span class="n">branch_pool</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="Inception_v3.mixed_block"><a class="viewcode-back" href="../../../../api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.mixed_block">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">mixed_block</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mixed_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">mixed_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mixed_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Mixed block.</span>
 
 <span class="sd">        This block is not described in the paper, but is used in `Google&#39;s implementation</span>
@@ -168,12 +188,12 @@
             <span class="n">branch_pool</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c_pool&#39;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="n">pool_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                                      <span class="n">pool_strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="n">axis</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">branch_1_3</span><span class="p">,</span> <span class="n">branch_1_7_3</span><span class="p">,</span> <span class="n">branch_pool</span><span class="p">],</span> <span class="n">axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="Inception_v3.factorization_block"><a class="viewcode-back" href="../../../../api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.factorization_block">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">factorization_block</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;factorization_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">factorization_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;factorization_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; 7x7 factorization block.</span>
 
 <span class="sd">        For details see figure 6 in the article.</span>
@@ -205,12 +225,12 @@
 
             <span class="n">branch_pool</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="o">+</span><span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c_pool&#39;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s1">&#39;pool_strides&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 
-            <span class="n">axis</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">branch_1</span><span class="p">,</span> <span class="n">branch_1_3</span><span class="p">,</span> <span class="n">branch_1_7</span><span class="p">,</span> <span class="n">branch_pool</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="Inception_v3.expanded_block"><a class="viewcode-back" href="../../../../api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.expanded_block">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">expanded_block</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;expanded_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">expanded_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;expanded_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Network building block.</span>
 
 <span class="sd">        For details see figure 7 in the article.</span>
@@ -229,7 +249,7 @@
 <span class="sd">        tf.Tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-            <span class="n">axis</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
             <span class="n">branch_1</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv_1&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="n">branch_pool</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="o">+</span><span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c_pool&#39;</span><span class="p">,</span>
@@ -252,20 +272,6 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -283,7 +289,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

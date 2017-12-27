@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Pipeline &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,10 +22,15 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Decorators" href="dataset.decorators.html" />
-    <link rel="prev" title="Batch" href="dataset.batch.html" /> 
+    <link rel="prev" title="Batch" href="dataset.batch.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -47,7 +52,34 @@
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.core.html" accesskey="U">dataset</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.batch.html"
+                        title="previous chapter">Batch</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.decorators.html"
+                        title="next chapter">Decorators</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dataset.pipeline.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -71,12 +103,6 @@
 <dt id="dataset.Pipeline.append_pipeline">
 <code class="descname">append_pipeline</code><span class="sig-paren">(</span><em>pipeline</em>, <em>proba=None</em>, <em>repeat=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.append_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.append_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a nested pipeline to the log of future actions</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dataset.Pipeline.append_variable">
-<code class="descname">append_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em>, <em>var=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.append_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.append_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Append a value to a pipeline variable</p>
 </dd></dl>
 
 <dl class="method">
@@ -188,18 +214,19 @@ If the variable does not exists, the warning will be issued.</p>
 <dl class="method">
 <dt id="dataset.Pipeline.get_variable">
 <code class="descname">get_variable</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em>, <em>init=None</em>, <em>init_on_each_run=None</em>, <em>create=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.get_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a variable value
-If the variable does not exists, it will be created and initialized (see <cite>init_variable</cite> below)</p>
+<dd><p>Return a variable value.</p>
+<p>If the variable does not exists, it will be created and initialized (see <cite>init_variable</cite> below)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>string - a name of the variable</em>) – </li>
-<li><strong>create</strong> (bool - whether to create a variable if it does not exist. Default is <cite>False</cite>.) – If <cite>init</cite> or <cite>init_on_each_run</cite> is specified, then the variable will created regardless of <cite>create</cite>.</li>
-<li><strong>- a value for the variable if it does not exists</strong> (<em>default</em>) – </li>
-<li><strong>init</strong> (<em>callable - a function which returns the default value</em>) – </li>
-<li><strong>init_on_each_run</strong> (callable - same as <cite>init</cite> but initializes the variable before each run) – </li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><em>string</em></a>) – a name of the variable</li>
+<li><strong>create</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to create a variable if it does not exist. Default is <cite>False</cite>.
+If <cite>init</cite> or <cite>init_on_each_run</cite> is specified, then the variable will created regardless of <cite>create</cite>.</li>
+<li><strong>default</strong> – a value for the variable if it does not exists</li>
+<li><strong>init</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function which returns the default value</li>
+<li><strong>init_on_each_run</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – same as <cite>init</cite> but initializes the variable before each run</li>
 </ul>
 </td>
 </tr>
@@ -276,10 +303,11 @@ If the variable does not exists, it will be created and initialized (see <cite>i
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>mode</strong> (<em>str - 'static'</em><em> or </em><em>'dynamic'</em>) – </li>
-<li><strong>model_class</strong> (<em>class - a model class</em>) – </li>
-<li><strong>name</strong> (<em>str - a name for the model. Default - a model class name.</em>) – </li>
-<li><strong>config</strong> (<em>dict - model configurations parameters</em><em>, </em><em>where each key and value could be named expressions</em>) – <ul>
+<li><strong>mode</strong> (<em>{'static'</em><em>, </em><em>'dynamic'}</em>) – </li>
+<li><strong>model_class</strong> (<em>class</em>) – a model class</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a name for the model. Default - a model class name.</li>
+<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – <p>model configurations parameters, where each key and value could be named expressions</p>
+<ul>
 <li>B(‘name’) - a batch class attribute or component name</li>
 <li>V(‘name’) - a pipeline variable name</li>
 <li>C(‘name’) - a pipeline config option</li>
@@ -303,8 +331,8 @@ All other value will be used “as is”.</p>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
-<span class="go">      .init_variable(&#39;shape_name&#39;, images_shape&#39;)</span>
-<span class="go">      .init_model(&#39;dynamic&#39;, MyModel, config={V(&#39;shape_name)&#39;: B(&#39;images_shape&#39;)})</span>
+<span class="go">      .init_variable(&#39;shape_name&#39;, &#39;images_shape&#39;)</span>
+<span class="go">      .init_model(&#39;dynamic&#39;, C(&#39;model&#39;), config={V(&#39;shape_name)&#39;: B(&#39;images_shape&#39;)})</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
@@ -323,11 +351,11 @@ If the variable exists, does nothing.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>string - a name of the variable</em>) – </li>
-<li><strong>- an initial value for the variable</strong> (<em>default</em>) – </li>
-<li><strong>init</strong> (<em>callable - a function which returns the default value</em>) – </li>
-<li><strong>init_on_each_run</strong> (callable - same as <cite>init</cite> but initializes the variable before each run) – </li>
-<li><strong>lock</strong> (<em>bool - whether to lock a variable before each update</em><em> (</em><em>default: True</em><em>)</em>) – </li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><em>string</em></a>) – a name of the variable</li>
+<li><strong>default</strong> – an initial value for the variable</li>
+<li><strong>init</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function which returns the default value</li>
+<li><strong>init_on_each_run</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – same as <cite>init</cite> but initializes the variable before each run</li>
+<li><strong>lock</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to lock a variable before each update (default: True)</li>
 </ul>
 </td>
 </tr>
@@ -358,8 +386,13 @@ If the variable exists, does nothing.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – key : str - a variable name,
-value : dict -  a variable value and params (see <cite>init_variable</cite>)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – <dl class="docutils">
+<dt>if dict</dt>
+<dd>key : str - a variable name,
+value : dict -  a variable value and params (see <cite>init_variable</cite>)</dd>
+</dl>
+<p>if tuple, contains variable names which will have None as default values</p>
+</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
 </tr>
@@ -392,8 +425,8 @@ value : dict -  a variable value and params (see <cite>init_variable</cite>)</td
 <dl class="method">
 <dt id="dataset.Pipeline.next_batch">
 <code class="descname">next_batch</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.next_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.next_batch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the next batch and execute all previous lazy actions
-next_batch(batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs):</p>
+<dd><p>Get the next batch and execute all previous lazy actions</p>
+<p>next_batch(batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs):</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -415,70 +448,75 @@ next_batch(batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a
 <li><strong>make_data</strong> (<em>a callable</em><em> or </em><em>a named expression</em>) – a function or method to transform batch data to prediction parameters.
 Should return dict - kwargs for <cite>model.predict(…)</cite>.</li>
 <li><strong>save_to</strong> (<em>a named expression</em><em> or </em><em>a sequence of named expressions of type B</em><em> or </em><em>V</em>) – A location where the model output will be stored</li>
-<li><strong>mode</strong> (<em>str {'w'</em><em>, </em><em>'a'</em><em>, </em><em>'e'</em><em>, </em><em>'u'} - a method of storing output</em>) – <p>‘w’ - overwrite <cite>save_to</cite> location with a new value. This is a default mode.
-‘a’ - append a new value to <cite>save_to</cite> location</p>
-<blockquote>
-<div>(see list.append <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</div></blockquote>
-<dl class="docutils">
+<li><strong>mode</strong> (<em>str {'w'</em><em>, </em><em>'a'</em><em>, </em><em>'e'</em><em>, </em><em>'u'}</em>) – <p>a method of storing output</p>
+<ul>
+<li>’w’ - overwrite <cite>save_to</cite> location with a new value. This is a default mode.</li>
+<li><dl class="first docutils">
+<dt>’a’ - append a new value to <cite>save_to</cite> location</dt>
+<dd>(see list.append <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt>’e’ - extend <cite>save_to</cite> location with a new value</dt>
 <dd>(see list.extend <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt>’u’ - update <cite>save_to</cite> location with a new value</dt>
 <dd>(see dict.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict.update">https://docs.python.org/3/library/stdtypes.html#dict.update</a>
 or set.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset.update">https://docs.python.org/3/library/stdtypes.html#frozenset.update</a>)</dd>
 </dl>
 </li>
-<li><strong>other named parameters are treated as data mappings of any type</strong> (<em>All</em>) – </li>
-<li><strong>keys and values could be named expressions</strong> (<em>which</em>) – <ul>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>All other named parameters are treated as data mappings of any type
+which keys and values could be named expressions:</p>
+<ul class="simple">
 <li>B(‘name’) - a batch class attribute or component name</li>
 <li>V(‘name’) - a pipeline variable name</li>
 <li>C(‘name’) - a pipeline config option</li>
 <li>F(name) - a callable which takes (batch, model)</li>
 </ul>
 <p>These expressions are substituted by their actual values.
-All other value will be used “as is”.</p>
-</li>
-<li><strong>parameters after substitution will be sent to model.predict</strong><strong>(</strong><strong>..</strong><strong>)</strong><strong></strong> (<em>These</em>) – </li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+All other value will be used “as is”.
+These parameters after substitution will be sent to <cite>model.predict(…)</cite>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
 <span class="go">        .predict_model(&#39;resnet&#39;, x=B(&#39;images&#39;), y_true=B(&#39;labels&#39;), save_to=B(&#39;predicted_labels&#39;))</span>
-<span class="go">Would call a `resnet` model `predict` method with `x` and `y_true` arguments:</span>
-<span class="go">``predictions = resnet.predict(x=batch.images, y_true=batch.labels)``</span>
-<span class="go">Predictions will be stored `batch.predicted_labels`.</span>
 </pre></div>
 </div>
+<p>Call a <cite>resnet</cite> model <cite>predict</cite> method with <cite>x</cite> and <cite>y_true</cite> arguments:
+<code class="docutils literal"><span class="pre">predictions</span> <span class="pre">=</span> <span class="pre">resnet.predict(x=batch.images,</span> <span class="pre">y_true=batch.labels)</span></code></p>
+<p>Predictions will be stored <cite>batch.predicted_labels</cite>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
 <span class="go">    .init_variable(&#39;inferred_masks&#39;, init_on_each_run=list)</span>
 <span class="go">    .predict_model(&#39;tf_unet&#39;, fetches=&#39;predictions&#39;, feed_dict={&#39;x&#39;: B(&#39;images&#39;)},</span>
 <span class="go">                   save_to=V(&#39;inferred_masks&#39;))</span>
-<span class="go">Would call a `tf_unet` model `train` method with `fetches` and `feed_dict` arguments:</span>
-<span class="go">``predictions = tf_unet.train(fetches=&#39;predictions&#39;, feed_dict={&#39;x&#39;: batch.images})``</span>
-<span class="go">Predictions for each batch will be stored in a pipeline variable `inferred_masks`.</span>
 </pre></div>
 </div>
+<p>Call a <cite>tf_unet</cite> model <cite>train</cite> method with <cite>fetches</cite> and <cite>feed_dict</cite> arguments:
+<code class="docutils literal"><span class="pre">predictions</span> <span class="pre">=</span> <span class="pre">tf_unet.train(fetches='predictions',</span> <span class="pre">feed_dict={'x':</span> <span class="pre">batch.images})</span></code>
+Predictions for each batch will be stored in a pipeline variable <cite>inferred_masks</cite>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">predict_model</span><span class="p">(</span><span class="s1">&#39;deepnet&#39;</span><span class="p">,</span> <span class="n">MyBatch</span><span class="o">.</span><span class="n">make_deepnet_data</span><span class="p">)</span>
-<span class="go">Equivalent to::</span>
 </pre></div>
 </div>
-<blockquote>
-<div>predict_data = batch.make_deepnet_data(model=deepnet_model)
-deepnet_model.predict(<a href="#id5"><span class="problematic" id="id6">**</span></a>predict_data)</div></blockquote>
+<p>Equivalent to:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">predict_data</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">make_deepnet_data</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">deepnet_model</span><span class="p">)</span>
+<span class="n">deepnet_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">**</span><span class="n">predict_data</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
-<dt id="dataset.Pipeline.print_variable">
-<code class="descname">print_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.print_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.print_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print a value of a given variable during pipeline execution</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dataset.Pipeline.put_into_tf_queue">
-<code class="descname">put_into_tf_queue</code><span class="sig-paren">(</span><em>session=None</em>, <em>queue=None</em>, <em>get_tensor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.put_into_tf_queue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.put_into_tf_queue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Insert a tensorflow queue after the action</p>
+<dt id="dataset.Pipeline.print">
+<code class="descname">print</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.print" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a value during pipeline execution</p>
 </dd></dl>
 
 <dl class="method">
@@ -496,8 +534,8 @@ deepnet_model.predict(<a href="#id5"><span class="problematic" id="id6">**</span
 <dl class="method">
 <dt id="dataset.Pipeline.run">
 <code class="descname">run</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Execute all lazy actions for each batch in the dataset
-run(self, batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a href="#id7"><span class="problematic" id="id8">*</span></a>args, <a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs):</p>
+<dd><p>Execute all lazy actions for each batch in the dataset</p>
+<p>run(batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a href="#id5"><span class="problematic" id="id6">*</span></a>args, <a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs):</p>
 </dd></dl>
 
 <dl class="method">
@@ -510,6 +548,24 @@ run(self, batch_size, shuffle=True, n_epochs=1, drop_last=False, prefetch=0, <a 
 <dt id="dataset.Pipeline.save_to_variable">
 <code class="descname">save_to_variable</code><span class="sig-paren">(</span><em>name</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.save_to_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.save_to_variable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a value to a given variable during pipeline execution</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Pipeline.set_config">
+<code class="descname">set_config</code><span class="sig-paren">(</span><em>config</em>, <em>clear=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.set_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.set_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update pipeline’s config</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – configuration parameters</li>
+<li><strong>clear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to clear the current config</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -552,54 +608,65 @@ the variable was not initialized.</p>
 Should return dict - kwargs for <cite>model.train(…)</cite>.</li>
 <li><strong>save_to</strong> (<em>a named expression</em><em> or </em><em>a sequence of named expressions of type B</em><em> or </em><em>V</em>) – A location where the model output will be stored.
 This will rewrite the previous value in the location given.</li>
-<li><strong>mode</strong> (<em>str {'w'</em><em>, </em><em>'a'</em><em>, </em><em>'e'</em><em>, </em><em>'u'} - a method of storing output</em>) – <p>‘w’ - overwrite <cite>save_to</cite> location with a new value. This is a default mode.
-‘a’ - append a new value to <cite>save_to</cite> location</p>
-<blockquote>
-<div>(see list.append <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</div></blockquote>
-<dl class="docutils">
+<li><strong>mode</strong> (<em>str {'w'</em><em>, </em><em>'a'</em><em>, </em><em>'e'</em><em>, </em><em>'u'}</em>) – <p>a method of storing output</p>
+<ul>
+<li>’w’ - overwrite <cite>save_to</cite> location with a new value. This is a default mode.</li>
+<li><dl class="first docutils">
+<dt>’a’ - append a new value to <cite>save_to</cite> location</dt>
+<dd>(see list.append <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt>’e’ - extend <cite>save_to</cite> location with a new value</dt>
 <dd>(see list.extend <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">https://docs.python.org/3/tutorial/datastructures.html#more-on-lists</a>)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt>’u’ - update <cite>save_to</cite> location with a new value</dt>
 <dd>(see dict.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict.update">https://docs.python.org/3/library/stdtypes.html#dict.update</a>
 or set.update <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset.update">https://docs.python.org/3/library/stdtypes.html#frozenset.update</a>)</dd>
 </dl>
 </li>
-<li><strong>other named parameters are treated as data mappings of any type</strong> (<em>All</em>) – </li>
-<li><strong>keys and values could be named expressions</strong> (<em>which</em>) – <ul>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>All other named parameters are treated as data mappings of any type
+which keys and values could be named expressions:</p>
+<ul class="simple">
 <li>B(‘name’) - a batch class attribute or component name</li>
 <li>V(‘name’) - a pipeline variable name</li>
 <li>C(‘name’) - a pipeline config option</li>
 <li>F(name) - a callable which takes (batch, model)</li>
 </ul>
 <p>These expressions are substituted by their actual values.
-All other value will be used “as is”.</p>
-</li>
-<li><strong>parameters after substitution will be sent to model.train</strong><strong>(</strong><strong>..</strong><strong>)</strong><strong></strong> (<em>These</em>) – </li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+All other value will be used “as is”.
+These parameters after substitution will be sent to <cite>model.train(…)</cite>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">),</span> <span class="n">y_true</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="s1">&#39;masks&#39;</span><span class="p">))</span>
-<span class="go">Would call a `resnet` model `train` method with `x` and `y_true` arguments:</span>
-<span class="go">``resnet.train(x=batch.images, y_true=batch.masks)``</span>
 </pre></div>
 </div>
+<p>Would call a <cite>resnet</cite> model <cite>train</cite> method with <cite>x</cite> and <cite>y_true</cite> arguments:
+<code class="docutils literal"><span class="pre">resnet.train(x=batch.images,</span> <span class="pre">y_true=batch.masks)</span></code></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>
 <span class="go">       .init_variable(&#39;tensor_name&#39;, &#39;x&#39;)</span>
 <span class="go">       .train_model(&#39;resnet&#39;, feed_dict={V(&#39;tensor_name&#39;): B(&#39;images&#39;)})</span>
-<span class="go">Would call a `resnet` model `train` method with a `feed_dict` argument:</span>
-<span class="go">``resnet.train(feed_dict={&#39;x&#39;: batch.images})``</span>
 </pre></div>
 </div>
+<p>Would call a <cite>resnet</cite> model <cite>train</cite> method with a <cite>feed_dict</cite> argument:
+<code class="docutils literal"><span class="pre">resnet.train(feed_dict={'x':</span> <span class="pre">batch.images})</span></code></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="n">MyBatch</span><span class="o">.</span><span class="n">make_resnet_data</span><span class="p">)</span>
-<span class="go">Equivalent to::</span>
 </pre></div>
 </div>
-<blockquote>
-<div>train_data = batch.make_resnet_data(resnet_model)
-resnet_model.train(<a href="#id11"><span class="problematic" id="id12">**</span></a>train_data)</div></blockquote>
+<p>Equivalent to:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">train_data</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">make_resnet_data</span><span class="p">(</span><span class="n">resnet_model</span><span class="p">)</span>
+<span class="n">resnet_model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="o">**</span><span class="n">train_data</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -612,18 +679,24 @@ resnet_model.train(<a href="#id11"><span class="problematic" id="id12">**</span>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>a named expression - a variable name</em>) – </li>
-<li><strong>- an updating value</strong><strong>, </strong><strong>could be a value of any type</strong><strong> or </strong><strong>a named expression</strong> (<em>value</em>) – </li>
-<li><strong>B</strong><strong>(</strong><strong>'name'</strong><strong>) </strong><strong>- a batch class attribute</strong><strong> or </strong><strong>component name</strong> (<em>-</em>) – </li>
-<li><strong>V</strong><strong>(</strong><strong>'name'</strong><strong>) </strong><strong>- a pipeline variable name</strong> (<em>-</em>) – </li>
-<li><strong>C</strong><strong>(</strong><strong>'name'</strong><strong>) </strong><strong>- a pipeline config option</strong> (<em>-</em>) – </li>
-<li><strong>F</strong><strong>(</strong><strong>name</strong><strong>) </strong><strong>- a callable which takes a batch</strong><strong> (</strong><strong>could be a batch class method</strong><strong> or </strong><strong>a function</strong><strong>)</strong> (<em>-</em>) – </li>
-<li><strong>expressions will be substituted for their real value.</strong> (<em>These</em>) – </li>
-<li><strong>mode</strong> (<em>str - a method to update a variable value</em><em>, </em><em>could be one of:</em>) – </li>
-<li><strong>'w'</strong><strong> or </strong><strong>'write' to rewrite a variable with a new value. This is a default mode.</strong> (<em>-</em>) – </li>
-<li><strong>'a'</strong><strong> or </strong><strong>'append' to append a value to a variable</strong><strong> (</strong><strong>e.g. if a variable is a list</strong><strong>)</strong><strong></strong> (<em>-</em>) – </li>
-<li><strong>'e'</strong><strong> or </strong><strong>'extend' to extend a variable with a new value</strong><strong> (</strong><strong>e.g. if a variable is a list</strong><strong>)</strong><strong></strong> (<em>-</em>) – </li>
-<li><strong>'u'</strong><strong> or </strong><strong>'update' to update a variable with a new value</strong><strong> (</strong><strong>e.g. if a variable is a dict</strong><strong>)</strong><strong></strong> (<em>-</em>) – </li>
-<li><strong>sets and dicts 'a' and 'u' do exactly the same.</strong> (<em>For</em>) – </li>
+<li><strong>value</strong> – <p>an updating value, could be a value of any type or a named expression</p>
+<ul>
+<li>B(‘name’) - a batch class attribute or component name</li>
+<li>V(‘name’) - a pipeline variable name</li>
+<li>C(‘name’) - a pipeline config option</li>
+<li>F(name) - a callable which takes a batch (could be a batch class method or a function)</li>
+</ul>
+<p>These expressions will be substituted for their real value.</p>
+</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a method to update a variable value, could be one of:</p>
+<ul>
+<li>’w’ or ‘write’ to rewrite a variable with a new value. This is a default mode.</li>
+<li>’a’ or ‘append’ to append a value to a variable (e.g. if a variable is a list).</li>
+<li>’e’ or ‘extend’ to extend a variable with a new value (e.g. if a variable is a list).</li>
+<li>’u’ or ‘update’ to update a variable with a new value (e.g. if a variable is a dict).</li>
+</ul>
+<p>For sets and dicts ‘a’ and ‘u’ do exactly the same.</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -643,33 +716,6 @@ resnet_model.train(<a href="#id11"><span class="problematic" id="id12">**</span>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="dataset.batch.html"
-                        title="previous chapter">Batch</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="dataset.decorators.html"
-                        title="next chapter">Decorators</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/dataset.pipeline.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -696,7 +742,7 @@ resnet_model.train(<a href="#id11"><span class="problematic" id="id12">**</span>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

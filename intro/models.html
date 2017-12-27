@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Working with models &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,10 +22,15 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="TensorFlow models" href="models_zoo.html" />
-    <link rel="prev" title="Inter-batch parallelism" href="prefetch.html" /> 
+    <link rel="next" title="Tensorflow models" href="tf_models.html" />
+    <link rel="prev" title="Inter-batch parallelism" href="prefetch.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +43,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="TensorFlow models"
+          <a href="tf_models.html" title="Tensorflow models"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="prefetch.html" title="Inter-batch parallelism"
@@ -46,7 +51,52 @@
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with models</a><ul>
+<li><a class="reference internal" href="#model-class">Model class</a></li>
+<li><a class="reference internal" href="#model-types">Model types</a></li>
+<li><a class="reference internal" href="#adding-a-model-to-a-pipeline">Adding a model to a pipeline</a></li>
+<li><a class="reference internal" href="#configuring-a-model">Configuring a model</a></li>
+<li><a class="reference internal" href="#training-a-model">Training a model</a></li>
+<li><a class="reference internal" href="#predicting-with-a-model">Predicting with a model</a></li>
+<li><a class="reference internal" href="#saving-a-model">Saving a model</a></li>
+<li><a class="reference internal" href="#models-and-template-pipelines">Models and template pipelines</a></li>
+<li><a class="reference internal" href="#importing-models">Importing models</a></li>
+<li><a class="reference internal" href="#parallel-training">Parallel training</a></li>
+<li><a class="reference internal" href="#ready-to-use-models">Ready to use models</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="prefetch.html"
+                        title="previous chapter">Inter-batch parallelism</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tf_models.html"
+                        title="next chapter">Tensorflow models</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro/models.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -58,7 +108,7 @@
 <p>Pipelines can include model definitions, training, evauluation and prediction actions which links models and pipelines.</p>
 <div class="section" id="model-class">
 <h2>Model class<a class="headerlink" href="#model-class" title="Permalink to this headline">¶</a></h2>
-<p>Models are defined in model classes. You can use standard models or write your own models.:</p>
+<p>Models are defined in model classes. You can take ready to use architectures or write your own models.:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataset.models</span> <span class="k">import</span> <span class="n">BaseModel</span>
 
 <span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -66,7 +116,6 @@
         <span class="c1">#... do whatever you want</span>
 </pre></div>
 </div>
-<p>See below <a class="reference internal" href="#writing-your-own-model">Writing your own model</a>.</p>
 </div>
 <div class="section" id="model-types">
 <h2>Model types<a class="headerlink" href="#model-types" title="Permalink to this headline">¶</a></h2>
@@ -105,9 +154,9 @@ A static model is initialized immediately in the <code class="docutils literal">
 </ul>
 <p>For some models only one of <code class="docutils literal"><span class="pre">build</span></code> or <code class="docutils literal"><span class="pre">load</span></code> should be specified. While other models might need a building phase even if a model is loaded from a disk.</p>
 <p>Read a model specfication to know how to configure it.</p>
-<p>For flexibilty <code class="docutils literal"><span class="pre">config</span></code> might include so called <code class="docutils literal"><span class="pre">named</span> <span class="pre">expressions</span></code> which are defined by name but substitued with their actual values:</p>
+<p>For flexibilty <code class="docutils literal"><span class="pre">config</span></code> might include so called <a class="reference internal" href="named_expr.html"><span class="doc">named expressions</span></a> which are defined by name but substitued with their actual values:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">B('name')</span></code> - a batch component or property</li>
+<li><code class="docutils literal"><span class="pre">B('name')</span></code> - a batch component or attribute</li>
 <li><code class="docutils literal"><span class="pre">V('name')</span></code> - a pipeline variable</li>
 <li><code class="docutils literal"><span class="pre">C('name')</span></code> - a pipeline config option</li>
 <li><code class="docutils literal"><span class="pre">F(name)</span></code> - a function, method or any other callable</li>
@@ -135,13 +184,13 @@ A static model is initialized immediately in the <code class="docutils literal">
 <span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">train_model</span></code>’s arguments might be specific to a particular model you use. So read a model specfication to find out what it expects for training.</p>
+<p><code class="docutils literal"><span class="pre">train_model</span></code> arguments might be specific to a particular model you use. So read a model specfication to find out what it expects for training.</p>
 <p>Model independent arguments are:</p>
 <ul>
 <li><p class="first"><code class="docutils literal"><span class="pre">make_data</span></code> - a function or method which takes a current batch and a model instance and return a dict of arguments for <code class="docutils literal"><span class="pre">model.train(...)</span></code>.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">save_to</span></code> - a location or a sequence of locations where to store an output of <code class="docutils literal"><span class="pre">model.train</span></code> (if there is any).
-Could be a named expression: <code class="docutils literal"><span class="pre">B(&quot;name&quot;)</span></code>, <code class="docutils literal"><span class="pre">C(&quot;name&quot;)</span></code> or <code class="docutils literal"><span class="pre">V(&quot;name&quot;)</span></code>.</p>
+Could be <a class="reference internal" href="named_expr.html"><span class="doc">a named expression</span></a>: <code class="docutils literal"><span class="pre">B(&quot;name&quot;)</span></code>, <code class="docutils literal"><span class="pre">C(&quot;name&quot;)</span></code> or <code class="docutils literal"><span class="pre">V(&quot;name&quot;)</span></code>.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">mode</span></code> - could be one of:</p>
 <ul class="simple">
@@ -279,96 +328,16 @@ But it will be used in each children pipeline with different datasets (which mig
         <span class="k">return</span> <span class="bp">self</span>
 </pre></div>
 </div>
-<p>However, as far as <code class="docutils literal"><span class="pre">tensorflow</span></code> is concerned, its optimizers have a parameter <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train/Optimizer#__init__">use_locking</a> which allows for concurrent updates when set to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>However, as far as <code class="docutils literal"><span class="pre">TensorFlow</span></code> is concerned, its optimizers have a parameter <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/train/Optimizer#__init__">use_locking</a> which allows for concurrent updates when set to <code class="docutils literal"><span class="pre">True</span></code>.</p>
 </div>
-<div class="section" id="models-zoo">
-<h2>Models zoo<a class="headerlink" href="#models-zoo" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="models_zoo.html">TensorFlow models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.vgg.html">VGG</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.inception.html">Inception</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_base">Base Inception</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_v4">Inception version 4</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.resnet.html">ResNet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.mobilenet.html">MobileNet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.squeezenet.html">SqueezeNet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.densenet.html">DenseNet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.fcn.html">FCN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.unet.html">UNet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/dataset.models.tf.linknet.html">LinkNet</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="writing-your-own-model">
-<h2>Writing your own model<a class="headerlink" href="#writing-your-own-model" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="tf_models#how-to-write-a-custom-model">How to write TensorFlow models</a></li>
-</ul>
-</div>
-<div class="section" id="layers-and-losses">
-<h2>Layers and losses<a class="headerlink" href="#layers-and-losses" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference internal" href="tf_layers.html"><span class="doc">TensorFlow layers</span></a></li>
-</ul>
+<div class="section" id="ready-to-use-models">
+<h2>Ready to use models<a class="headerlink" href="#ready-to-use-models" title="Permalink to this headline">¶</a></h2>
+<p>See documentation for <a class="reference internal" href="tf_models.html"><span class="doc">Tensorflow models</span></a> and the list of <a class="reference internal" href="tf_models_zoo.html"><span class="doc">implemented architectures</span></a>.</p>
 </div>
 </div>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Working with models</a><ul>
-<li><a class="reference internal" href="#model-class">Model class</a></li>
-<li><a class="reference internal" href="#model-types">Model types</a></li>
-<li><a class="reference internal" href="#adding-a-model-to-a-pipeline">Adding a model to a pipeline</a></li>
-<li><a class="reference internal" href="#configuring-a-model">Configuring a model</a></li>
-<li><a class="reference internal" href="#training-a-model">Training a model</a></li>
-<li><a class="reference internal" href="#predicting-with-a-model">Predicting with a model</a></li>
-<li><a class="reference internal" href="#saving-a-model">Saving a model</a></li>
-<li><a class="reference internal" href="#models-and-template-pipelines">Models and template pipelines</a></li>
-<li><a class="reference internal" href="#importing-models">Importing models</a></li>
-<li><a class="reference internal" href="#parallel-training">Parallel training</a></li>
-<li><a class="reference internal" href="#models-zoo">Models zoo</a></li>
-<li><a class="reference internal" href="#writing-your-own-model">Writing your own model</a></li>
-<li><a class="reference internal" href="#layers-and-losses">Layers and losses</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="prefetch.html"
-                        title="previous chapter">Inter-batch parallelism</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="models_zoo.html"
-                        title="next chapter">TensorFlow models</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/intro/models.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -383,7 +352,7 @@ But it will be used in each children pipeline with different datasets (which mig
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="models_zoo.html" title="TensorFlow models"
+          <a href="tf_models.html" title="Tensorflow models"
              >next</a> |</li>
         <li class="right" >
           <a href="prefetch.html" title="Inter-batch parallelism"
@@ -394,7 +363,7 @@ But it will be used in each children pipeline with different datasets (which mig
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>dataset.dataset &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,8 +22,13 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +43,21 @@
         <li class="nav-item nav-item-0"><a href="../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -64,19 +83,19 @@
 <span class="sd">    is_split</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">batch_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">preloaded</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batch_class</span> <span class="o">=</span> <span class="n">batch_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preloaded</span> <span class="o">=</span> <span class="n">preloaded</span>
 
 <div class="viewcode-block" id="Dataset.from_dataset"><a class="viewcode-back" href="../../api/dataset.dataset.html#dataset.Dataset.from_dataset">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_dataset</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">batch_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_dataset</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">batch_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create Dataset from another dataset with new index</span>
 <span class="sd">        (usually a subset of the source dataset index)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">batch_class</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="n">batch_class</span> <span class="o">==</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch_class</span><span class="p">))</span> <span class="ow">and</span> <span class="n">cls</span><span class="o">.</span><span class="n">_is_same_index</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">batch_class</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="n">batch_class</span> <span class="o">==</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch_class</span><span class="p">))</span> <span class="ow">and</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_is_same_index</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">dataset</span>
         <span class="n">bcl</span> <span class="o">=</span> <span class="n">batch_class</span> <span class="k">if</span> <span class="n">batch_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch_class</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">batch_class</span><span class="o">=</span><span class="n">bcl</span><span class="p">,</span> <span class="n">preloaded</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">preloaded</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">batch_class</span><span class="o">=</span><span class="n">bcl</span><span class="p">,</span> <span class="n">preloaded</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">preloaded</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Dataset.build_index"><a class="viewcode-back" href="../../api/dataset.dataset.html#dataset.Dataset.build_index">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">build_index</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
@@ -126,20 +145,6 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -157,7 +162,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

@@ -1,13 +1,13 @@
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Index &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,8 +23,13 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +43,24 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Dataset 0.2.1 documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+   
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -70,6 +92,7 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#X"><strong>X</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -85,6 +108,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.decorators.html#dataset.action">action() (in module dataset)</a>
 </li>
+      <li><a href="api/dataset.batch.html#dataset.Batch.add_components">add_components() (Batch method)</a>
+
+      <ul>
+        <li><a href="api/dataset.batch.html#dataset.ImagesBatch.add_components">(ImagesBatch method)</a>
+</li>
+        <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.add_components">(ImagesPILBatch method)</a>
+</li>
+      </ul></li>
       <li><a href="api/dataset.opensets.html#dataset.opensets.MNIST.ALL_URLS">ALL_URLS (MNIST attribute)</a>
 </li>
       <li><a href="api/dataset.decorators.html#dataset.any_action_failed">any_action_failed() (in module dataset)</a>
@@ -92,8 +123,6 @@
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.append_action">append_action() (Pipeline method)</a>
 </li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.append_pipeline">append_pipeline() (Pipeline method)</a>
-</li>
-      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.append_variable">append_variable() (Pipeline method)</a>
 </li>
       <li><a href="api/dataset.batch.html#dataset.Batch.apply_transform">apply_transform() (Batch method)</a>
 
@@ -121,6 +150,8 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.as_dataset">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.aspp">aspp() (dataset.models.tf.base.TFModel class method)</a>
+</li>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.assemble">assemble() (ImagesBatch method)</a>
 
       <ul>
@@ -130,6 +161,8 @@
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.assemble_component">assemble_component() (ImagesBatch method)</a>
 </li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.assign_variable">assign_variable() (Pipeline method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention.attention">attention() (dataset.models.tf.resattention.ResNetAttention class method)</a>
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.average_pooling">average_pooling() (in module dataset.models.tf.layers)</a>
 </li>
@@ -143,16 +176,20 @@
 </li>
       <li><a href="api/dataset.batch.html#dataset.Batch">Batch (class in dataset)</a>
 </li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.batch_size">batch_size() (TFModel static method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.batch_size">batch_size() (dataset.models.tf.base.TFModel class method)</a>
 </li>
       <li><a href="api/dataset.models.tf.densenet.html#dataset.models.tf.densenet.DenseNet.block">block() (dataset.models.tf.densenet.DenseNet class method)</a>
 
       <ul>
+        <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.block">(dataset.models.tf.gcn.GlobalConvolutionNetwork class method)</a>
+</li>
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1.block">(dataset.models.tf.inception_v1.Inception_v1 class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.block">(dataset.models.tf.inception_v3.Inception_v3 class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.mobilenet.html#dataset.models.tf.mobilenet.MobileNet.block">(dataset.models.tf.mobilenet.MobileNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet.block">(dataset.models.tf.refinenet.RefineNet class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.block">(dataset.models.tf.resnet.ResNet class method)</a>
 </li>
@@ -164,6 +201,12 @@
       <ul>
         <li><a href="api/dataset.models.tf.densenet.html#dataset.models.tf.densenet.DenseNet.body">(dataset.models.tf.densenet.DenseNet class method)</a>
 </li>
+        <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC.body">(dataset.models.tf.densenet_fc.DenseNetFC class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder.body">(dataset.models.tf.encoder_decoder.EncoderDecoder class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.body">(dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN.body">(dataset.models.tf.fcn.FCN class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN16.body">(dataset.models.tf.fcn.FCN16 class method)</a>
@@ -172,11 +215,17 @@
 </li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN8.body">(dataset.models.tf.fcn.FCN8 class method)</a>
 </li>
+        <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.body">(dataset.models.tf.gcn.GlobalConvolutionNetwork class method)</a>
+</li>
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_base.Inception.body">(dataset.models.tf.inception_base.Inception class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.body">(dataset.models.tf.linknet.LinkNet class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.mobilenet.html#dataset.models.tf.mobilenet.MobileNet.body">(dataset.models.tf.mobilenet.MobileNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet.body">(dataset.models.tf.refinenet.RefineNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention.body">(dataset.models.tf.resattention.ResNetAttention class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.body">(dataset.models.tf.resnet.ResNet class method)</a>
 </li>
@@ -186,11 +235,15 @@
 </li>
         <li><a href="api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG.body">(dataset.models.tf.vgg.VGG class method)</a>
 </li>
-      </ul></li>
-      <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.bottleneck_block">bottleneck_block() (dataset.models.tf.resnet.ResNet class method)</a>
+        <li><a href="api/dataset.models.tf.vnet.html#dataset.models.tf.vnet.VNet.body">(dataset.models.tf.vnet.VNet class method)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.bottleneck_block">bottleneck_block() (dataset.models.tf.resnet.ResNet class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.boundary_refinement">boundary_refinement() (dataset.models.tf.gcn.GlobalConvolutionNetwork class method)</a>
+</li>
       <li><a href="api/dataset.models.html#dataset.models.BaseModel.build">build() (BaseModel method)</a>
 
       <ul>
@@ -202,7 +255,15 @@
       <li><a href="api/dataset.models.tf.densenet.html#dataset.models.tf.densenet.DenseNet.build_config">build_config() (DenseNet method)</a>
 
       <ul>
+        <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC.build_config">(DenseNetFC method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder.build_config">(EncoderDecoder method)</a>
+</li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN.build_config">(FCN method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.build_config">(FasterRCNN method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.build_config">(GlobalConvolutionNetwork method)</a>
 </li>
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1.build_config">(Inception_v1 method)</a>
 </li>
@@ -214,7 +275,11 @@
 </li>
         <li><a href="api/dataset.models.tf.mobilenet.html#dataset.models.tf.mobilenet.MobileNet.build_config">(MobileNet method)</a>
 </li>
+        <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet.build_config">(RefineNet method)</a>
+</li>
         <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.build_config">(ResNet method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention.build_config">(ResNetAttention method)</a>
 </li>
         <li><a href="api/dataset.models.tf.squeezenet.html#dataset.models.tf.squeezenet.SqueezeNet.build_config">(SqueezeNet method)</a>
 </li>
@@ -223,6 +288,8 @@
         <li><a href="api/dataset.models.tf.unet.html#dataset.models.tf.unet.UNet.build_config">(UNet method)</a>
 </li>
         <li><a href="api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG.build_config">(VGG method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.vnet.html#dataset.models.tf.vnet.VNet.build_config">(VNet method)</a>
 </li>
       </ul></li>
       <li><a href="api/dataset.index.html#dataset.FilesIndex.build_from_index">build_from_index() (FilesIndex method)</a>
@@ -257,9 +324,7 @@
       </ul></li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.call">call() (Pipeline method)</a>
 </li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.channels_axis">channels_axis() (TFModel static method)</a>
-</li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.channels_shape">channels_shape() (TFModel static method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.channels_axis">channels_axis() (dataset.models.tf.base.TFModel class method)</a>
 </li>
       <li><a href="api/dataset.opensets.html#dataset.opensets.CIFAR10">CIFAR10 (class in dataset.opensets)</a>
 </li>
@@ -285,15 +350,23 @@
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv1d_transpose">conv1d_transpose() (in module dataset.models.tf.layers)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv1d_transpose_nn">conv1d_transpose_nn() (in module dataset.models.tf.layers)</a>
+</li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_block">conv_block() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.conv_transpose">conv_transpose() (in module dataset.models.tf.layers)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.convert_to_array">convert_to_array() (ImagesPILBatch method)</a>
 </li>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.convert_to_pil">convert_to_pil() (ImagesBatch method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors">create_anchors() (FasterRCNN method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors_batch">create_anchors_batch() (dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors_tensors">create_anchors_tensors() (FasterRCNN method)</a>
 </li>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.create_batch">create_batch() (Dataset method)</a>
 
@@ -303,6 +376,10 @@
         <li><a href="api/dataset.pipeline.html#dataset.Pipeline.create_batch">(Pipeline method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.create_bbox_batch">create_bbox_batch() (dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.create_rpn_inputs">create_rpn_inputs() (dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.create_subset">create_subset() (Dataset method)</a>
 
       <ul>
@@ -349,7 +426,15 @@
 </li>
       <li><a href="api/dataset.models.tf.densenet.html#module-dataset.models.tf.densenet">dataset.models.tf.densenet (module)</a>
 </li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#module-dataset.models.tf.densenet_fc">dataset.models.tf.densenet_fc (module)</a>
+</li>
+      <li><a href="api/dataset.models.tf.encoder_decoder.html#module-dataset.models.tf.encoder_decoder">dataset.models.tf.encoder_decoder (module)</a>
+</li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#module-dataset.models.tf.faster_rcnn">dataset.models.tf.faster_rcnn (module)</a>
+</li>
       <li><a href="api/dataset.models.tf.fcn.html#module-dataset.models.tf.fcn">dataset.models.tf.fcn (module)</a>
+</li>
+      <li><a href="api/dataset.models.tf.gcn.html#module-dataset.models.tf.gcn">dataset.models.tf.gcn (module)</a>
 </li>
       <li><a href="api/dataset.models.tf.inception.html#module-dataset.models.tf.inception_base">dataset.models.tf.inception_base (module)</a>
 </li>
@@ -367,6 +452,10 @@
 </li>
       <li><a href="api/dataset.models.tf.mobilenet.html#module-dataset.models.tf.mobilenet">dataset.models.tf.mobilenet (module)</a>
 </li>
+      <li><a href="api/dataset.models.tf.refinenet.html#module-dataset.models.tf.refinenet">dataset.models.tf.refinenet (module)</a>
+</li>
+      <li><a href="api/dataset.models.tf.resattention.html#module-dataset.models.tf.resattention">dataset.models.tf.resattention (module)</a>
+</li>
       <li><a href="api/dataset.models.tf.resnet.html#module-dataset.models.tf.resnet">dataset.models.tf.resnet (module)</a>
 </li>
       <li><a href="api/dataset.models.tf.squeezenet.html#module-dataset.models.tf.squeezenet">dataset.models.tf.squeezenet (module)</a>
@@ -375,8 +464,34 @@
 </li>
       <li><a href="api/dataset.models.tf.vgg.html#module-dataset.models.tf.vgg">dataset.models.tf.vgg (module)</a>
 </li>
+      <li><a href="api/dataset.models.tf.vnet.html#module-dataset.models.tf.vnet">dataset.models.tf.vnet (module)</a>
+</li>
       <li><a href="api/dataset.index.html#dataset.DatasetIndex">DatasetIndex (class in dataset)</a>
 </li>
+      <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder.decoder">decoder() (dataset.models.tf.encoder_decoder.EncoderDecoder class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC.decoder_block">decoder_block() (dataset.models.tf.densenet_fc.DenseNetFC class method)</a>
+
+      <ul>
+        <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.decoder_block">(dataset.models.tf.gcn.GlobalConvolutionNetwork class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.decoder_block">(dataset.models.tf.linknet.LinkNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet.decoder_block">(dataset.models.tf.refinenet.RefineNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.unet.html#dataset.models.tf.unet.UNet.decoder_block">(dataset.models.tf.unet.UNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.vnet.html#dataset.models.tf.vnet.VNet.decoder_block">(dataset.models.tf.vnet.VNet class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset.batch.html#dataset.Batch.deepcopy">deepcopy() (Batch method)</a>
+
+      <ul>
+        <li><a href="api/dataset.batch.html#dataset.ImagesBatch.deepcopy">(ImagesBatch method)</a>
+</li>
+        <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.deepcopy">(ImagesPILBatch method)</a>
+</li>
+      </ul></li>
       <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.default_config">default_config() (dataset.models.tf.base.TFModel class method)</a>
 
       <ul>
@@ -390,6 +505,18 @@
 </li>
         <li><a href="api/dataset.models.tf.densenet.html#dataset.models.tf.densenet.DenseNet264.default_config">(dataset.models.tf.densenet.DenseNet264 class method)</a>
 </li>
+        <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC.default_config">(dataset.models.tf.densenet_fc.DenseNetFC class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC103.default_config">(dataset.models.tf.densenet_fc.DenseNetFC103 class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC56.default_config">(dataset.models.tf.densenet_fc.DenseNetFC56 class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC67.default_config">(dataset.models.tf.densenet_fc.DenseNetFC67 class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder.default_config">(dataset.models.tf.encoder_decoder.EncoderDecoder class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.default_config">(dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN.default_config">(dataset.models.tf.fcn.FCN class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN16.default_config">(dataset.models.tf.fcn.FCN16 class method)</a>
@@ -397,6 +524,8 @@
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN32.default_config">(dataset.models.tf.fcn.FCN32 class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN8.default_config">(dataset.models.tf.fcn.FCN8 class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.default_config">(dataset.models.tf.gcn.GlobalConvolutionNetwork class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v1.Inception_v1.default_config">(dataset.models.tf.inception_v1.Inception_v1 class method)</a>
 </li>
@@ -407,6 +536,14 @@
         <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.default_config">(dataset.models.tf.linknet.LinkNet class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.mobilenet.html#dataset.models.tf.mobilenet.MobileNet.default_config">(dataset.models.tf.mobilenet.MobileNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet.default_config">(dataset.models.tf.refinenet.RefineNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention.default_config">(dataset.models.tf.resattention.ResNetAttention class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention56.default_config">(dataset.models.tf.resattention.ResNetAttention56 class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention92.default_config">(dataset.models.tf.resattention.ResNetAttention92 class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.default_config">(dataset.models.tf.resnet.ResNet class method)</a>
 </li>
@@ -432,6 +569,8 @@
 </li>
         <li><a href="api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG7.default_config">(dataset.models.tf.vgg.VGG7 class method)</a>
 </li>
+        <li><a href="api/dataset.models.tf.vnet.html#dataset.models.tf.vnet.VNet.default_config">(dataset.models.tf.vnet.VNet class method)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -451,6 +590,16 @@
 </li>
       <li><a href="api/dataset.models.tf.densenet.html#dataset.models.tf.densenet.DenseNet264">DenseNet264 (class in dataset.models.tf.densenet)</a>
 </li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC">DenseNetFC (class in dataset.models.tf.densenet_fc)</a>
+</li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC103">DenseNetFC103 (class in dataset.models.tf.densenet_fc)</a>
+</li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC56">DenseNetFC56 (class in dataset.models.tf.densenet_fc)</a>
+</li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC67">DenseNetFC67 (class in dataset.models.tf.densenet_fc)</a>
+</li>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.depth_to_space">depth_to_space() (in module dataset.models.tf.layers)</a>
+</li>
       <li><a href="api/dataset.models.tf.losses.html#dataset.models.tf.losses.dice">dice() (in module dataset.models.tf.losses)</a>
 </li>
       <li><a href="api/dataset.batch.html#dataset.Batch.do_nothing">do_nothing() (Batch method)</a>
@@ -465,12 +614,6 @@
 </li>
       <li><a href="api/dataset.opensets.html#dataset.opensets.MNIST.download">download() (MNIST method)</a>
 </li>
-      <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.downsampling_block">downsampling_block() (dataset.models.tf.linknet.LinkNet class method)</a>
-
-      <ul>
-        <li><a href="api/dataset.models.tf.unet.html#dataset.models.tf.unet.UNet.downsampling_block">(dataset.models.tf.unet.UNet class method)</a>
-</li>
-      </ul></li>
       <li><a href="api/dataset.batch.html#dataset.Batch.dump">dump() (Batch method)</a>
 
       <ul>
@@ -485,10 +628,32 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/dataset.models.html#dataset.models.SklearnModel.estimator">estimator (SklearnModel attribute)</a>
+      <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder.embedding">embedding() (dataset.models.tf.encoder_decoder.EncoderDecoder class method)</a>
 </li>
+      <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder.encoder">encoder() (dataset.models.tf.encoder_decoder.EncoderDecoder class method)</a>
+
+      <ul>
+        <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.encoder">(dataset.models.tf.gcn.GlobalConvolutionNetwork class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet.encoder">(dataset.models.tf.refinenet.RefineNet class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC.encoder_block">encoder_block() (dataset.models.tf.densenet_fc.DenseNetFC class method)</a>
+
+      <ul>
+        <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.encoder_block">(dataset.models.tf.linknet.LinkNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.unet.html#dataset.models.tf.unet.UNet.encoder_block">(dataset.models.tf.unet.UNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.vnet.html#dataset.models.tf.vnet.VNet.encoder_block">(dataset.models.tf.vnet.VNet class method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder">EncoderDecoder (class in dataset.models.tf.encoder_decoder)</a>
+</li>
+      <li><a href="api/dataset.models.html#dataset.models.SklearnModel.estimator">estimator (SklearnModel attribute)</a>
+</li>
       <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.expanded_block">expanded_block() (dataset.models.tf.inception_v3.Inception_v3 class method)</a>
 </li>
   </ul></td>
@@ -498,6 +663,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v3.Inception_v3.factorization_block">factorization_block() (dataset.models.tf.inception_v3.Inception_v3 class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN">FasterRCNN (class in dataset.models.tf.faster_rcnn)</a>
 </li>
       <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN">FCN (class in dataset.models.tf.fcn)</a>
 </li>
@@ -523,21 +690,21 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.flip">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.fliplr">fliplr() (ImagesBatch method)</a>
 
       <ul>
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.fliplr">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.flipud">flipud() (ImagesBatch method)</a>
 
       <ul>
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.flipud">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
-      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.fractional_max_pooling">fractional_max_pooling() (in module dataset.models.tf.layers)</a>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.fractional_pooling">fractional_pooling() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.batch.html#dataset.Batch.from_batch">from_batch() (dataset.Batch class method)</a>
 
@@ -587,6 +754,8 @@
         <li><a href="api/dataset.models.html#dataset.models.BaseModel.get">(dataset.models.BaseModel class method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_batch_size">get_batch_size() (TFModel method)</a>
+</li>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.get_default_iter_params">get_default_iter_params() (Dataset method)</a>
 
       <ul>
@@ -609,8 +778,6 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.get_image_size">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.Batch.get_items">get_items() (Batch method)</a>
 
       <ul>
@@ -619,6 +786,8 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.get_items">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.get_last_action_proba">get_last_action_proba() (Pipeline method)</a>
 </li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.get_last_action_repeat">get_last_action_repeat() (Pipeline method)</a>
@@ -633,6 +802,8 @@
         <li><a href="api/dataset.pipeline.html#dataset.Pipeline.get_model_by_name">(Pipeline method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_num_channels">get_num_channels() (TFModel method)</a>
+</li>
       <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_number_of_trainable_vars">get_number_of_trainable_vars() (TFModel method)</a>
 </li>
       <li><a href="api/dataset.batch.html#dataset.Batch.get_pos">get_pos() (Batch method)</a>
@@ -641,7 +812,11 @@
         <li><a href="api/dataset.index.html#dataset.DatasetIndex.get_pos">(DatasetIndex method)</a>
 </li>
       </ul></li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_shape">get_shape() (TFModel static method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_shape">get_shape() (TFModel method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_spatial_dim">get_spatial_dim() (TFModel method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_spatial_shape">get_spatial_shape() (TFModel method)</a>
 </li>
       <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_tensor_config">get_tensor_config() (TFModel method)</a>
 </li>
@@ -650,6 +825,10 @@
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_average_pooling">global_average_pooling() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_max_pooling">global_max_pooling() (in module dataset.models.tf.layers)</a>
+</li>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.global_pooling">global_pooling() (in module dataset.models.tf.layers)</a>
+</li>
+      <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork">GlobalConvolutionNetwork (class in dataset.models.tf.gcn)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -664,11 +843,21 @@
       <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.head">head() (dataset.models.tf.base.TFModel class method)</a>
 
       <ul>
+        <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.head">(FasterRCNN method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.encoder_decoder.html#dataset.models.tf.encoder_decoder.EncoderDecoder.head">(dataset.models.tf.encoder_decoder.EncoderDecoder class method)</a>
+</li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN.head">(dataset.models.tf.fcn.FCN class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.gcn.html#dataset.models.tf.gcn.GlobalConvolutionNetwork.head">(dataset.models.tf.gcn.GlobalConvolutionNetwork class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.head">(dataset.models.tf.linknet.LinkNet class method)</a>
 </li>
+        <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet.head">(dataset.models.tf.refinenet.RefineNet class method)</a>
+</li>
         <li><a href="api/dataset.models.tf.unet.html#dataset.models.tf.unet.UNet.head">(dataset.models.tf.unet.UNet class method)</a>
+</li>
+        <li><a href="api/dataset.models.tf.vnet.html#dataset.models.tf.vnet.VNet.head">(dataset.models.tf.vnet.VNet class method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -740,6 +929,8 @@
       <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.input_block">input_block() (dataset.models.tf.base.TFModel class method)</a>
 
       <ul>
+        <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.input_block">(FasterRCNN method)</a>
+</li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN.input_block">(dataset.models.tf.fcn.FCN class method)</a>
 </li>
         <li><a href="api/dataset.models.tf.fcn.html#dataset.models.tf.fcn.FCN16.input_block">(dataset.models.tf.fcn.FCN16 class method)</a>
@@ -749,6 +940,8 @@
         <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.input_block">(dataset.models.tf.inception_v4.Inception_v4 class method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.iou_bbox">iou_bbox() (dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
       <li><a href="api/dataset.dataset.html#Dataset.is_split">is_split (Dataset attribute)</a>, <a href="api/dataset.dataset.html#dataset.Dataset.is_split">[1]</a>
 
       <ul>
@@ -805,6 +998,8 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.make_encoder">make_encoder() (dataset.models.tf.resnet.ResNet class method)</a>
+</li>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.make_filename">make_filename() (ImagesBatch method)</a>
 
       <ul>
@@ -819,6 +1014,8 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.make_item_class">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention.mask">mask() (dataset.models.tf.resattention.ResNetAttention class method)</a>
+</li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.max_pooling">max_pooling() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.maxout">maxout() (in module dataset.models.tf.layers)</a>
@@ -871,6 +1068,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.non_max_suppression">non_max_suppression() (in module dataset.models.tf.layers)</a>
+</li>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.noop">noop() (ImagesBatch method)</a>
 
       <ul>
@@ -879,7 +1078,7 @@
       </ul></li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.num_actions">num_actions (Pipeline attribute)</a>
 </li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.num_channels">num_channels() (TFModel method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.num_channels">num_channels() (dataset.models.tf.base.TFModel class method)</a>
 </li>
       <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.num_classes">num_classes() (TFModel method)</a>
 </li>
@@ -899,9 +1098,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.p">p (Dataset attribute)</a>
 </li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.parametrize">parametrize() (FasterRCNN method)</a>
+</li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline">Pipeline (class in dataset)</a>
 </li>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.pipeline">pipeline() (Dataset method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.pooling">pooling() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.models.html#dataset.models.BaseModel.pop">pop() (dataset.models.BaseModel class method)</a>
 </li>
@@ -917,7 +1120,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.predict_model">predict_model() (Pipeline method)</a>
 </li>
-      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.print_variable">print_variable() (Pipeline method)</a>
+      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.print">print() (Pipeline method)</a>
 </li>
       <li><a href="api/dataset.models.html#dataset.models.BaseModel.put">put() (dataset.models.BaseModel class method)</a>
 </li>
@@ -929,7 +1132,7 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.put_into_data">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
-      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.put_into_tf_queue">put_into_tf_queue() (Pipeline method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.pyramid_pooling">pyramid_pooling() (dataset.models.tf.base.TFModel class method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -955,6 +1158,8 @@
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.random_scale">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.rcn_loss">rcn_loss() (dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.rebatch">rebatch() (Pipeline method)</a>
 </li>
       <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_base.Inception.reduction_block">reduction_block() (dataset.models.tf.inception_base.Inception class method)</a>
@@ -965,6 +1170,8 @@
       </ul></li>
       <li><a href="api/dataset.models.tf.inception.html#dataset.models.tf.inception_v4.Inception_v4.reduction_grid_block">reduction_grid_block() (dataset.models.tf.inception_v4.Inception_v4 class method)</a>
 </li>
+      <li><a href="api/dataset.models.tf.refinenet.html#dataset.models.tf.refinenet.RefineNet">RefineNet (class in dataset.models.tf.refinenet)</a>
+</li>
       <li><a href="api/dataset.dataset.html#dataset.Dataset.reset_iter">reset_iter() (Dataset method)</a>
 
       <ul>
@@ -973,14 +1180,20 @@
         <li><a href="api/dataset.pipeline.html#dataset.Pipeline.reset_iter">(Pipeline method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.resize">resize() (ImagesBatch method)</a>
 
       <ul>
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.resize">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.resize_bilinear">resize_bilinear() (in module dataset.models.tf.layers)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.resize_bilinear_additive">resize_bilinear_additive() (in module dataset.models.tf.layers)</a>
+</li>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.resize_nn">resize_nn() (in module dataset.models.tf.layers)</a>
+</li>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet">ResNet (class in dataset.models.tf.resnet)</a>
 </li>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet101">ResNet101 (class in dataset.models.tf.resnet)</a>
@@ -993,12 +1206,22 @@
 </li>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet50">ResNet50 (class in dataset.models.tf.resnet)</a>
 </li>
+      <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention">ResNetAttention (class in dataset.models.tf.resattention)</a>
+</li>
+      <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention56">ResNetAttention56 (class in dataset.models.tf.resattention)</a>
+</li>
+      <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention92">ResNetAttention92 (class in dataset.models.tf.resattention)</a>
+</li>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.roi_pooling_layer">roi_pooling_layer() (in module dataset.models.tf.layers)</a>
+</li>
       <li><a href="api/dataset.batch.html#dataset.ImagesBatch.rotate">rotate() (ImagesBatch method)</a>
 
       <ul>
         <li><a href="api/dataset.batch.html#dataset.ImagesPILBatch.rotate">(ImagesPILBatch method)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.rpn_loss">rpn_loss() (dataset.models.tf.faster_rcnn.FasterRCNN class method)</a>
+</li>
       <li><a href="api/dataset.pipeline.html#dataset.Pipeline.run">run() (Pipeline method)</a>
 </li>
       <li><a href="api/dataset.batch.html#dataset.Batch.run_once">run_once() (Batch method)</a>
@@ -1037,15 +1260,15 @@
 </li>
       <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv">separable_conv() (in module dataset.models.tf.layers)</a>
 </li>
-      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv1d">separable_conv1d() (in module dataset.models.tf.layers)</a>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv_transpose">separable_conv_transpose() (in module dataset.models.tf.layers)</a>
 </li>
-      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv2d">separable_conv2d() (in module dataset.models.tf.layers)</a>
+      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.set_config">set_config() (Pipeline method)</a>
+</li>
+      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.set_variable">set_variable() (Pipeline method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.separable_conv3d">separable_conv3d() (in module dataset.models.tf.layers)</a>
-</li>
-      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.set_variable">set_variable() (Pipeline method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.shape">shape() (dataset.models.tf.base.TFModel class method)</a>
 </li>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.simple_block">simple_block() (dataset.models.tf.resnet.ResNet class method)</a>
 </li>
@@ -1059,15 +1282,19 @@
         <li><a href="api/dataset.opensets.html#dataset.opensets.CIFAR100.SOURCE_URL">(CIFAR100 attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_dim">spatial_dim() (TFModel method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_dim">spatial_dim() (dataset.models.tf.base.TFModel class method)</a>
 </li>
-      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_shape">spatial_shape() (TFModel static method)</a>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_shape">spatial_shape() (dataset.models.tf.base.TFModel class method)</a>
 </li>
       <li><a href="api/dataset.models.tf.squeezenet.html#dataset.models.tf.squeezenet.SqueezeNet">SqueezeNet (class in dataset.models.tf.squeezenet)</a>
+</li>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.stop_gradient_tuple">stop_gradient_tuple() (FasterRCNN method)</a>
 </li>
       <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.store_to_attr">store_to_attr() (TFModel method)</a>
 </li>
       <li><a href="api/dataset.models.tf.resnet.html#dataset.models.tf.resnet.ResNet.sub_block">sub_block() (dataset.models.tf.resnet.ResNet class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.subpixel_conv">subpixel_conv() (in module dataset.models.tf.layers)</a>
 </li>
       <li><a href="api/dataset.index.html#dataset.DatasetIndex.subset_by_pos">subset_by_pos() (DatasetIndex method)</a>
 </li>
@@ -1113,7 +1340,13 @@
         <li><a href="api/dataset.opensets.html#dataset.opensets.CIFAR100.TRAIN_NAME_ID">(CIFAR100 attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC.transition_down">transition_down() (dataset.models.tf.densenet_fc.DenseNetFC class method)</a>
+</li>
       <li><a href="api/dataset.models.tf.densenet.html#dataset.models.tf.densenet.DenseNet.transition_layer">transition_layer() (dataset.models.tf.densenet.DenseNet class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.densenet_fc.html#dataset.models.tf.densenet_fc.DenseNetFC.transition_up">transition_up() (dataset.models.tf.densenet_fc.DenseNetFC class method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.resattention.html#dataset.models.tf.resattention.ResNetAttention.trunk">trunk() (dataset.models.tf.resattention.ResNetAttention class method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1123,14 +1356,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/dataset.models.tf.unet.html#dataset.models.tf.unet.UNet">UNet (class in dataset.models.tf.unet)</a>
 </li>
-      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.update_variable">update_variable() (Pipeline method)</a>
+      <li><a href="api/dataset.models.tf.faster_rcnn.html#dataset.models.tf.faster_rcnn.FasterRCNN.unparametrize">unparametrize() (FasterRCNN method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/dataset.models.tf.linknet.html#dataset.models.tf.linknet.LinkNet.upsampling_block">upsampling_block() (dataset.models.tf.linknet.LinkNet class method)</a>
+      <li><a href="api/dataset.pipeline.html#dataset.Pipeline.update_variable">update_variable() (Pipeline method)</a>
+</li>
+      <li><a href="api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.upsample">upsample() (dataset.models.tf.base.TFModel class method)</a>
 
       <ul>
-        <li><a href="api/dataset.models.tf.unet.html#dataset.models.tf.unet.UNet.upsampling_block">(dataset.models.tf.unet.UNet class method)</a>
+        <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.upsample">(in module dataset.models.tf.layers)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1149,29 +1384,22 @@
 </li>
       <li><a href="api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG7">VGG7 (class in dataset.models.tf.vgg)</a>
 </li>
+      <li><a href="api/dataset.models.tf.vnet.html#dataset.models.tf.vnet.VNet">VNet (class in dataset.models.tf.vnet)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/dataset.models.tf.layers.html#dataset.models.tf.layers.xip">xip() (in module dataset.models.tf.layers)</a>
+</li>
   </ul></td>
 </tr></table>
 
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-
-   
-
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1190,7 +1418,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

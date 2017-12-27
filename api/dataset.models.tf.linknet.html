@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>LinkNet &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,10 +22,15 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tensorflow models" href="../intro/tf_models.html" />
-    <link rel="prev" title="UNet" href="dataset.models.tf.unet.html" /> 
+    <link rel="next" title="VNet" href="dataset.models.tf.vnet.html" />
+    <link rel="prev" title="UNet" href="dataset.models.tf.unet.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,18 +43,44 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../intro/tf_models.html" title="Tensorflow models"
+          <a href="dataset.models.tf.vnet.html" title="VNet"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="dataset.models.tf.unet.html" title="UNet"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >TensorFlow models</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="../intro/tf_models_zoo.html" accesskey="U">&lt;no title&gt;</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" accesskey="U">Predefined models</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.models.tf.unet.html"
+                        title="previous chapter">UNet</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dataset.models.tf.vnet.html"
+                        title="next chapter">VNet</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dataset.models.tf.linknet.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -117,8 +148,8 @@
 </dd></dl>
 
 <dl class="classmethod">
-<dt id="dataset.models.tf.linknet.LinkNet.downsampling_block">
-<em class="property">classmethod </em><code class="descname">downsampling_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/linknet.html#LinkNet.downsampling_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.linknet.LinkNet.downsampling_block" title="Permalink to this definition">¶</a></dt>
+<dt id="dataset.models.tf.linknet.LinkNet.encoder_block">
+<em class="property">classmethod </em><code class="descname">encoder_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/linknet.html#LinkNet.encoder_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.linknet.LinkNet.encoder_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Two ResNet blocks of two 3x3 convolution + shortcut</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -142,8 +173,8 @@
 </dd></dl>
 
 <dl class="classmethod">
-<dt id="dataset.models.tf.linknet.LinkNet.upsampling_block">
-<em class="property">classmethod </em><code class="descname">upsampling_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/linknet.html#LinkNet.upsampling_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.linknet.LinkNet.upsampling_block" title="Permalink to this definition">¶</a></dt>
+<dt id="dataset.models.tf.linknet.LinkNet.decoder_block">
+<em class="property">classmethod </em><code class="descname">decoder_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/linknet.html#LinkNet.decoder_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.linknet.LinkNet.decoder_block" title="Permalink to this definition">¶</a></dt>
 <dd><p>1x1 convolution, 3x3 transposed convolution with stride=2 and 1x1 convolution</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -168,7 +199,7 @@
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.linknet.LinkNet.head">
-<em class="property">classmethod </em><code class="descname">head</code><span class="sig-paren">(</span><em>inputs</em>, <em>num_classes</em>, <em>name='head'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/linknet.html#LinkNet.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.linknet.LinkNet.head" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">head</code><span class="sig-paren">(</span><em>inputs</em>, <em>targets</em>, <em>num_classes</em>, <em>name='head'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/linknet.html#LinkNet.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.linknet.LinkNet.head" title="Permalink to this definition">¶</a></dt>
 <dd><p>3x3 transposed convolution, 3x3 convolution and 2x2 transposed convolution</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -176,6 +207,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>targets</strong> (<em>tf.Tensor</em>) – target tensor</li>
 <li><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of classes (and number of filters in the last convolution)</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
 </ul>
@@ -199,33 +231,6 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="dataset.models.tf.unet.html"
-                        title="previous chapter">UNet</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../intro/tf_models.html"
-                        title="next chapter">Tensorflow models</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/dataset.models.tf.linknet.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -238,21 +243,20 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../intro/tf_models.html" title="Tensorflow models"
+          <a href="dataset.models.tf.vnet.html" title="VNet"
              >next</a> |</li>
         <li class="right" >
           <a href="dataset.models.tf.unet.html" title="UNet"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../intro/models.html" >Working with models</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../intro/models_zoo.html" >TensorFlow models</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="../intro/tf_models_zoo.html" >&lt;no title&gt;</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" >Predefined models</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

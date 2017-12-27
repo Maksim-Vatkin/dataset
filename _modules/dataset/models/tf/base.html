@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>dataset.models.tf.base &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,8 +22,13 @@
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +43,21 @@
         <li class="nav-item nav-item-0"><a href="../../../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -59,7 +78,7 @@
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
 <span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">BaseModel</span>
-<span class="kn">from</span> <span class="nn">.layers</span> <span class="k">import</span> <span class="n">mip</span><span class="p">,</span> <span class="n">conv_block</span>
+<span class="kn">from</span> <span class="nn">.layers</span> <span class="k">import</span> <span class="n">mip</span><span class="p">,</span> <span class="n">conv_block</span><span class="p">,</span> <span class="n">upsample</span><span class="p">,</span> <span class="n">global_average_pooling</span>
 <span class="kn">from</span> <span class="nn">.losses</span> <span class="k">import</span> <span class="n">dice</span>
 
 
@@ -87,8 +106,8 @@
 
 
 
-<div class="viewcode-block" id="TFModel"><a class="viewcode-back" href="../../../../intro/tf_models.html#dataset.models.tf.base.TFModel">[docs]</a><span class="k">class</span> <span class="nc">TFModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="sd">r&quot;&quot;&quot; Base class for all tensorflow models</span>
+<div class="viewcode-block" id="TFModel"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel">[docs]</a><span class="k">class</span> <span class="nc">TFModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Base class for all tensorflow models</span>
 
 <span class="sd">    **Configuration**</span>
 
@@ -100,17 +119,22 @@
 <span class="sd">    inputs : dict</span>
 <span class="sd">        model inputs (see :meth:`._make_inputs`)</span>
 
-<span class="sd">    loss - a loss function, might be one of:</span>
-<span class="sd">        - short name (`&#39;mse&#39;`, `&#39;ce&#39;`, `&#39;l1&#39;`, `&#39;cos&#39;`, `&#39;hinge&#39;`, `&#39;huber&#39;`, `&#39;logloss&#39;`, `&#39;dice&#39;`)</span>
-<span class="sd">        - a function name from `tf.losses &lt;https://www.tensorflow.org/api_docs/python/tf/losses&gt;`_</span>
-<span class="sd">          (e.g. `&#39;absolute_difference&#39;` or `&#39;sparse_softmax_cross_entropy&#39;`)</span>
-<span class="sd">        - callable</span>
+<span class="sd">    loss - a loss function, might be defined in one of three formats:</span>
+<span class="sd">        - name</span>
+<span class="sd">        - tuple (name, args)</span>
+<span class="sd">        - dict {&#39;name&#39;: name, \**args}</span>
+
+<span class="sd">        where name might be one of:</span>
+<span class="sd">            - short name (`&#39;mse&#39;`, `&#39;ce&#39;`, `&#39;l1&#39;`, `&#39;cos&#39;`, `&#39;hinge&#39;`, `&#39;huber&#39;`, `&#39;logloss&#39;`, `&#39;dice&#39;`)</span>
+<span class="sd">            - a function name from `tf.losses &lt;https://www.tensorflow.org/api_docs/python/tf/losses&gt;`_</span>
+<span class="sd">              (e.g. `&#39;absolute_difference&#39;` or `&#39;sparse_softmax_cross_entropy&#39;`)</span>
+<span class="sd">            - callable</span>
 
 <span class="sd">        Examples:</span>
 
 <span class="sd">        - ``{&#39;loss&#39;: &#39;mse&#39;}``</span>
-<span class="sd">        - ``{&#39;loss&#39;: &#39;sigmoid_cross_entropy&#39;}``</span>
-<span class="sd">        - ``{&#39;loss&#39;: tf.losses.huber_loss}``</span>
+<span class="sd">        - ``{&#39;loss&#39;: &#39;sigmoid_cross_entropy&#39;, &#39;label_smoothing&#39;: 1e-6}``</span>
+<span class="sd">        - ``{&#39;loss&#39;: tf.losses.huber_loss, &#39;reduction&#39;: tf.losses.Reduction.MEAN}``</span>
 <span class="sd">        - ``{&#39;loss&#39;: external_loss_fn}``</span>
 
 <span class="sd">    decay - a learning rate decay algorithm might be defined in one of three formats:</span>
@@ -138,8 +162,8 @@
 
 <span class="sd">            where name might be one of:</span>
 
-<span class="sd">            - short name (e.g. &#39;Adam&#39;, &#39;Adagrad&#39;, any optimiser from</span>
-<span class="sd">              `tf.train &lt;https://www.tensorflow.org/api_docs/python/tf/train&gt;`_ without a word `Optimiser`)</span>
+<span class="sd">            - short name (e.g. &#39;Adam&#39;, &#39;Adagrad&#39;, any optimizer from</span>
+<span class="sd">              `tf.train &lt;https://www.tensorflow.org/api_docs/python/tf/train&gt;`_ without a word `Optimizer`)</span>
 <span class="sd">            - a function name from `tf.train &lt;https://www.tensorflow.org/api_docs/python/tf/train&gt;`_</span>
 <span class="sd">              (e.g. &#39;FtlrOptimizer&#39;)</span>
 <span class="sd">            - a callable</span>
@@ -174,12 +198,20 @@
 <span class="sd">        parameters for the head layers, usually :func:`.conv_block` parameters</span>
 
 <span class="sd">    output : dict</span>
+<span class="sd">        predictions : str</span>
+<span class="sd">            operation to apply for body output tensor to make the network predictions.</span>
+<span class="sd">            The tensor&#39;s name is &#39;predictions&#39; which is later used in the loss function.</span>
 <span class="sd">        ops : tuple of str</span>
-<span class="sd">            helper operations:</span>
+<span class="sd">            additional operations</span>
+<span class="sd">        prefix : str or tuple of str</span>
+<span class="sd">            prefixes for additional output tensor names (default=&#39;output&#39;)</span>
 
-<span class="sd">            - &#39;accuracy&#39; - add &#39;accuracy&#39; tensor with accuracy score for predictions</span>
-<span class="sd">            - &#39;proba&#39; - add &#39;predicted_proba&#39; tensor with probabilties for predictions</span>
-<span class="sd">            - &#39;labels&#39; - add &#39;predicted_labels&#39; tensor with best match labels for predictions</span>
+<span class="sd">        Operations supported are:</span>
+
+<span class="sd">            - ``None`` - do nothing (identity)</span>
+<span class="sd">            - &#39;accuracy&#39; - accuracy metrics (the share of ``true_labels == predicted_labels``)</span>
+<span class="sd">            - &#39;proba&#39; - multiclass probabilities (softmax)</span>
+<span class="sd">            - &#39;labels&#39; - most probable labels (argmax)</span>
 
 
 <span class="sd">    **How to create your own model**</span>
@@ -239,17 +271,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Enter the model graph context &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_graph_context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_context</span><span class="o">.</span><span class="n">__enter__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_context</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_type</span><span class="p">,</span> <span class="n">exception_value</span><span class="p">,</span> <span class="n">exception_traceback</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Exit the model graph context &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_context</span><span class="o">.</span><span class="n">__exit__</span><span class="p">(</span><span class="n">exception_type</span><span class="p">,</span> <span class="n">exception_value</span><span class="p">,</span> <span class="n">exception_traceback</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_context</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="n">exception_type</span><span class="p">,</span> <span class="n">exception_value</span><span class="p">,</span> <span class="n">exception_traceback</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TFModel.build"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Build the model</span>
@@ -264,7 +296,7 @@
 <span class="sd">        #. Create a tensorflow session</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
-            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">):</span>
                 <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;globals&#39;</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="s1">&#39;is_training&#39;</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;is_training&#39;</span><span class="p">))</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="s1">&#39;global_step&#39;</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;global_step&#39;</span><span class="p">))</span>
@@ -272,10 +304,10 @@
                 <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_config</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">_make_loss</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">get_total_loss</span><span class="p">())</span>
-
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_make_loss</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">get_total_loss</span><span class="p">())</span>
+
                     <span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_optimizer</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">optimizer</span><span class="p">:</span>
@@ -290,7 +322,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="o">**</span><span class="n">session_config</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="TFModel._make_inputs"><a class="viewcode-back" href="../../../../intro/tf_models.html#dataset.models.tf.base.TFModel._make_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">_make_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TFModel._make_inputs"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel._make_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">_make_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create model input data from config provided</span>
 
 <span class="sd">        In the config&#39;s inputs section it looks for ``names``, creates placeholders required, and</span>
@@ -436,24 +468,28 @@
 
     <span class="k">def</span> <span class="nf">_make_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">transform_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">transforms</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s1">&#39;ohe&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_ohe</span><span class="p">,</span>
-                    <span class="s1">&#39;mip&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_mip</span>
-                <span class="p">}</span>
+            <span class="n">transform_names</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">transform_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">transform_names</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">transform_name</span> <span class="ow">in</span> <span class="n">transform_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">transforms</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;ohe&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_ohe</span><span class="p">,</span>
+                        <span class="s1">&#39;mip&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_mip</span><span class="p">,</span>
+                        <span class="s1">&#39;mask_downsampling&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_mask_downsampling</span>
+                    <span class="p">}</span>
 
-                <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">transform_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;mip&#39;</span><span class="p">):</span>
-                    <span class="n">parts</span> <span class="o">=</span> <span class="n">transform_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)</span>
-                    <span class="n">transform_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">transform_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;mip&#39;</span><span class="p">):</span>
+                        <span class="n">parts</span> <span class="o">=</span> <span class="n">transform_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)</span>
+                        <span class="n">transform_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-                <span class="n">tensor</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">[</span><span class="n">transform_name</span><span class="p">](</span><span class="n">input_name</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_name</span><span class="p">):</span>
-                <span class="n">tensor</span> <span class="o">=</span> <span class="n">transform_name</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">transform_name</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown transform </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">transform_name</span><span class="p">))</span>
+                    <span class="n">tensor</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">[</span><span class="n">transform_name</span><span class="p">](</span><span class="n">input_name</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">transform_name</span><span class="p">):</span>
+                    <span class="n">tensor</span> <span class="o">=</span> <span class="n">transform_name</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">transform_name</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown transform </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">transform_name</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">tensor</span>
 
     <span class="k">def</span> <span class="nf">_make_ohe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
@@ -462,8 +498,22 @@
                              <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; with one-hot-encoding transform&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_name</span><span class="p">))</span>
 
         <span class="n">num_classes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">(</span><span class="n">input_name</span><span class="p">)</span>
-        <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_format</span><span class="p">(</span><span class="n">input_name</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_format</span><span class="p">(</span><span class="n">input_name</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;channels_last&#39;</span> <span class="k">else</span> <span class="mi">1</span>
         <span class="n">tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tensor</span>
+
+    <span class="k">def</span> <span class="nf">_make_mask_downsampling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Perform mask downsampling with factor from config of tensor. &quot;&quot;&quot;</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">input_name</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;factor&#39;</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">size</span> <span class="o">/</span> <span class="n">factor</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">resize_nearest_neighbor</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">tensor</span>
 
 <div class="viewcode-block" id="TFModel.to_classes"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.to_classes">[docs]</a>    <span class="k">def</span> <span class="nf">to_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -487,7 +537,7 @@
         <span class="n">par</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">par</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">par</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">par</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -508,18 +558,9 @@
 
     <span class="k">def</span> <span class="nf">_make_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a loss function from config &quot;&quot;&quot;</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">loss</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_fn_from_config</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">target_scope</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;targets_scope&#39;</span><span class="p">,</span> <span class="s1">&#39;inputs&#39;</span><span class="p">)</span>
-            <span class="n">target_scope</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">target_scope</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="k">if</span> <span class="n">target_scope</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-            <span class="n">prediction_scope</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;predictions_scope&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-            <span class="n">prediction_scope</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">prediction_scope</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="k">if</span> <span class="n">prediction_scope</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">target_scope</span> <span class="o">=</span> <span class="s1">&#39;inputs/&#39;</span>
-            <span class="n">prediction_scope</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-
+        <span class="n">add_loss</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">loss</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">get_losses</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Loss is not defined in the model </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
@@ -528,20 +569,23 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">loss</span> <span class="o">=</span> <span class="n">LOSSES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[-_ ]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">loss</span><span class="p">):</span>
-            <span class="k">pass</span>
+            <span class="n">add_loss</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_name_scope</span><span class="p">()</span>
-                <span class="n">scope</span> <span class="o">=</span> <span class="n">scope</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="k">if</span> <span class="n">scope</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-                <span class="n">predictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">scope</span> <span class="o">+</span> <span class="n">prediction_scope</span> <span class="o">+</span> <span class="s2">&quot;predictions:0&quot;</span><span class="p">)</span>
-                <span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">scope</span> <span class="o">+</span> <span class="n">target_scope</span> <span class="o">+</span> <span class="s2">&quot;targets:0&quot;</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Model </span><span class="si">%s</span><span class="s2"> does not have &#39;predictions&#39; or &#39;targets&#39; tensors&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">predictions</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;predictions&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Model </span><span class="si">%s</span><span class="s2"> does not have &#39;predictions&#39; tensor&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">targets</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;targets&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Model </span><span class="si">%s</span><span class="s2"> does not have &#39;targets&#39; tensor&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="n">loss</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">predictions</span><span class="p">))</span>
+                <span class="n">tensor_loss</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">add_loss</span><span class="p">:</span>
+                    <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">add_loss</span><span class="p">(</span><span class="n">tensor_loss</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_make_decay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="n">decay_name</span><span class="p">,</span> <span class="n">decay_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack_fn_from_config</span><span class="p">(</span><span class="s1">&#39;decay&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
@@ -639,152 +683,16 @@
         <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">config</span></div>
 
-
-<div class="viewcode-block" id="TFModel.channels_axis"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.channels_axis">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">channels_axis</span><span class="p">(</span><span class="n">data_format</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the channels axis for the tensor</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        data_format : str {&#39;channels_last&#39;, &#39;channels_first&#39;}</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        number of channels : int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">&quot;channels_last&quot;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">data_format</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NC&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span></div>
-
-<div class="viewcode-block" id="TFModel.num_channels"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.num_channels">[docs]</a>    <span class="k">def</span> <span class="nf">num_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the number of channels in the tensor</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : str or tf.Tensor</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        number of channels : int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">)</span>
-        <span class="n">channels_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">shape</span><span class="p">[</span><span class="n">channels_axis</span><span class="p">]</span> <span class="k">if</span> <span class="n">shape</span> <span class="k">else</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="TFModel.has_classes"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.has_classes">[docs]</a>    <span class="k">def</span> <span class="nf">has_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Check if a tensor has classes defined in the config &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
-        <span class="n">has</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classes&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">has</span></div>
-
-<div class="viewcode-block" id="TFModel.classes"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.classes">[docs]</a>    <span class="k">def</span> <span class="nf">classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the  number of classes &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
-        <span class="n">classes</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classes&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">classes</span></div>
-
-<div class="viewcode-block" id="TFModel.num_classes"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.num_classes">[docs]</a>    <span class="k">def</span> <span class="nf">num_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the  number of classes &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_classes</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
-            <span class="n">classes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">classes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_channels</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TFModel.spatial_dim"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_dim">[docs]</a>    <span class="k">def</span> <span class="nf">spatial_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the tensor spatial dimensionality (without channels dimension)</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : str or tf.Tensor</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        number of spatial dimensions : int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span></div>
-
-<div class="viewcode-block" id="TFModel.data_format"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.data_format">[docs]</a>    <span class="k">def</span> <span class="nf">data_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the tensor data format (channels_last or channels_first)</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : str or tf.Tensor</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        data_format : str</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TFModel.batch_size"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.batch_size">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">batch_size</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return batch size (the length of the first dimension) of the input tensor</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : tf.Tensor</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        batch size : int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="TFModel.get_shape"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_shape">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_shape</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return full shape of the input tensor</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : tf.Tensor</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        shape : tuple of ints</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="TFModel.spatial_shape"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_shape">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">spatial_shape</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return spatial shape of the input tensor</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : tf.Tensor</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        shape : tuple of ints</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
-        <span class="n">axis</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">&quot;channels_last&quot;</span> <span class="k">else</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="TFModel.channels_shape"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.channels_shape">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">channels_shape</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return number of channels in the input tensor</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : tf.Tensor</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        shape : tuple of ints</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
-        <span class="n">axis</span> <span class="o">=</span> <span class="n">TFModel</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">data_format</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span></div>
-
     <span class="k">def</span> <span class="nf">_map_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
                 <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">elif</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tensors</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">tensors</span>
             <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;:0&#39;</span>
         <span class="k">return</span> <span class="n">name</span>
 
@@ -818,6 +726,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">_fetches</span> <span class="o">=</span> <span class="n">fetches</span>
         <span class="k">return</span> <span class="n">_fetches</span>
+
 
     <span class="k">def</span> <span class="nf">_fill_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">fetches</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">_recast_output</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">ix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1003,9 +912,9 @@
             <span class="n">tf</span><span class="o">.</span><span class="n">get_collection_ref</span><span class="p">(</span><span class="s1">&#39;attrs&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">graph_item</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFModel.crop"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.crop">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">shape_images</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">shape_images</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Crop input tensor to a shape of a given image.</span>
-<span class="sd">        If shape_image has not fully defined shape (shape_image.get_shape() has at leats one None),</span>
+<span class="sd">        If shape_image has not fully defined shape (shape_image.get_shape() has at least one None),</span>
 <span class="sd">        the returned tf.Tensor will be of unknown shape except the number of channels.</span>
 
 <span class="sd">        Parameters</span>
@@ -1017,18 +926,18 @@
 <span class="sd">        data_format : str {&#39;channels_last&#39;, &#39;channels_first&#39;}</span>
 <span class="sd">            data format</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">axis</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s1">&#39;channels_last&#39;</span> <span class="k">else</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">static_shape</span> <span class="o">=</span> <span class="n">shape_images</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="n">axis</span><span class="p">]</span>
-        <span class="n">dynamic_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">shape_images</span><span class="p">)[</span><span class="n">axis</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">static_shape</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_dynamic_crop</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">static_shape</span><span class="p">,</span> <span class="n">dynamic_shape</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span>
+        <span class="n">static_shape</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">spatial_shape</span><span class="p">(</span><span class="n">shape_images</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">dynamic_shape</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">spatial_shape</span><span class="p">(</span><span class="n">shape_images</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">+</span> <span class="n">static_shape</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_dynamic_crop</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">static_shape</span><span class="p">,</span> <span class="n">dynamic_shape</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_static_crop</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">static_shape</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_static_crop</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">static_shape</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span></div>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_static_crop</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
-        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">spatial_shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">_static_crop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">spatial_shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">input_shape</span> <span class="o">-</span> <span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">begin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">ndims</span>
@@ -1042,15 +951,13 @@
         <span class="k">return</span> <span class="n">x</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_dynamic_crop</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">static_shape</span><span class="p">,</span> <span class="n">dynamic_shape</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_dynamic_crop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">static_shape</span><span class="p">,</span> <span class="n">dynamic_shape</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">spatial_shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">n_channels</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">num_channels</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s1">&#39;channels_last&#39;</span><span class="p">:</span>
-            <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">n_channels</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">slice_size</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,),</span> <span class="n">dynamic_shape</span><span class="p">,</span> <span class="p">(</span><span class="n">n_channels</span><span class="p">,)]</span>
             <span class="n">output_shape</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">static_shape</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">n_channels</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-            <span class="n">n_channels</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">slice_size</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">),</span> <span class="n">dynamic_shape</span><span class="p">]</span>
             <span class="n">output_shape</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">static_shape</span><span class="p">)</span>
 
@@ -1062,7 +969,7 @@
         <span class="k">return</span> <span class="n">x</span>
 
 <div class="viewcode-block" id="TFModel.input_block"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.input_block">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">input_block</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">input_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Transform inputs with a convolution block</span>
 
 <span class="sd">        Parameters</span>
@@ -1080,13 +987,13 @@
 <span class="sd">        -------</span>
 <span class="sd">        tf.Tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;input_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;input_block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;layout&#39;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inputs</span></div>
 
 <div class="viewcode-block" id="TFModel.body"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.body">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Base layers which produce a network embedding</span>
 
 <span class="sd">        Parameters</span>
@@ -1110,11 +1017,13 @@
 
 <span class="sd">            MyModel.body(2, inputs, layout=&#39;ca ca ca&#39;, filters=[128, 256, 512], kernel_size=3)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;layout&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span></div>
 
 <div class="viewcode-block" id="TFModel.head"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.head">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Last network layers which produce output from the network embedding</span>
 
 <span class="sd">        Parameters</span>
@@ -1142,9 +1051,10 @@
 
 <span class="sd">            MyModel.head(2, network_embedding, layout=&#39;dfadf&#39;, units=[1000, num_classes], dropout_rate=.15)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span></div>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;layout&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span></div>
 
 <div class="viewcode-block" id="TFModel.output"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">ops</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Add output operations to a model graph, like predictions, quality metrics, etc.</span>
@@ -1156,6 +1066,7 @@
 
 <span class="sd">        ops : a sequence of str</span>
 <span class="sd">            operation names::</span>
+<span class="sd">            - &#39;sigmoid&#39; - add ``sigmoid(inputs)``</span>
 <span class="sd">            - &#39;proba&#39; - add ``softmax(inputs)``</span>
 <span class="sd">            - &#39;labels&#39; - add ``argmax(inputs)``</span>
 <span class="sd">            - &#39;accuracy&#39; - add ``mean(predicted_labels == true_labels)``</span>
@@ -1169,6 +1080,7 @@
 <span class="sd">        TypeError if inputs is not a Tensor or a sequence of Tensors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">predictions_op</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;predictions&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ops</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ops</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1177,6 +1089,7 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
             <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">inputs</span><span class="p">]</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span> <span class="ow">or</span> <span class="s1">&#39;output&#39;</span>
             <span class="n">prefix</span> <span class="o">=</span> <span class="p">[</span><span class="n">prefix</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
@@ -1186,55 +1099,69 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Network output is expected to be a Tensor, but given </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
 
-            <span class="n">scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_name_scope</span><span class="p">()</span>
-            <span class="n">scope</span> <span class="o">=</span> <span class="n">scope</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="k">if</span> <span class="n">scope</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-            <span class="n">current_prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">current_prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">current_prefix</span><span class="p">:</span>
                 <span class="n">ctx</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">current_prefix</span><span class="p">)</span>
-                <span class="n">ctx</span><span class="o">.</span><span class="n">__enter__</span><span class="p">()</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ctx</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">attr_prefix</span> <span class="o">=</span> <span class="n">current_prefix</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="k">if</span> <span class="n">current_prefix</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
 
-            <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predictions&#39;</span><span class="p">)</span>
+            <span class="n">pred_prefix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">attr_prefix</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_op</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">predictions_op</span><span class="p">,</span> <span class="s1">&#39;predictions&#39;</span><span class="p">,</span> <span class="n">pred_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">oper</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">oper</span> <span class="o">==</span> <span class="s1">&#39;proba&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_proba</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">oper</span> <span class="o">==</span> <span class="s1">&#39;labels&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_labels</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">oper</span> <span class="o">==</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_accuracy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_op</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">oper</span><span class="p">,</span> <span class="n">oper</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">ctx</span><span class="p">:</span>
-                <span class="n">ctx</span><span class="o">.</span><span class="n">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+                <span class="n">ctx</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_add_output_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">scope</span><span class="p">,</span> <span class="n">kwargs</span>
-        <span class="n">proba</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predicted_proba&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="s1">&#39;predicted_proba&#39;</span><span class="p">,</span> <span class="n">proba</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_add_output_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">oper</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">oper</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_identity</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">oper</span> <span class="o">==</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_sigmoid</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">oper</span> <span class="o">==</span> <span class="s1">&#39;proba&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_proba</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">oper</span> <span class="o">==</span> <span class="s1">&#39;labels&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_labels</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">oper</span> <span class="o">==</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_accuracy</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_add_output_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">scope</span>
-        <span class="n">data_format</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">)</span>
-        <span class="n">channels_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">data_format</span><span class="p">)</span>
-        <span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">channels_axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predicted_labels&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="s1">&#39;predicted_labels&#39;</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_add_output_identity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
 
-    <span class="k">def</span> <span class="nf">_add_output_accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">true_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">scope</span> <span class="o">+</span> <span class="s1">&#39;inputs/labels:0&#39;</span><span class="p">)</span>
-        <span class="n">current_scope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_name_scope</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">predicted_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">current_scope</span> <span class="o">+</span> <span class="s1">&#39;predicted_labels:0&#39;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_labels</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">predicted_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">current_scope</span> <span class="o">+</span> <span class="s1">&#39;predicted_labels:0&#39;</span><span class="p">)</span>
-        <span class="n">equals</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">),</span> <span class="s1">&#39;float&#39;</span><span class="p">)</span>
-        <span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">equals</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_add_output_sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="n">proba</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">proba</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_output_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+        <span class="n">proba</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">proba</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_output_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">channels_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">))</span>
+        <span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">channels_axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_output_accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">channels_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">))</span>
+        <span class="n">true_labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">channels_axis</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_prefix</span> <span class="o">+</span> <span class="s1">&#39;labels&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_output_labels</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="n">attr_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_prefix</span> <span class="o">+</span> <span class="s1">&#39;labels&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">true_labels</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="s1">&#39;float&#39;</span><span class="p">)</span>
+        <span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">channels_axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store_to_attr</span><span class="p">(</span><span class="n">attr_prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="TFModel.default_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.default_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Define model defaults</span>
 
 <span class="sd">        You need to override this method if you expect your model or its blocks to serve as a base for other models</span>
@@ -1260,19 +1187,18 @@
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;inputs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;common&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;batch_norm&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;momentum&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">1</span><span class="p">}}</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;input_block&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;block&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ce&#39;</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Adam&#39;</span>
         <span class="k">return</span> <span class="n">config</span></div>
 
 <div class="viewcode-block" id="TFModel.fill_params"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.fill_params">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">fill_params</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fill_params</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Fill block params from default config and kwargs &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">default_config</span><span class="p">()</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;common&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="n">_name</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">default_config</span><span class="p">()</span>
+        <span class="n">_config</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;common&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">config</span></div>
 
 <div class="viewcode-block" id="TFModel.build_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.build_config">[docs]</a>    <span class="k">def</span> <span class="nf">build_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1305,9 +1231,9 @@
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">config</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s1">&#39;inputs&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">):</span>
             <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_make_inputs</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_make_inputs</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
             <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;input_block/inputs&#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -1336,8 +1262,231 @@
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">])</span>
 
+<div class="viewcode-block" id="TFModel.channels_axis"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.channels_axis">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">channels_axis</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data_format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the channels axis for the tensor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_format : str {&#39;channels_last&#39;, &#39;channels_first&#39;}</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        number of channels : int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">&quot;channels_first&quot;</span> <span class="ow">or</span> <span class="n">data_format</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NC&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span></div>
+
+<div class="viewcode-block" id="TFModel.data_format"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.data_format">[docs]</a>    <span class="k">def</span> <span class="nf">data_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the tensor data format (channels_last or channels_first)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : str or tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data_format : str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TFModel.has_classes"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.has_classes">[docs]</a>    <span class="k">def</span> <span class="nf">has_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Check if a tensor has classes defined in the config &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="n">has</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classes&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">has</span></div>
+
+<div class="viewcode-block" id="TFModel.classes"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.classes">[docs]</a>    <span class="k">def</span> <span class="nf">classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the  number of classes &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classes&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TFModel.num_classes"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.num_classes">[docs]</a>    <span class="k">def</span> <span class="nf">num_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the  number of classes &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_classes</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+            <span class="n">classes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">classes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_num_channels</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TFModel.get_num_channels"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_num_channels">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the number of channels in the tensor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : str or tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        number of channels : int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">)</span>
+        <span class="n">channels_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">shape</span><span class="p">[</span><span class="n">channels_axis</span><span class="p">]</span> <span class="k">if</span> <span class="n">shape</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="TFModel.num_channels"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.num_channels">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">num_channels</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return number of channels in the input tensor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        shape : tuple of ints</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">TFModel</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">data_format</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="TFModel.get_shape"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_shape">[docs]</a>    <span class="k">def</span> <span class="nf">get_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the tensor shape without batch dimension</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : str or tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        shape : tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TFModel.shape"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.shape">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return shape of the input tensor without batch size</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : tf.Tensor</span>
+
+<span class="sd">        dynamic : bool</span>
+<span class="sd">            if True, returns tensor which represents shape. If False, returns list of ints and/or Nones</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        shape : tf.Tensor or list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dynamic</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span></div>
+
+<div class="viewcode-block" id="TFModel.get_spatial_dim"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_spatial_dim">[docs]</a>    <span class="k">def</span> <span class="nf">get_spatial_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the tensor spatial dimensionality (without batch and channels dimensions)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : str or tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        number of spatial dimensions : int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="TFModel.spatial_dim"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_dim">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">spatial_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return spatial dim of the input tensor (without channels and batch dimension)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dim : int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">())</span> <span class="o">-</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="TFModel.get_spatial_shape"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_spatial_shape">[docs]</a>    <span class="k">def</span> <span class="nf">get_spatial_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the tensor spatial shape (without batch and channels dimensions)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : str or tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        spatial shape : tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor_config</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">data_format</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">)</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s1">&#39;channels_last&#39;</span> <span class="k">else</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shape&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">shape</span></div>
+
+<div class="viewcode-block" id="TFModel.spatial_shape"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.spatial_shape">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">spatial_shape</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">data_format</span><span class="o">=</span><span class="s1">&#39;channels_last&#39;</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return spatial shape of the input tensor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : tf.Tensor</span>
+
+<span class="sd">        dynamic : bool</span>
+<span class="sd">            if True, returns tensor which represents shape. If False, returns list of ints and/or Nones</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        shape : tf.Tensor or list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dynamic</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">&quot;channels_last&quot;</span> <span class="k">else</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="TFModel.get_batch_size"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.get_batch_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_batch_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return batch size (the length of the first dimension) of the input tensor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : str or tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        batch size : int or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span><span class="p">:</span>
+                <span class="n">tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span><span class="p">[</span><span class="n">tensor</span><span class="p">][</span><span class="s1">&#39;placeholder&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_name</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span><span class="p">:</span>
+                    <span class="n">tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span><span class="p">[</span><span class="n">input_name</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">input_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Tensor can be tf.Tensor or string, but given </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">tensor</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="TFModel.batch_size"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.batch_size">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">batch_size</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return batch size (the length of the first dimension) of the input tensor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tensor : tf.Tensor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        batch size : int or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
+
 <div class="viewcode-block" id="TFModel.se_block"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.se_block">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">se_block</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">se_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Squeeze and excitation block</span>
 
 <span class="sd">        Hu J. et al. &quot;`Squeeze-and-Excitation Networks &lt;https://arxiv.org/abs/1709.01507&gt;`_&quot;</span>
@@ -1355,33 +1504,146 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="n">data_format</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">)</span>
-            <span class="n">in_filters</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">channels_shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span>
+            <span class="n">in_filters</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">num_channels</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;Vfafa&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="p">[</span><span class="n">in_filters</span><span class="o">//</span><span class="n">ratio</span><span class="p">,</span> <span class="n">in_filters</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;se&#39;</span><span class="p">,</span>
                            <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">]})</span>
 
-            <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">spatial_shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">axis</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">data_format</span><span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">get_spatial_shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">data_format</span><span class="p">)</span>
             <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_filters</span>
             <span class="n">scale</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="TFModel.upsample"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.upsample">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">upsample</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;upsample&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Upsample input tensor</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : tf.Tensor or tuple of two tf.Tensor</span>
+<span class="sd">            a tensor to resize and a tensor which size to resize to</span>
+<span class="sd">        factor : int</span>
+<span class="sd">            an upsamping scale</span>
+<span class="sd">        layout : str</span>
+<span class="sd">            resizing technique, a sequence of:</span>
+
+<span class="sd">            - R - use residual connection with bilinear additive upsampling (must be the first symbol)</span>
+<span class="sd">            - b - bilinear resize</span>
+<span class="sd">            - B - bilinear additive upsampling</span>
+<span class="sd">            - N - nearest neighbor resize</span>
+<span class="sd">            - t - transposed convolution</span>
+<span class="sd">            - X - subpixel convolution</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tf.Tensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">factor</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">inputs</span>
+
+        <span class="n">resize_to</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">resize_to</span> <span class="o">=</span> <span class="n">inputs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;filters&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;filters&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">num_channels</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">upsample</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resize_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">resize_to</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="TFModel.pyramid_pooling"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.pyramid_pooling">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">pyramid_pooling</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;psp&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Pyramid Pooling module</span>
+
+<span class="sd">        Zhao H. et al. &quot;`Pyramid Scene Parsing Network &lt;https://arxiv.org/abs/1612.01105&gt;`_&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : tf.Tensor</span>
+<span class="sd">            input tensor</span>
+<span class="sd">        pool_size : tuple of int</span>
+<span class="sd">            feature region sizes - pooling kernel sizes (e.g. [1, 2, 3, 6])</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tf.Tensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pool_size</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;pool_size&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">pool_op</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;pool_op&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;layout&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">)</span>
+        <span class="n">kernel_size</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">num_channels</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;filters&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+        <span class="n">upsample_args</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;upsample&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">{})</span>
+        <span class="n">upsample_args</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">upsample_args</span><span class="p">}</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">pool_size</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">pool_op</span><span class="o">=</span><span class="n">pool_op</span><span class="p">,</span> <span class="n">pool_size</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="n">pool_strides</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+                                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pool&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">upsample</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="o">**</span><span class="n">upsample_args</span><span class="p">)</span>
+                <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">))</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="TFModel.aspp"><a class="viewcode-back" href="../../../../api/dataset.models.tf.base.html#dataset.models.tf.base.TFModel.aspp">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">aspp</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;aspp&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Atrous Spatial Pyramid Pooling module</span>
+
+<span class="sd">        Chen L. et al. &quot;`Rethinking Atrous Convolution for Semantic Image Segmentation</span>
+<span class="sd">        &lt;https://arxiv.org/abs/1706.05587&gt;`_&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : tf.Tensor</span>
+<span class="sd">            input tensor</span>
+<span class="sd">        rates : tuple of int</span>
+<span class="sd">            dilation rates for branches (default=[6, 12, 18])</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tf.Tensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rates</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;rates&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">])</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;layout&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">)</span>
+        <span class="n">kernel_size</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;kernel_size&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">num_channels</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data_format&#39;</span><span class="p">])</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;filters&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv-1x1&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">rates</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">dilation_rate</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+                               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">level</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;image_features&#39;</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">global_average_pooling</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">upsample</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">inputs</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_format&#39;</span><span class="p">))</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;concat&#39;</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;last_conv&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 </pre></div>
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1401,7 +1663,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>

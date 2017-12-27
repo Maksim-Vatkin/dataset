@@ -1,0 +1,225 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Faster RCNN &#8212; Dataset 0.2.1 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tensorflow layers and losses" href="../intro/tf_layers.html" />
+    <link rel="prev" title="Global Convolution Network" href="dataset.models.tf.gcn.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../intro/tf_layers.html" title="Tensorflow layers and losses"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.gcn.html" title="Global Convolution Network"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" accesskey="U">Predefined models</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataset.models.tf.gcn.html"
+                        title="previous chapter">Global Convolution Network</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../intro/tf_layers.html"
+                        title="next chapter">Tensorflow layers and losses</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/dataset.models.tf.faster_rcnn.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dataset.models.tf.faster_rcnn">
+<span id="faster-rcnn"></span><h1>Faster RCNN<a class="headerlink" href="#module-dataset.models.tf.faster_rcnn" title="Permalink to this headline">¶</a></h1>
+<p>Ren S. et al “<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks</a>”</p>
+<dl class="class">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN">
+<em class="property">class </em><code class="descname">FasterRCNN</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.base.TFModel</span></code></a></p>
+<p>Faster Region-based convolutional neural network.</p>
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.default_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.build_config">
+<code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.build_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.input_block">
+<code class="descname">input_block</code><span class="sig-paren">(</span><em>inputs</em>, <em>base_network</em>, <em>name='input_block'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.input_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.input_block" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.body" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors_tensors">
+<code class="descname">create_anchors_tensors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.create_anchors_tensors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors_tensors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create placheholders for anchor-based inputs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.head">
+<code class="descname">head</code><span class="sig-paren">(</span><em>inputs</em>, <em>image_shape</em>, <em>name='head'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.head" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.stop_gradient_tuple">
+<code class="descname">stop_gradient_tuple</code><span class="sig-paren">(</span><em>inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.stop_gradient_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.stop_gradient_tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop gradients through tf.tuple.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors">
+<code class="descname">create_anchors</code><span class="sig-paren">(</span><em>scales=(4</em>, <em>8</em>, <em>16)</em>, <em>ratio=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.create_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create anchors for image_shape depending on output_map_shape.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.create_rpn_inputs">
+<em class="property">classmethod </em><code class="descname">create_rpn_inputs</code><span class="sig-paren">(</span><em>anchors</em>, <em>bboxes</em>, <em>labels</em>, <em>thresholds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.create_rpn_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.create_rpn_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create reg and clsf targets of RPN.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.iou_bbox">
+<em class="property">classmethod </em><code class="descname">iou_bbox</code><span class="sig-paren">(</span><em>bboxes1</em>, <em>bboxes2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.iou_bbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.iou_bbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the IoUs between bounding boxes.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors_batch">
+<em class="property">classmethod </em><code class="descname">create_anchors_batch</code><span class="sig-paren">(</span><em>anchor_clsf</em>, <em>batch_size=64</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.create_anchors_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.create_anchors_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch indices for anchors.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.create_bbox_batch">
+<em class="property">classmethod </em><code class="descname">create_bbox_batch</code><span class="sig-paren">(</span><em>inputs</em>, <em>batch_size=64</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.create_bbox_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.create_bbox_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create batch indices for bboxes.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.rpn_loss">
+<em class="property">classmethod </em><code class="descname">rpn_loss</code><span class="sig-paren">(</span><em>reg</em>, <em>clsf</em>, <em>true_reg</em>, <em>true_cls</em>, <em>anchor_batch</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.rpn_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.rpn_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mixed MSE+CE Loss for RPN.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.rcn_loss">
+<em class="property">classmethod </em><code class="descname">rcn_loss</code><span class="sig-paren">(</span><em>clsf</em>, <em>true_cls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.rcn_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.rcn_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>CE loss for RCN.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.parametrize">
+<code class="descname">parametrize</code><span class="sig-paren">(</span><em>inputs</em>, <em>base</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.parametrize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.parametrize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parametrize inputs coordinates with respect of base.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.faster_rcnn.FasterRCNN.unparametrize">
+<code class="descname">unparametrize</code><span class="sig-paren">(</span><em>inputs</em>, <em>base</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/faster_rcnn.html#FasterRCNN.unparametrize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.faster_rcnn.FasterRCNN.unparametrize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unparametrize inputs coordinates with respect of base.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../intro/tf_layers.html" title="Tensorflow layers and losses"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dataset.models.tf.gcn.html" title="Global Convolution Network"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" >Predefined models</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Analysis Center.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
+    </div>
+  </body>
+</html>

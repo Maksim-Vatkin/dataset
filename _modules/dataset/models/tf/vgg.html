@@ -1,12 +1,12 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>dataset.models.tf.vgg &#8212; Dataset 0.2.1 documentation</title>
-    <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -22,8 +22,13 @@
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,7 +43,21 @@
         <li class="nav-item nav-item-0"><a href="../../../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -95,12 +114,13 @@
 <span class="sd">        - whether to downscale the image at the end of the block with max_pooling (2x2, stride=2)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="VGG.default_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG.default_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">TFModel</span><span class="o">.</span><span class="n">default_config</span><span class="p">()</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;input_block&#39;</span><span class="p">][</span><span class="s1">&#39;inputs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;images&#39;</span>
-        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;block&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">)</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;block&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;cna&#39;</span><span class="p">)</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">][</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">4096</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">][</span><span class="s1">&#39;layout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;fff&#39;</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ce&#39;</span>
         <span class="k">return</span> <span class="n">config</span></div>
 
 <div class="viewcode-block" id="VGG.build_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG.build_config">[docs]</a>    <span class="k">def</span> <span class="nf">build_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -109,7 +129,7 @@
         <span class="k">return</span> <span class="n">config</span></div>
 
 <div class="viewcode-block" id="VGG.body"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG.body">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create base VGG layers</span>
 
 <span class="sd">        Parameters</span>
@@ -125,19 +145,21 @@
 <span class="sd">        -------</span>
 <span class="sd">        tf.Tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">arch</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;arch&#39;</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">arch</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;arch&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arch</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;arch must be list or tuple, but </span><span class="si">{}</span><span class="s2"> was given.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">arch</span><span class="p">)))</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;block&#39;</span><span class="p">)</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">block</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
         <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span>
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">block_cfg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arch</span><span class="p">):</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">block_cfg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;block-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">block_cfg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;block-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="o">**</span><span class="n">block</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div>
 
 <div class="viewcode-block" id="VGG.block"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG.block">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">depth3</span><span class="p">,</span> <span class="n">depth1</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">downscale</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">depth3</span><span class="p">,</span> <span class="n">depth1</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">downscale</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; A sequence of 3x3 and 1x1 convolutions followed by pooling</span>
 
 <span class="sd">        Parameters</span>
@@ -157,7 +179,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        tf.Tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fill_params</span><span class="p">(</span><span class="s1">&#39;body/block&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">layout</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;layout&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">depth3</span> <span class="o">+</span> <span class="n">depth1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;p&#39;</span> <span class="o">*</span> <span class="n">downscale</span>
         <span class="n">kernels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">depth3</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">depth1</span>
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
@@ -169,7 +191,7 @@
 <div class="viewcode-block" id="VGG16"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG16">[docs]</a><span class="k">class</span> <span class="nc">VGG16</span><span class="p">(</span><span class="n">VGG</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; VGG16 network &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="VGG16.default_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG16.default_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">VGG</span><span class="o">.</span><span class="n">default_config</span><span class="p">()</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;arch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_VGG16_ARCH</span>
         <span class="k">return</span> <span class="n">config</span></div></div>
@@ -178,7 +200,7 @@
 <div class="viewcode-block" id="VGG19"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG19">[docs]</a><span class="k">class</span> <span class="nc">VGG19</span><span class="p">(</span><span class="n">VGG</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; VGG19 network &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="VGG19.default_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG19.default_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">VGG</span><span class="o">.</span><span class="n">default_config</span><span class="p">()</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;arch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_VGG19_ARCH</span>
         <span class="k">return</span> <span class="n">config</span></div></div>
@@ -187,27 +209,13 @@
 <div class="viewcode-block" id="VGG7"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG7">[docs]</a><span class="k">class</span> <span class="nc">VGG7</span><span class="p">(</span><span class="n">VGG</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; VGG7 network &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="VGG7.default_config"><a class="viewcode-back" href="../../../../api/dataset.models.tf.vgg.html#dataset.models.tf.vgg.VGG7.default_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">VGG</span><span class="o">.</span><span class="n">default_config</span><span class="p">()</span>
         <span class="n">config</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;arch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_VGG7_ARCH</span>
         <span class="k">return</span> <span class="n">config</span></div></div>
 </pre></div>
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -227,7 +235,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Analysis Center.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.4.
     </div>
   </body>
 </html>
