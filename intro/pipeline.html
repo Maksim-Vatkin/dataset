@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Pipeline &#8212; Dataset 0.2.1 documentation</title>
+    <title>Pipeline &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="batch.html" title="Batch class"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>
@@ -333,7 +333,7 @@ to draw a graph later). This is why you might need pipeline variables.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">my_pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_dataset</span><span class="o">.</span><span class="n">p</span>
     <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s2">&quot;my_variable&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s2">&quot;some_counter&quot;</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s2">&quot;var with init function&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">my_init_function</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s2">&quot;var with init function&quot;</span><span class="p">,</span> <span class="n">F_</span><span class="p">(</span><span class="n">my_init_function</span><span class="p">))</span>
     <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s2">&quot;loss_history&quot;</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="o">.</span><span class="n">first_action</span><span class="p">()</span>
     <span class="o">.</span><span class="n">second_action</span><span class="p">()</span>
@@ -392,6 +392,7 @@ The second parameter is an updating value and it can be a value of any type or <
 <li>V(‘name’) - a pipeline variable name</li>
 <li>C(‘name’) - a pipeline config option</li>
 <li>F(name) - a callable which takes a batch (could be a batch class method or a function)</li>
+<li>R(‘name’) - a random value from a given distribution</li>
 </ul>
 <p>Mode could be one of:</p>
 <ul class="simple">
@@ -566,7 +567,7 @@ batch size differs. To solve this problem, just call <cite>rebatch</cite>:</p>
         <li class="right" >
           <a href="batch.html" title="Batch class"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>

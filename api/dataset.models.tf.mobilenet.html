@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>MobileNet &#8212; Dataset 0.2.1 documentation</title>
+    <title>MobileNet &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="dataset.models.tf.resnet.html" title="ResNet"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" accesskey="U">Predefined models</a> &#187;</li> 
@@ -89,7 +89,9 @@
             
   <div class="section" id="module-dataset.models.tf.mobilenet">
 <span id="mobilenet"></span><h1>MobileNet<a class="headerlink" href="#module-dataset.models.tf.mobilenet" title="Permalink to this headline">¶</a></h1>
-<p>Howard A. G. et al. “<a class="reference external" href="https://arxiv.org/abs/1704.04861">MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications”</a>”</p>
+<p>Howard A. et al. “<a class="reference external" href="https://arxiv.org/abs/1704.04861">MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications</a>”</p>
+<p>Sandler M. et al. “<a class="reference external" href="https://arxiv.org/abs/1801.04381">Inverted Residuals and Linear Bottlenecks:
+Mobile Networks for Classification, Detection and Segmentation</a>”</p>
 <dl class="class">
 <dt id="dataset.models.tf.mobilenet.MobileNet">
 <em class="property">class </em><code class="descname">MobileNet</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet" title="Permalink to this definition">¶</a></dt>
@@ -97,10 +99,9 @@
 <p><strong>Configuration</strong></p>
 <dl class="docutils">
 <dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>dict with keys ‘images’ and ‘masks’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">TFModel._make_inputs()</span></code></a>)</dd>
-</dl>
-<p>input_block : dict</p>
-<dl class="docutils">
+<dd>dict with ‘images’ and ‘labels’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">TFModel._make_inputs()</span></code></a>)</dd>
+<dt>input_block <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>parameters for the initial block (default is ‘cna’, 32, 3, strides=2)</dd>
 <dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
 <dd><dl class="first last docutils">
 <dt>strides <span class="classifier-delimiter">:</span> <span class="classifier">list of int</span></dt>
@@ -175,6 +176,95 @@
 
 </dd></dl>
 
+<dl class="class">
+<dt id="dataset.models.tf.mobilenet.MobileNet_v2">
+<em class="property">class </em><code class="descname">MobileNet_v2</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet_v2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.base.TFModel" title="dataset.models.tf.base.TFModel"><code class="xref py py-class docutils literal"><span class="pre">dataset.models.tf.base.TFModel</span></code></a></p>
+<p>MobileNet version 2</p>
+<p><strong>Configuration</strong></p>
+<dl class="docutils">
+<dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>dict with ‘images’ and ‘labels’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">TFModel._make_inputs()</span></code></a>)</dd>
+<dt>input_block <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>parameters for the initial block (default is ‘cna’, 32, 3, strides=2)</dd>
+<dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><dl class="first last docutils">
+<dt>layout <span class="classifier-delimiter">:</span> <span class="classifier">list of dict</span></dt>
+<dd>a sequence of block parameters:
+repeats : int
+filters : int
+expansion_factor : int
+strides : int</dd>
+<dt>width_factor <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>multiplier for the number of channels (default=1)</dd>
+</dl>
+</dd>
+</dl>
+<dl class="classmethod">
+<dt id="dataset.models.tf.mobilenet.MobileNet_v2.default_config">
+<em class="property">classmethod </em><code class="descname">default_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet_v2.default_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet_v2.default_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dataset.models.tf.mobilenet.MobileNet_v2.build_config">
+<code class="descname">build_config</code><span class="sig-paren">(</span><em>names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet_v2.build_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet_v2.build_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.mobilenet.MobileNet_v2.body">
+<em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet_v2.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet_v2.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base layers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dataset.models.tf.mobilenet.MobileNet_v2.block">
+<em class="property">classmethod </em><code class="descname">block</code><span class="sig-paren">(</span><em>inputs</em>, <em>filters</em>, <em>residual=False</em>, <em>strides=1</em>, <em>expansion_factor=6</em>, <em>width_factor=1</em>, <em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/mobilenet.html#MobileNet_v2.block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.mobilenet.MobileNet_v2.block" title="Permalink to this definition">¶</a></dt>
+<dd><p>A network building block consisting of a separable depthwise convolution and 1x1 pointwise covolution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>tf.Tensor</em>) – input tensor</li>
+<li><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – number of output filters</li>
+<li><strong>residual</strong> (<em>boold</em>) – whether to make a residual connection</li>
+<li><strong>strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – stride for 3x3 convolution</li>
+<li><strong>expansion_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – multiplier for the number of filters in internal convolutions</li>
+<li><strong>width_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – multiplier for the number of filters</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – scope name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -198,7 +288,7 @@
         <li class="right" >
           <a href="dataset.models.tf.resnet.html" title="ResNet"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" >Predefined models</a> &#187;</li> 

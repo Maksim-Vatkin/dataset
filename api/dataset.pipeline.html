@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Pipeline &#8212; Dataset 0.2.1 documentation</title>
+    <title>Pipeline &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="dataset.batch.html" title="Batch"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.core.html" accesskey="U">dataset</a> &#187;</li> 
       </ul>
@@ -107,9 +107,8 @@
 
 <dl class="method">
 <dt id="dataset.Pipeline.assign_variable">
-<code class="descname">assign_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.assign_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.assign_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assign a value to a variable
-Same as <cite>set_variable(name, value)</cite>.</p>
+<code class="descname">assign_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em>, <em>batch=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.assign_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.assign_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign a value to a variable</p>
 </dd></dl>
 
 <dl class="method">
@@ -165,7 +164,7 @@ If the variable does not exists, the warning will be issued.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str - a name of the variable</em>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a name of the variable</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
 </tr>
@@ -208,25 +207,22 @@ If the variable does not exists, the warning will be issued.</p>
 <dl class="method">
 <dt id="dataset.Pipeline.get_model_by_name">
 <code class="descname">get_model_by_name</code><span class="sig-paren">(</span><em>name</em>, <em>batch=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.get_model_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_model_by_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a model specification by its name</p>
+<dd><p>Retrieve a model by its name</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dataset.Pipeline.get_variable">
-<code class="descname">get_variable</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em>, <em>init=None</em>, <em>init_on_each_run=None</em>, <em>create=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.get_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_variable" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_variable</code><span class="sig-paren">(</span><em>name</em>, <em>*args</em>, <em>create=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.get_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.get_variable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a variable value.</p>
-<p>If the variable does not exists, it will be created and initialized (see <cite>init_variable</cite> below)</p>
+<p>If the variable does not exists, it might be created and initialized (see <cite>init_variable</cite> below)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><em>string</em></a>) – a name of the variable</li>
-<li><strong>create</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to create a variable if it does not exist. Default is <cite>False</cite>.
-If <cite>init</cite> or <cite>init_on_each_run</cite> is specified, then the variable will created regardless of <cite>create</cite>.</li>
-<li><strong>default</strong> – a value for the variable if it does not exists</li>
-<li><strong>init</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function which returns the default value</li>
-<li><strong>init_on_each_run</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – same as <cite>init</cite> but initializes the variable before each run</li>
+<li><strong>create</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to create a variable if it does not exist. Default is <cite>False</cite>.</li>
+<li><strong>kwargs</strong> (<em>args</em><em>,</em>) – parameters for <a class="reference internal" href="#dataset.Pipeline.init_variable" title="dataset.Pipeline.init_variable"><code class="xref py py-meth docutils literal"><span class="pre">init_variable()</span></code></a> if <code class="docutils literal"><span class="pre">create</span></code> is True.</li>
 </ul>
 </td>
 </tr>
@@ -246,13 +242,16 @@ If <cite>init</cite> or <cite>init_on_each_run</cite> is specified, then the var
 <dl class="method">
 <dt id="dataset.Pipeline.has_variable">
 <code class="descname">has_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.has_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.has_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if a variable exists
-:param name: string - a name of the variable</p>
+<dd><p>Check if a variable exists</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the variable exists</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a name of the variable</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">True if the variable exists</td>
 </tr>
 </tbody>
 </table>
@@ -260,15 +259,16 @@ If <cite>init</cite> or <cite>init_on_each_run</cite> is specified, then the var
 
 <dl class="method">
 <dt id="dataset.Pipeline.import_model">
-<code class="descname">import_model</code><span class="sig-paren">(</span><em>name</em>, <em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.import_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.import_model" title="Permalink to this definition">¶</a></dt>
+<code class="descname">import_model</code><span class="sig-paren">(</span><em>model</em>, <em>pipeline=None</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.import_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.import_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Import a model from another pipeline</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>str - a name of the model to import</em>) – </li>
-<li><strong>source</strong> (<a class="reference internal" href="dataset.dataset.html#dataset.Dataset.pipeline" title="dataset.Dataset.pipeline"><em>pipeline</em></a><em> or </em><em>model - a pipeline that holds a model</em><em> or </em><em>a model itself</em>) – </li>
+<li><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>model</em>) – a name of the model to import or a model itself</li>
+<li><strong>pipeline</strong> (<a class="reference internal" href="#dataset.Pipeline" title="dataset.Pipeline"><em>Pipeline</em></a>) – a pipeline that holds a model</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a name with which the model is stored in this pipeline</li>
 </ul>
 </td>
 </tr>
@@ -306,16 +306,7 @@ If <cite>init</cite> or <cite>init_on_each_run</cite> is specified, then the var
 <li><strong>mode</strong> (<em>{'static'</em><em>, </em><em>'dynamic'}</em>) – </li>
 <li><strong>model_class</strong> (<em>class</em>) – a model class</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a name for the model. Default - a model class name.</li>
-<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – <p>model configurations parameters, where each key and value could be named expressions</p>
-<ul>
-<li>B(‘name’) - a batch class attribute or component name</li>
-<li>V(‘name’) - a pipeline variable name</li>
-<li>C(‘name’) - a pipeline config option</li>
-<li>F(name) - a callable which takes a batch for dynamic models or a pipeline for static models</li>
-</ul>
-<p>These expressions will be substituted by their actual values.
-All other value will be used “as is”.</p>
-</li>
+<li><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – model configurations parameters, where each key and value could be named expressions.</li>
 </ul>
 </td>
 </tr>
@@ -343,7 +334,7 @@ All other value will be used “as is”.</p>
 
 <dl class="method">
 <dt id="dataset.Pipeline.init_variable">
-<code class="descname">init_variable</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em>, <em>init=None</em>, <em>init_on_each_run=None</em>, <em>lock=True</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.init_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.init_variable" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init_variable</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em>, <em>init_on_each_run=False</em>, <em>lock=True</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.init_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.init_variable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a variable if not exists.
 If the variable exists, does nothing.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -353,9 +344,9 @@ If the variable exists, does nothing.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><em>string</em></a>) – a name of the variable</li>
 <li><strong>default</strong> – an initial value for the variable</li>
-<li><strong>init</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – a function which returns the default value</li>
-<li><strong>init_on_each_run</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) – same as <cite>init</cite> but initializes the variable before each run</li>
+<li><strong>init_on_each_run</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a><em> or </em><em>default value</em>) – whether to initialize the variable before each run</li>
 <li><strong>lock</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – whether to lock a variable before each update (default: True)</li>
+<li><strong>kwargs</strong> (<em>args</em><em>,</em>) – parameters for init function</li>
 </ul>
 </td>
 </tr>
@@ -389,7 +380,7 @@ If the variable exists, does nothing.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – <dl class="docutils">
 <dt>if dict</dt>
 <dd>key : str - a variable name,
-value : dict -  a variable value and params (see <cite>init_variable</cite>)</dd>
+value : dict -  a variable value and init params (see <a class="reference internal" href="#dataset.Pipeline.init_variable" title="dataset.Pipeline.init_variable"><code class="xref py py-meth docutils literal"><span class="pre">init_variable()</span></code></a>)</dd>
 </dl>
 <p>if tuple, contains variable names which will have None as default values</p>
 </td>
@@ -482,6 +473,7 @@ which keys and values could be named expressions:</p>
 <li>V(‘name’) - a pipeline variable name</li>
 <li>C(‘name’) - a pipeline config option</li>
 <li>F(name) - a callable which takes (batch, model)</li>
+<li>R(‘name’) - a random value from a distribution ‘name’</li>
 </ul>
 <p>These expressions are substituted by their actual values.
 All other value will be used “as is”.
@@ -570,7 +562,7 @@ Predictions for each batch will be stored in a pipeline variable <cite>inferred_
 
 <dl class="method">
 <dt id="dataset.Pipeline.set_variable">
-<code class="descname">set_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.set_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.set_variable" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em>, <em>mode='w'</em>, <em>batch=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.set_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.set_variable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a variable value
 If the variable does not exists, it will be created, however, the warning will be displayed that
 the variable was not initialized.</p>
@@ -578,20 +570,27 @@ the variable was not initialized.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>str - a name of the variable</em>) – </li>
-<li><strong>- a value for the variable</strong> (<em>value</em>) – </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>a named expression - a variable name</em>) – </li>
+<li><strong>value</strong> – an updating value, could be a value of any type or a named expression</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a method to update a variable value, could be one of:</p>
+<ul>
+<li>’w’ or ‘write’ to rewrite a variable with a new value. This is a default mode.</li>
+<li>’a’ or ‘append’ to append a value to a variable (e.g. if a variable is a list).</li>
+<li>’e’ or ‘extend’ to extend a variable with a new value (e.g. if a variable is a list).</li>
+<li>’u’ or ‘update’ to update a variable with a new value (e.g. if a variable is a dict).</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">self - in order to use it in the pipeline chains</p>
+<p>For sets and dicts ‘a’ and ‘u’ do exactly the same.</p>
+</li>
+</ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>Unlike <a class="reference internal" href="#dataset.Pipeline.update_variable" title="dataset.Pipeline.update_variable"><code class="xref py py-meth docutils literal"><span class="pre">update_variable()</span></code></a> this method sets a new value immediately.
+So <code class="docutils literal"><span class="pre">set_variable</span></code> is imperative and may be used within actions, while <code class="docutils literal"><span class="pre">update_variable</span></code>
+is declarative and should be used in pipeline definition chains.</p>
 </dd></dl>
 
 <dl class="method">
@@ -603,7 +602,7 @@ the variable was not initialized.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>str - a model name</em>) – </li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – a model name</li>
 <li><strong>make_data</strong> (<em>a callable</em><em> or </em><em>a named expression</em>) – a function or method to transform batch data to train parameters.
 Should return dict - kwargs for <cite>model.train(…)</cite>.</li>
 <li><strong>save_to</strong> (<em>a named expression</em><em> or </em><em>a sequence of named expressions of type B</em><em> or </em><em>V</em>) – A location where the model output will be stored.
@@ -642,6 +641,7 @@ which keys and values could be named expressions:</p>
 <li>V(‘name’) - a pipeline variable name</li>
 <li>C(‘name’) - a pipeline config option</li>
 <li>F(name) - a callable which takes (batch, model)</li>
+<li>R(‘name’) - a random value from a given distribution</li>
 </ul>
 <p>These expressions are substituted by their actual values.
 All other value will be used “as is”.
@@ -672,22 +672,14 @@ These parameters after substitution will be sent to <cite>model.train(…)</cite
 <dl class="method">
 <dt id="dataset.Pipeline.update_variable">
 <code class="descname">update_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em>, <em>mode='w'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/pipeline.html#Pipeline.update_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.Pipeline.update_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update a value of a given variable during pipeline execution</p>
+<dd><p>Update a value of a given variable lazily during pipeline execution</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>a named expression - a variable name</em>) – </li>
-<li><strong>value</strong> – <p>an updating value, could be a value of any type or a named expression</p>
-<ul>
-<li>B(‘name’) - a batch class attribute or component name</li>
-<li>V(‘name’) - a pipeline variable name</li>
-<li>C(‘name’) - a pipeline config option</li>
-<li>F(name) - a callable which takes a batch (could be a batch class method or a function)</li>
-</ul>
-<p>These expressions will be substituted for their real value.</p>
-</li>
+<li><strong>value</strong> – an updating value, could be a value of any type or a named expression</li>
 <li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>a method to update a variable value, could be one of:</p>
 <ul>
 <li>’w’ or ‘write’ to rewrite a variable with a new value. This is a default mode.</li>
@@ -708,6 +700,10 @@ These parameters after substitution will be sent to <cite>model.train(…)</cite
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>Unlike <a class="reference internal" href="#dataset.Pipeline.set_variable" title="dataset.Pipeline.set_variable"><code class="xref py py-meth docutils literal"><span class="pre">set_variable()</span></code></a> this method does not change a value of the variable
+until the pipeline is run. So it should be used in pipeline definition chains only.
+<code class="docutils literal"><span class="pre">set_variable</span></code> is imperative and may be used to change variable value within actions.</p>
 </dd></dl>
 
 </dd></dl>
@@ -735,7 +731,7 @@ These parameters after substitution will be sent to <cite>model.train(…)</cite
         <li class="right" >
           <a href="dataset.batch.html" title="Batch"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.core.html" >dataset</a> &#187;</li> 
       </ul>

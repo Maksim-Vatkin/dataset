@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Index &#8212; Dataset 0.2.1 documentation</title>
+    <title>Index &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="dataset.core.html" title="dataset"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.core.html" accesskey="U">dataset</a> &#187;</li> 
       </ul>
@@ -263,7 +263,7 @@ otherwise <cite>batch_indices</cite> contains positions in the current index.</p
 <dl class="attribute">
 <dt id="dataset.DatasetIndex.indices">
 <code class="descname">indices</code><a class="headerlink" href="#dataset.DatasetIndex.indices" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> – an array with the indices</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> – an array with the indices</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -290,7 +290,7 @@ otherwise <cite>batch_indices</cite> contains positions in the current index.</p
 </dl>
 </li>
 <li>int - a seed number for a random shuffle.</li>
-<li><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.13)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> instance.</li>
+<li><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.RandomState.html#numpy.random.RandomState" title="(in NumPy v1.14)"><code class="xref py py-class docutils literal"><span class="pre">numpy.random.RandomState</span></code></a> instance.</li>
 <li><dl class="first docutils">
 <dt>callable - a function which takes an array of item indices in the initial order</dt>
 <dd>(as they appear in the index) and returns the order of items.</dd>
@@ -352,15 +352,15 @@ However, there is nothing to worry about if you don’t iterate over batch items
 <p>Index with the list of files or directories with the given path pattern</p>
 <p class="rubric">Examples</p>
 <p>Create a sorted index of files in a directory:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">(</span><span class="s1">&#39;/path/to/data/files/*&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;/path/to/data/files/*&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Create an index of directories through all subdirectories:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">(</span><span class="s1">&#39;/path/to/data/archive*/patient*&#39;</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;/path/to/data/archive*/patient*&#39;</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Create an index of files in several directories, and file extensions are ignored:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">([</span><span class="s1">&#39;/path/to/archive/2016/*&#39;</span><span class="p">,</span><span class="s1">&#39;/path/to/current/file/*&#39;</span><span class="p">],</span> <span class="n">no_ext</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">FilesIndex</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/path/to/archive/2016/*&#39;</span><span class="p">,</span><span class="s1">&#39;/path/to/current/file/*&#39;</span><span class="p">],</span> <span class="n">no_ext</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To get a path to the file call <cite>get_fullpath(index_id)</cite>:</p>
@@ -443,7 +443,7 @@ However, there is nothing to worry about if you don’t iterate over batch items
         <li class="right" >
           <a href="dataset.core.html" title="dataset"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="dataset.core.html" >dataset</a> &#187;</li> 
       </ul>

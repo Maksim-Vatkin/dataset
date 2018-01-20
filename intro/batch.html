@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Batch class &#8212; Dataset 0.2.1 documentation</title>
+    <title>Batch class &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="dataset.html" title="Dataset"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>
@@ -198,15 +198,6 @@ If an <cite>action</cite> changes the instance’s data directly, it may simply 
     <span class="k">def</span> <span class="nf">train_my_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
         <span class="n">my_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
         <span class="n">my_model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Actions might be linked to certain models:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyBatch</span><span class="p">(</span><span class="n">Batch</span><span class="p">):</span>
-    <span class="o">...</span>
-    <span class="nd">@action</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;my_resnet34&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">train_resnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resnet34</span><span class="p">):</span>
-        <span class="n">resnet34</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
 </pre></div>
 </div>
 <p>For more details see <a class="reference internal" href="models.html"><span class="doc">Working with models</span></a>.</p>
@@ -419,7 +410,7 @@ You may define your own <cite>post</cite>-method in order to check the result an
         <li class="right" >
           <a href="dataset.html" title="Dataset"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>

@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Encoder-decoder &#8212; Dataset 0.2.1 documentation</title>
+    <title>Encoder-decoder &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="dataset.models.tf.resattention.html" title="ResNetAttention"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" accesskey="U">Predefined models</a> &#187;</li> 
@@ -98,7 +98,7 @@
 <p><strong>Configuration</strong></p>
 <dl class="docutils">
 <dt>inputs <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd>dict with ‘images’ key (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
+<dd>dict with ‘images’ (see <a class="reference internal" href="dataset.models.tf.base.html#dataset.models.tf.TFModel._make_inputs" title="dataset.models.tf.TFModel._make_inputs"><code class="xref py py-meth docutils literal"><span class="pre">_make_inputs()</span></code></a>)</dd>
 <dt>body <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
 <dd><dl class="first last docutils">
 <dt>encoder <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
@@ -118,7 +118,7 @@ with encoded representation of the inputs</dd>
 <dd>number of upsampling blocks</dd>
 <dt>factor <span class="classifier-delimiter">:</span> <span class="classifier">int or list of int</span></dt>
 <dd>if int, the total upsampling factor for all blocks combined.
-if list, upsampling factor for each block.</dd>
+if list, upsampling factors for each block.</dd>
 <dt>layout <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>upsampling method (see <a class="reference internal" href="dataset.models.tf.layers.html#dataset.models.tf.layers.upsample" title="dataset.models.tf.layers.upsample"><code class="xref py py-func docutils literal"><span class="pre">upsample()</span></code></a>)</dd>
 </dl>
@@ -153,7 +153,7 @@ and build a decoder with 3 upsampling stages to scale the embedding 8 times with
 <dl class="classmethod">
 <dt id="dataset.models.tf.encoder_decoder.EncoderDecoder.body">
 <em class="property">classmethod </em><code class="descname">body</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='body'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/encoder_decoder.html#EncoderDecoder.body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.encoder_decoder.EncoderDecoder.body" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base layers</p>
+<dd><p>Create encoder, embedding and decoder</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -178,7 +178,8 @@ and build a decoder with 3 upsampling stages to scale the embedding 8 times with
 <dl class="classmethod">
 <dt id="dataset.models.tf.encoder_decoder.EncoderDecoder.head">
 <em class="property">classmethod </em><code class="descname">head</code><span class="sig-paren">(</span><em>inputs</em>, <em>targets</em>, <em>name='head'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/encoder_decoder.html#EncoderDecoder.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.encoder_decoder.EncoderDecoder.head" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Linear convolutions with kernel 1</p>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="dataset.models.tf.encoder_decoder.EncoderDecoder.encoder">
@@ -235,7 +236,7 @@ Should implement <code class="docutils literal"><span class="pre">make_encoder</
 <dl class="classmethod">
 <dt id="dataset.models.tf.encoder_decoder.EncoderDecoder.decoder">
 <em class="property">classmethod </em><code class="descname">decoder</code><span class="sig-paren">(</span><em>inputs</em>, <em>name='decoder'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/tf/encoder_decoder.html#EncoderDecoder.decoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.tf.encoder_decoder.EncoderDecoder.decoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create decoder from a base_class model</p>
+<dd><p>Create decoder with a given number of upsampling stages</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -250,7 +251,7 @@ Should implement <code class="docutils literal"><span class="pre">make_encoder</
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of tf.Tensor</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tf.Tensor</p>
 </td>
 </tr>
 </tbody>
@@ -282,7 +283,7 @@ Should implement <code class="docutils literal"><span class="pre">make_encoder</
         <li class="right" >
           <a href="dataset.models.tf.resattention.html" title="ResNetAttention"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../intro/classes.html" >Classes and capabilities</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../intro/tf_models.html" >Tensorflow models</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../intro/tf_models_zoo.html" >Predefined models</a> &#187;</li> 

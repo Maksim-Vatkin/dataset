@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>dataset.models.tf.base &#8212; Dataset 0.2.1 documentation</title>
+    <title>dataset.models.tf.base &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -80,6 +80,7 @@
 <span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">.layers</span> <span class="k">import</span> <span class="n">mip</span><span class="p">,</span> <span class="n">conv_block</span><span class="p">,</span> <span class="n">upsample</span><span class="p">,</span> <span class="n">global_average_pooling</span>
 <span class="kn">from</span> <span class="nn">.losses</span> <span class="k">import</span> <span class="n">dice</span>
+<span class="kn">from</span> <span class="nn">.train</span> <span class="k">import</span> <span class="n">piecewise_constant</span>
 
 
 <span class="n">LOSSES</span> <span class="o">=</span> <span class="p">{</span>
@@ -100,7 +101,7 @@
     <span class="s1">&#39;exp&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">exponential_decay</span><span class="p">,</span>
     <span class="s1">&#39;invtime&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">inverse_time_decay</span><span class="p">,</span>
     <span class="s1">&#39;naturalexp&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">natural_exp_decay</span><span class="p">,</span>
-    <span class="s1">&#39;const&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">piecewise_constant</span><span class="p">,</span>
+    <span class="s1">&#39;const&#39;</span><span class="p">:</span> <span class="n">piecewise_constant</span><span class="p">,</span>
     <span class="s1">&#39;poly&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">polynomial_decay</span>
 <span class="p">}</span>
 
@@ -140,7 +141,7 @@
 <span class="sd">    decay - a learning rate decay algorithm might be defined in one of three formats:</span>
 <span class="sd">        - name</span>
 <span class="sd">        - tuple (name, args)</span>
-<span class="sd">        - dict {&#39;name&#39;: name, \**args}</span>
+<span class="sd">        - dict {&#39;name&#39;: name, **args}</span>
 
 <span class="sd">        where name might be one of:</span>
 
@@ -152,7 +153,7 @@
 <span class="sd">        Examples:</span>
 
 <span class="sd">        - ``{&#39;decay&#39;: &#39;exp&#39;}``</span>
-<span class="sd">        - ``{&#39;decay&#39;: (&#39;polynomial_decay&#39;, {&#39;decay_steps&#39;:10000})}``</span>
+<span class="sd">        - ``{&#39;decay&#39;: (&#39;polynomial_decay&#39;, {&#39;decay_steps&#39;: 10000})}``</span>
 <span class="sd">        - ``{&#39;decay&#39;: {&#39;name&#39;: tf.train.inverse_time_decay, &#39;decay_rate&#39;: .5}``</span>
 
 <span class="sd">    optimizer - an optimizer might be defined in one of three formats:</span>
@@ -1508,7 +1509,7 @@
             <span class="n">x</span> <span class="o">=</span> <span class="n">conv_block</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;Vfafa&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="p">[</span><span class="n">in_filters</span><span class="o">//</span><span class="n">ratio</span><span class="p">,</span> <span class="n">in_filters</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;se&#39;</span><span class="p">,</span>
                            <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">]})</span>
 
-            <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">get_spatial_shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">data_format</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">spatial_dim</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">axis</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">channels_axis</span><span class="p">(</span><span class="n">data_format</span><span class="p">)</span>
             <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_filters</span>
             <span class="n">scale</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
@@ -1657,7 +1658,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>dataset.models &#8212; Dataset 0.2.1 documentation</title>
+    <title>dataset.models &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="dataset.opensets.html" title="dataset.opensets"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" accesskey="U">API</a> &#187;</li> 
       </ul>
     </div>
@@ -97,6 +97,7 @@
 <li class="toctree-l3"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v1">Inception version 1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v3">Inception version 3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_v4">Inception version 4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.models.tf.inception.html#module-dataset.models.tf.inception_resnet_v2">Inception-ResNet version 2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dataset.models.tf.resnet.html">ResNet</a></li>
@@ -157,9 +158,15 @@ by calling <cite>self.load(**config[‘load’])</cite>.</dd>
 <dd><p>Define the model</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="dataset.models.BaseModel.default_name">
+<code class="descname">default_name</code><a class="headerlink" href="#dataset.models.BaseModel.default_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>str - the class name (serve as a default for a model name)</p>
+</dd></dl>
+
 <dl class="classmethod">
 <dt id="dataset.models.BaseModel.get">
-<em class="property">classmethod </em><code class="descname">get</code><span class="sig-paren">(</span><em>variables</em>, <em>config=None</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.get" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">get</code><span class="sig-paren">(</span><em>variables</em>, <em>config</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return variables from config</p>
 </dd></dl>
 
@@ -171,7 +178,7 @@ by calling <cite>self.load(**config[‘load’])</cite>.</dd>
 
 <dl class="classmethod">
 <dt id="dataset.models.BaseModel.pop">
-<em class="property">classmethod </em><code class="descname">pop</code><span class="sig-paren">(</span><em>variables</em>, <em>config=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.pop" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">pop</code><span class="sig-paren">(</span><em>variables</em>, <em>config</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataset/models/base.html#BaseModel.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataset.models.BaseModel.pop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return variables and remove them from config</p>
 </dd></dl>
 
@@ -330,7 +337,7 @@ by calling <cite>self.load(**config[‘load’])</cite>.</dd>
         <li class="right" >
           <a href="dataset.opensets.html" title="dataset.opensets"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="dataset.html" >API</a> &#187;</li> 
       </ul>
     </div>

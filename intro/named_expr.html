@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Named expressions &#8212; Dataset 0.2.1 documentation</title>
+    <title>Named expressions &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         <li class="right" >
           <a href="pipeline.html" title="Pipeline"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" accesskey="U">Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>
@@ -61,6 +61,8 @@
 <li><a class="reference internal" href="#v-pipeline-variable">V - pipeline variable</a></li>
 <li><a class="reference internal" href="#c-config-option">C - config option</a></li>
 <li><a class="reference internal" href="#f-callable">F - callable</a></li>
+<li><a class="reference internal" href="#l-callable">L - callable</a></li>
+<li><a class="reference internal" href="#r-random-value">R - random value</a></li>
 </ul>
 </li>
 </ul>
@@ -103,12 +105,14 @@ For instance, model training takes batch data, but you don’t have any batches 
 Batches appear only when the pipeline is run. This is where <strong>named expressions</strong> come into play.</p>
 <p>A named expression specifies a substitution rule. When the pipeline is being executed,
 a named expression is replaced with the value calculated according to that rule.</p>
-<p>There are 4 types of named expressions:</p>
+<p>There are 5 types of named expressions:</p>
 <ul class="simple">
 <li>B(‘name’) - a batch class attribute or component name</li>
 <li>V(‘name’) - a pipeline variable name</li>
 <li>C(‘name’) - a pipeline config option</li>
 <li>F(name) - a callable which takes a batch (could be a batch class method or an arbitrary function)</li>
+<li>L(name) - an arbitrary callable (the current batch won’t be passed as a parameter)</li>
+<li>R(‘name’) - a random value</li>
 </ul>
 <div class="section" id="b-batch-component">
 <h2>B - batch component<a class="headerlink" href="#b-batch-component" title="Permalink to this headline">¶</a></h2>
@@ -179,9 +183,29 @@ to assess performance of various models.</p>
 However, there are a few exceptions.</p>
 </div>
 <p>As static models are initialized before a pipeline is run (i.e. before any batch is created),
-all <code class="docutils literal"><span class="pre">F</span></code>-functions specified in static <code class="docutils literal"><span class="pre">init_model</span></code> get <code class="docutils literal"><span class="pre">pipeline</span></code> as a first parameter.</p>
+all <code class="docutils literal"><span class="pre">F</span></code>-functions specified in static <code class="docutils literal"><span class="pre">init_model</span></code> get <code class="docutils literal"><span class="pre">pipeline</span></code> as the first parameter.</p>
 <p>In <code class="docutils literal"><span class="pre">train_model</span></code> and <code class="docutils literal"><span class="pre">predict_model</span></code> <code class="docutils literal"><span class="pre">F</span></code>-functions take the batch as the first parameter and the model
-as the second parameter.</p>
+as the second parameter. So you can adapt the function to specific models.</p>
+</div>
+<div class="section" id="l-callable">
+<h2>L - callable<a class="headerlink" href="#l-callable" title="Permalink to this headline">¶</a></h2>
+<p>A function which takes arbitrary arguments.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pipeline</span>
+    <span class="o">...</span>
+    <span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="s1">&#39;logfile&#39;</span><span class="p">,</span> <span class="n">L</span><span class="p">(</span><span class="nb">open</span><span class="p">,</span> <span class="s1">&#39;file.log&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="r-random-value">
+<h2>R - random value<a class="headerlink" href="#r-random-value" title="Permalink to this headline">¶</a></h2>
+<p>A sample from a random distribution. All <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/routines.random.html#distributions">numpy distributions</a> are supported:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pipeline</span>
+    <span class="o">.</span><span class="n">some_action</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="s1">&#39;uniform&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">other_action</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">yet_other_action</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="s1">&#39;poisson&#39;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -206,7 +230,7 @@ as the second parameter.</p>
         <li class="right" >
           <a href="pipeline.html" title="Pipeline"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="classes.html" >Classes and capabilities</a> &#187;</li> 
       </ul>
     </div>

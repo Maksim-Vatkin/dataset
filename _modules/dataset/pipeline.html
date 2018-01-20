@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>dataset.pipeline &#8212; Dataset 0.2.1 documentation</title>
+    <title>dataset.pipeline &#8212; Dataset 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,10 +66,8 @@
             
   <h1>Source code for dataset.pipeline</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Contains pipeline class &quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">concurrent.futures</span> <span class="k">as</span> <span class="nn">cf</span>
-<span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">queue</span> <span class="k">as</span> <span class="nn">q</span>
@@ -78,8 +76,9 @@
 <span class="kn">from</span> <span class="nn">.batch_base</span> <span class="k">import</span> <span class="n">BaseBatch</span>
 <span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">Baseset</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">SkipBatchException</span>
-<span class="kn">from</span> <span class="nn">.decorators</span> <span class="k">import</span> <span class="n">ModelDirectory</span>
 <span class="kn">from</span> <span class="nn">.named_expr</span> <span class="k">import</span> <span class="n">NamedExpression</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">eval_expr</span>
+<span class="kn">from</span> <span class="nn">.model_dir</span> <span class="k">import</span> <span class="n">ModelDirectory</span>
+<span class="kn">from</span> <span class="nn">.variables</span> <span class="k">import</span> <span class="n">VariableDirectory</span>
 
 
 <span class="n">JOIN_ID</span> <span class="o">=</span> <span class="s1">&#39;#_join&#39;</span>
@@ -123,22 +122,22 @@
 <div class="viewcode-block" id="Pipeline"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline">[docs]</a><span class="k">class</span> <span class="nc">Pipeline</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Pipeline &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proba</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_variables_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_models_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">delete_all_variables</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_run</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">ModelDirectory</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">VariableDirectory</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">dataset</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="n">_config</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">_config</span><span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">_action_list</span><span class="p">[:]</span>  <span class="c1"># pylint: disable=protected-access</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">init_variables</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">_variables</span><span class="p">)</span>  <span class="c1"># pylint: disable=protected-access</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">VariableDirectory</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">create_many</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_actions</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">proba</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_last_action_repeat</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -147,7 +146,7 @@
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_last_action_proba</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;repeat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mult_option</span><span class="p">(</span><span class="n">repeat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_last_action_repeat</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_run</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">_lazy_run</span>          <span class="c1"># pylint: disable=protected-access</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">pipeline</span><span class="o">.</span><span class="n">models</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_stop_flag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_executor</span> <span class="o">=</span> <span class="kc">None</span>
@@ -197,8 +196,9 @@
 
         <span class="n">new_p1</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipe1</span><span class="p">)</span>
         <span class="n">new_p1</span><span class="o">.</span><span class="n">_action_list</span> <span class="o">+=</span> <span class="n">pipe2</span><span class="o">.</span><span class="n">_action_list</span><span class="p">[:]</span>
-        <span class="n">new_p1</span><span class="o">.</span><span class="n">_variables</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">pipe2</span><span class="o">.</span><span class="n">_variables</span><span class="p">)</span>
-        <span class="n">new_p1</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pipe2</span><span class="o">.</span><span class="n">models</span><span class="p">)</span>
+        <span class="n">new_p1</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pipe2</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">new_p1</span><span class="o">.</span><span class="n">variables</span> <span class="o">+=</span> <span class="n">pipe2</span><span class="o">.</span><span class="n">variables</span>
+        <span class="n">new_p1</span><span class="o">.</span><span class="n">models</span> <span class="o">+=</span> <span class="n">pipe2</span><span class="o">.</span><span class="n">models</span>
         <span class="n">new_p1</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">new_p1</span><span class="o">.</span><span class="n">dataset</span> <span class="ow">or</span> <span class="n">pipe2</span><span class="o">.</span><span class="n">dataset</span>
         <span class="k">return</span> <span class="n">new_p1</span></div>
 
@@ -248,7 +248,10 @@
 
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Check if an unknown attr is an action from some batch class &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_batch_method</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;__&#39;</span> <span class="ow">and</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;__&#39;</span><span class="p">:</span>
+            <span class="c1"># if a magic method is not defined, throw an error</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_batch_method</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span>
         <span class="k">else</span><span class="p">:</span>
@@ -270,14 +273,6 @@
         <span class="sd">&quot;&quot;&quot; Add a nested pipeline to the log of future actions &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">PIPELINE_ID</span><span class="p">,</span> <span class="s1">&#39;pipeline&#39;</span><span class="p">:</span> <span class="n">pipeline</span><span class="p">,</span>
                                   <span class="s1">&#39;proba&#39;</span><span class="p">:</span> <span class="n">proba</span><span class="p">,</span> <span class="s1">&#39;repeat&#39;</span><span class="p">:</span> <span class="n">repeat</span><span class="p">})</span></div>
-
-    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;dataset&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="s1">&#39;action_list&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="p">,</span> <span class="s1">&#39;variables&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">}</span>
-
-    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;action_list&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;variables&#39;</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -310,17 +305,22 @@
 
 <div class="viewcode-block" id="Pipeline.has_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.has_variable">[docs]</a>    <span class="k">def</span> <span class="nf">has_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Check if a variable exists</span>
-<span class="sd">        Args:</span>
-<span class="sd">            name: string - a name of the variable</span>
-<span class="sd">        Return:</span>
-<span class="sd">            True if the variable exists</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">hashable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span></div>
 
-<div class="viewcode-block" id="Pipeline.get_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.get_variable">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            a name of the variable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        True if the variable exists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">hashable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pipeline.get_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.get_variable">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a variable value.</span>
 
-<span class="sd">        If the variable does not exists, it will be created and initialized (see `init_variable` below)</span>
+<span class="sd">        If the variable does not exists, it might be created and initialized (see `init_variable` below)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -328,13 +328,8 @@
 <span class="sd">            a name of the variable</span>
 <span class="sd">        create : bool</span>
 <span class="sd">            whether to create a variable if it does not exist. Default is `False`.</span>
-<span class="sd">            If `init` or `init_on_each_run` is specified, then the variable will created regardless of `create`.</span>
-<span class="sd">        default</span>
-<span class="sd">            a value for the variable if it does not exists</span>
-<span class="sd">        init : callable</span>
-<span class="sd">            a function which returns the default value</span>
-<span class="sd">        init_on_each_run : callable</span>
-<span class="sd">            same as `init` but initializes the variable before each run</span>
+<span class="sd">        args, kwargs</span>
+<span class="sd">            parameters for :meth:`.init_variable` if ``create`` is True.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -344,16 +339,9 @@
 <span class="sd">        ------</span>
 <span class="sd">        `KeyError` if a variable does not exist</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">create</span> <span class="o">=</span> <span class="n">callable</span><span class="p">(</span><span class="n">init</span><span class="p">)</span> <span class="ow">or</span> <span class="n">callable</span><span class="p">(</span><span class="n">init_on_each_run</span><span class="p">)</span> <span class="ow">or</span> <span class="n">create</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">create</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;No such variable &#39;</span><span class="si">%s</span><span class="s2">&#39; exists&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
-        <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="n">create</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pipeline.init_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.init_variable">[docs]</a>    <span class="k">def</span> <span class="nf">init_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lock</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Pipeline.init_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.init_variable">[docs]</a>    <span class="k">def</span> <span class="nf">init_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lock</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create a variable if not exists.</span>
 <span class="sd">        If the variable exists, does nothing.</span>
 
@@ -363,12 +351,12 @@
 <span class="sd">            a name of the variable</span>
 <span class="sd">        default</span>
 <span class="sd">            an initial value for the variable</span>
-<span class="sd">        init : callable</span>
-<span class="sd">            a function which returns the default value</span>
-<span class="sd">        init_on_each_run : callable</span>
-<span class="sd">            same as `init` but initializes the variable before each run</span>
+<span class="sd">        init_on_each_run : bool or default value</span>
+<span class="sd">            whether to initialize the variable before each run</span>
 <span class="sd">        lock : bool</span>
 <span class="sd">            whether to lock a variable before each update (default: True)</span>
+<span class="sd">        args, kwargs</span>
+<span class="sd">            parameters for init function</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -383,17 +371,7 @@
 <span class="sd">                    .load(&#39;/some/path&#39;, fmt=&#39;blosc&#39;)</span>
 <span class="sd">                    .train_resnet()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables_lock</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">init_on_each_run</span><span class="p">):</span>
-                        <span class="n">init</span> <span class="o">=</span> <span class="n">init_on_each_run</span>
-                        <span class="n">init_on_each_run</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span> <span class="k">if</span> <span class="n">lock</span> <span class="k">else</span> <span class="kc">None</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="o">=</span><span class="n">init_on_each_run</span><span class="p">,</span>
-                                                 <span class="n">lock</span><span class="o">=</span><span class="n">lock</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">default</span> <span class="k">if</span> <span class="n">init</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">init</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">init_on_each_run</span><span class="p">,</span> <span class="n">lock</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Pipeline.init_variables"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.init_variables">[docs]</a>    <span class="k">def</span> <span class="nf">init_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">):</span>
@@ -404,7 +382,7 @@
 <span class="sd">        variables : dict or tuple</span>
 <span class="sd">            if dict</span>
 <span class="sd">                key : str - a variable name,</span>
-<span class="sd">                value : dict -  a variable value and params (see `init_variable`)</span>
+<span class="sd">                value : dict -  a variable value and init params (see :meth:`.init_variable`)</span>
 <span class="sd">            if tuple, contains variable names which will have None as default values</span>
 
 <span class="sd">        Returns</span>
@@ -419,43 +397,54 @@
 <span class="sd">                    .load(&#39;/some/path&#39;, fmt=&#39;blosc&#39;)</span>
 <span class="sd">                    .train_resnet()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">variables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)))</span>
-
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">var</span> <span class="o">=</span> <span class="n">var</span> <span class="ow">or</span> <span class="p">{}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">var</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">create_many</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="nf">_init_variables_before_run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;init_on_each_run&#39;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;init&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;init&#39;</span><span class="p">]())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">init_on_run</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Pipeline.set_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.set_variable">[docs]</a>    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Pipeline.set_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.set_variable">[docs]</a>    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Set a variable value</span>
 <span class="sd">        If the variable does not exists, it will be created, however, the warning will be displayed that</span>
 <span class="sd">        the variable was not initialized.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name : str - a name of the variable</span>
-<span class="sd">        value - a value for the variable</span>
+<span class="sd">        name : str or a named expression - a variable name</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        self - in order to use it in the pipeline chains</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Pipeline variable &#39;</span><span class="si">%s</span><span class="s2">&#39; has not been initialized&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+<span class="sd">        value</span>
+<span class="sd">            an updating value, could be a value of any type or a named expression</span>
 
-<div class="viewcode-block" id="Pipeline.assign_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.assign_variable">[docs]</a>    <span class="k">def</span> <span class="nf">assign_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Assign a value to a variable</span>
-<span class="sd">        Same as `set_variable(name, value)`.</span>
+<span class="sd">        mode : str</span>
+<span class="sd">            a method to update a variable value, could be one of:</span>
+
+<span class="sd">            - &#39;w&#39; or &#39;write&#39; to rewrite a variable with a new value. This is a default mode.</span>
+<span class="sd">            - &#39;a&#39; or &#39;append&#39; to append a value to a variable (e.g. if a variable is a list).</span>
+<span class="sd">            - &#39;e&#39; or &#39;extend&#39; to extend a variable with a new value (e.g. if a variable is a list).</span>
+<span class="sd">            - &#39;u&#39; or &#39;update&#39; to update a variable with a new value (e.g. if a variable is a dict).</span>
+
+<span class="sd">            For sets and dicts &#39;a&#39; and &#39;u&#39; do exactly the same.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Unlike :meth:`~.Pipeline.update_variable` this method sets a new value immediately.</span>
+<span class="sd">        So ``set_variable`` is imperative and may be used within actions, while ``update_variable``</span>
+<span class="sd">        is declarative and should be used in pipeline definition chains.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+        <span class="n">V</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pipeline.assign_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.assign_variable">[docs]</a>    <span class="k">def</span> <span class="nf">assign_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Assign a value to a variable &quot;&quot;&quot;</span>
+        <span class="n">var_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">var_name</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Pipeline variable &#39;</span><span class="si">%s</span><span class="s2">&#39; has not been initialized&quot;</span><span class="p">,</span> <span class="n">var_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">lock</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">unlock</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pipeline.delete_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.delete_variable">[docs]</a>    <span class="k">def</span> <span class="nf">delete_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Delete a variable</span>
@@ -463,16 +452,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name : str - a name of the variable</span>
+<span class="sd">        name : str</span>
+<span class="sd">            a name of the variable</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self - in order to use it in the pipeline chains</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Pipeline variable &#39;</span><span class="si">%s</span><span class="s2">&#39; does not exist&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Pipeline.del_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.del_variable">[docs]</a>    <span class="k">def</span> <span class="nf">del_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -483,7 +470,7 @@
 
 <div class="viewcode-block" id="Pipeline.delete_all_variables"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.delete_all_variables">[docs]</a>    <span class="k">def</span> <span class="nf">delete_all_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Delete all variables &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">VariableDirectory</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Pipeline.inc_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.inc_variable">[docs]</a>    <span class="k">def</span> <span class="nf">inc_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Increment a value of a given variable during pipeline execution &quot;&quot;&quot;</span>
@@ -492,16 +479,14 @@
 
     <span class="k">def</span> <span class="nf">_exec_inc_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">]][</span><span class="s1">&#39;lock&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">]][</span><span class="s1">&#39;lock&#39;</span><span class="p">]:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">lock</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">unlock</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;No such variable </span><span class="si">%s</span><span class="s2"> exists&quot;</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span>
 
 <div class="viewcode-block" id="Pipeline.update_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.update_variable">[docs]</a>    <span class="k">def</span> <span class="nf">update_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Update a value of a given variable during pipeline execution</span>
+        <span class="sd">&quot;&quot;&quot; Update a value of a given variable lazily during pipeline execution</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -509,13 +494,6 @@
 
 <span class="sd">        value</span>
 <span class="sd">            an updating value, could be a value of any type or a named expression</span>
-
-<span class="sd">            - B(&#39;name&#39;) - a batch class attribute or component name</span>
-<span class="sd">            - V(&#39;name&#39;) - a pipeline variable name</span>
-<span class="sd">            - C(&#39;name&#39;) - a pipeline config option</span>
-<span class="sd">            - F(name) - a callable which takes a batch (could be a batch class method or a function)</span>
-
-<span class="sd">            These expressions will be substituted for their real value.</span>
 
 <span class="sd">        mode : str</span>
 <span class="sd">            a method to update a variable value, could be one of:</span>
@@ -530,25 +508,18 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self - in order to use it in the pipeline chains</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Unlike :meth:`~.Pipeline.set_variable` this method does not change a value of the variable</span>
+<span class="sd">        until the pipeline is run. So it should be used in pipeline definition chains only.</span>
+<span class="sd">        ``set_variable`` is imperative and may be used to change variable value within actions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">UPDATE_VARIABLE_ID</span><span class="p">,</span> <span class="s1">&#39;var_name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="n">mode</span><span class="p">})</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_exec_update_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="n">var_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_variable</span><span class="p">(</span><span class="n">var_name</span><span class="p">):</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Pipeline variable &#39;</span><span class="si">%s</span><span class="s2">&#39; has not been initialized&quot;</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">init_variable</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">var_name</span><span class="p">][</span><span class="s1">&#39;lock&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">var_name</span><span class="p">][</span><span class="s1">&#39;lock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-
-        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="p">)</span>
-
-        <span class="n">V</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">])</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">var_name</span><span class="p">][</span><span class="s1">&#39;lock&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">var_name</span><span class="p">][</span><span class="s1">&#39;lock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;var_name&#39;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Pipeline.print"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Print a value during pipeline execution &quot;&quot;&quot;</span>
@@ -556,8 +527,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_exec_print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="n">args_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
-        <span class="n">kwargs_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">args_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">kwargs_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
 
         <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -570,7 +541,10 @@
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs_value</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">pass</span>
 
 <div class="viewcode-block" id="Pipeline.save_to_variable"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.save_to_variable">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save a value to a given variable during pipeline execution &quot;&quot;&quot;</span>
@@ -621,8 +595,8 @@
         <span class="n">action_list</span> <span class="o">=</span> <span class="n">action_list</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span>
         <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">action_list</span><span class="p">:</span>
             <span class="n">_action</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="n">_action</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
-            <span class="n">_action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+            <span class="n">_action</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+            <span class="n">_action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">_action</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;#dont_run&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
                 <span class="k">pass</span>
@@ -673,7 +647,7 @@
         <span class="n">batch_res</span><span class="o">.</span><span class="n">pipeline</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="k">return</span> <span class="n">batch_res</span>
 
-    <span class="k">def</span> <span class="nf">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_eval_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">eval_expr</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Pipeline.call"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">save_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -693,7 +667,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_exec_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="p">)</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;fn&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="o">*</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
@@ -702,9 +676,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_save_output</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;save_to&#39;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">])</span>
 
 <div class="viewcode-block" id="Pipeline.get_model_by_name"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.get_model_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Get a model specification by its name &quot;&quot;&quot;</span>
-        <span class="n">models</span> <span class="o">=</span> <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">models</span></div>
+        <span class="sd">&quot;&quot;&quot; Retrieve a model by its name &quot;&quot;&quot;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pipeline.init_model"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.init_model">[docs]</a>    <span class="k">def</span> <span class="nf">init_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">model_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Initialize a static or dynamic model</span>
@@ -717,15 +691,7 @@
 <span class="sd">        name : str</span>
 <span class="sd">            a name for the model. Default - a model class name.</span>
 <span class="sd">        config : dict</span>
-<span class="sd">            model configurations parameters, where each key and value could be named expressions</span>
-
-<span class="sd">            - B(&#39;name&#39;) - a batch class attribute or component name</span>
-<span class="sd">            - V(&#39;name&#39;) - a pipeline variable name</span>
-<span class="sd">            - C(&#39;name&#39;) - a pipeline config option</span>
-<span class="sd">            - F(name) - a callable which takes a batch for dynamic models or a pipeline for static models</span>
-
-<span class="sd">            These expressions will be substituted by their actual values.</span>
-<span class="sd">            All other value will be used &quot;as is&quot;.</span>
+<span class="sd">            model configurations parameters, where each key and value could be named expressions.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -742,38 +708,38 @@
 <span class="sd">        &gt;&gt;&gt; pipeline</span>
 <span class="sd">              .init_model(&#39;dynamic&#39;, MyModel, config={&#39;input_shape&#39;: C(lambda batch: batch.images.shape[1:])})</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models_lock</span><span class="p">:</span>
-            <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">model_class</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">model_class</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Pipeline.import_model"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.import_model">[docs]</a>    <span class="k">def</span> <span class="nf">import_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+<div class="viewcode-block" id="Pipeline.import_model"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.import_model">[docs]</a>    <span class="k">def</span> <span class="nf">import_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Import a model from another pipeline</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name : str - a name of the model to import</span>
-<span class="sd">        source : pipeline or model - a pipeline that holds a model or a model itself</span>
+<span class="sd">        model : str or model</span>
+<span class="sd">            a name of the model to import or a model itself</span>
+<span class="sd">        pipeline : Pipeline</span>
+<span class="sd">            a pipeline that holds a model</span>
+<span class="sd">        name : str</span>
+<span class="sd">            a name with which the model is stored in this pipeline</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">IMPORT_MODEL_ID</span><span class="p">,</span> <span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_action_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">IMPORT_MODEL_ID</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s1">&#39;pipeline&#39;</span><span class="p">:</span> <span class="n">pipeline</span><span class="p">,</span>
+                                  <span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_exec_import_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="n">model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">find_model_by_name</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models_lock</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">find_model_by_name</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">Pipeline</span><span class="p">):</span>
-                        <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">import_model_from</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">import_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_exec_import_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="n">model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;pipeline&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">import_model</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">model_name</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Pipeline.train_model"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.train_model">[docs]</a>    <span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Train a model</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name : str - a model name</span>
+<span class="sd">        name : str</span>
+<span class="sd">            a model name</span>
 
 <span class="sd">        make_data : a callable or a named expression</span>
 <span class="sd">            a function or method to transform batch data to train parameters.</span>
@@ -804,6 +770,7 @@
 <span class="sd">        - V(&#39;name&#39;) - a pipeline variable name</span>
 <span class="sd">        - C(&#39;name&#39;) - a pipeline config option</span>
 <span class="sd">        - F(name) - a callable which takes (batch, model)</span>
+<span class="sd">        - R(&#39;name&#39;) - a random value from a given distribution</span>
 
 <span class="sd">        These expressions are substituted by their actual values.</span>
 <span class="sd">        All other value will be used &quot;as is&quot;.</span>
@@ -869,6 +836,7 @@
 <span class="sd">        - V(&#39;name&#39;) - a pipeline variable name</span>
 <span class="sd">        - C(&#39;name&#39;) - a pipeline config option</span>
 <span class="sd">        - F(name) - a callable which takes (batch, model)</span>
+<span class="sd">        - R(&#39;name&#39;) - a random value from a distribution &#39;name&#39;</span>
 
 <span class="sd">        These expressions are substituted by their actual values.</span>
 <span class="sd">        All other value will be used &quot;as is&quot;.</span>
@@ -905,8 +873,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_make_model_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-        <span class="n">map_data</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
-
         <span class="n">make_data</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;make_data&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -914,13 +880,13 @@
         <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">make_data</span><span class="p">):</span>
             <span class="n">kwargs</span> <span class="o">=</span> <span class="n">make_data</span><span class="p">(</span><span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">kwargs</span> <span class="o">=</span> <span class="n">map_data</span><span class="p">(</span><span class="n">make_data</span><span class="p">)</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">make_data</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;make_data should return a dict with kwargs&quot;</span><span class="p">,</span> <span class="n">make_data</span><span class="p">)</span>
 
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;kwargs&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_expr</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
 
@@ -953,15 +919,13 @@
                     <span class="n">save_to</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
 
     <span class="k">def</span> <span class="nf">_exec_train_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="n">model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">])</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
         <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model_args</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_output</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;save_to&#39;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">_exec_predict_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="n">model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">])</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">action</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">],</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">)</span>
         <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model_args</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
         <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_output</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;save_to&#39;</span><span class="p">],</span> <span class="n">action</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">])</span>
@@ -969,7 +933,7 @@
 
 <div class="viewcode-block" id="Pipeline.save_model"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save a model &quot;&quot;&quot;</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">ModelDirectory</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pipeline.join"><a class="viewcode-back" href="../../api/dataset.pipeline.html#dataset.Pipeline.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">pipelines</span><span class="p">):</span>
@@ -1207,7 +1171,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Dataset 0.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Dataset 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
